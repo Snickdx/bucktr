@@ -19,6 +19,14 @@ export class OptimizerPage {
 
   }
 
+  increment(amt){
+    amt++;
+  }
+
+  decrement(amt){
+    amt--;
+  }
+
   goToResults(){
     this.navCtrl.push(ResultsPage, this.model);
   }
