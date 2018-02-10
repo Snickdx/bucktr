@@ -1,30 +1,49 @@
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
+import {FormsModule} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+import {ReactiveFormsModule} from "@angular/forms";
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { OptimizerPage } from '../pages/optimizer/optimizer';
+import { AboutPage } from '../pages/about/about';
+import { ResultsPage } from '../pages/results/results';
+
+
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { OptimizerProvider } from '../providers/optimizer/optimizer';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    OptimizerPage,
+    AboutPage,
+    ResultsPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    HttpClientModule,
+    IonicModule.forRoot(MyApp),
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    OptimizerPage,
+    AboutPage,
+    ResultsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    OptimizerProvider,
+    HttpClientModule
   ]
 })
 export class AppModule {}
