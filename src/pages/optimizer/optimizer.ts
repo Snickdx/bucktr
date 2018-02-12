@@ -15,6 +15,15 @@ export class OptimizerPage {
     drink_amount: 0
   };
 
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      location.reload();
+      refresher.complete();
+    }, 2000);
+  }
+
   constructor(public navCtrl: NavController) {
 
   }
