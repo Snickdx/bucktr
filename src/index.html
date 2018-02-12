@@ -26,18 +26,26 @@
 
 
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js', {scope:"."})
-        .then(() => console.log('service worker installed'))
-        .catch(err => console.log('Error', err));
-    }
-  </script>
+  <!--<script>-->
+    <!--if ('serviceWorker' in navigator) {-->
+      <!--navigator.serviceWorker.register('service-worker.js', {scope:"."})-->
+        <!--.then(() => console.log('service worker installed'))-->
+        <!--.catch(err => console.log('Error', err));-->
+    <!--}-->
+  <!--</script>-->
 
   <link href="build/main.css" rel="stylesheet">
 
 </head>
 <body>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=776708959180751&autoLogAppEvents=1';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 
   <!-- Ionic's root component and where the app will load -->
   <ion-app class="md"></ion-app>

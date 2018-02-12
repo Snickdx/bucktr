@@ -16,7 +16,6 @@ export class OptimizerPage {
   };
 
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
 
     setTimeout(() => {
       location.reload();

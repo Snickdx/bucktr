@@ -21,9 +21,7 @@ interface Order{
 @Injectable()
 export class OptimizerProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello OptimizerProvider Provider');
-  }
+  constructor(public http: HttpClient) { }
 
   private static handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
