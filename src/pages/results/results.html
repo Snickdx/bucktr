@@ -9,60 +9,36 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding id="page4" style="background-color:#FF4757;">
+<ion-content padding id="page4"  style="background-color:#FF4757;">
+  <div offset-md-2 col-md-8 offset-lg-4 col-lg-4>
+    <h1 id="results-heading4" style="color:#FFFFFF;">
+      You Should Order
+    </h1>
 
-  <h1 id="results-heading4" style="color:#FFFFFF;">
-    You Should Order
-  </h1>
+    <div id="results-container3">
+      <ion-list id="results-list2">
+        <ion-item id="results-list-item-container3" *ngFor="let key of menu">
+          <div>
+            <p>{{result.optimal_deal[key].count}} {{key}}</p>
+            <p>Pieces: {{result.optimal_deal[key].chicken_count}}</p>
+            <p>Sides: {{result.optimal_deal[key].side_count}}</p>
+            <p>Drinks: {{result.optimal_deal[key].drink_count}}</p>
+            <p>Cost: {{result.optimal_deal[key].price}}</p>
+          </div>
+        </ion-item>
 
-  <div id="results-container3">
-    <ion-list id="results-list2">
-      <ion-item color="none" id="results-list-item8">
-        <ion-avatar item-left>
-          <img />
-        </ion-avatar>
-        <h2>
-          Item
-        </h2>
-      </ion-item>
-      <ion-item color="none" id="results-list-item9">
-        <ion-avatar item-left>
-          <img />
-        </ion-avatar>
-        <h2>
-          Item
-        </h2>
-      </ion-item>
-      <ion-item id="results-list-item-container3">
-        <div id="results-markdown5" class="show-list-numbers-and-dots">
-          <p style="margin-top:0px;color:#000000;">
-            Some friendly
-            <strong>
-              markdown
-            </strong>
-          </p>
-        </div>
-      </ion-item>
-      <ion-item id="results-list-item-container4">
-        <div id="results-markdown6" class="show-list-numbers-and-dots">
-          <p style="margin-top:0px;color:#000000;">
-            Some friendly
-            <strong>
-              markdown
-            </strong>
-          </p>
-        </div>
-      </ion-item>
-    </ion-list>
+      </ion-list>
+    </div>
+
+    <div class="spacer" style="width:300px;" id="results-spacer2"></div>
+
+    <h3 id="results-heading5" style="color:#FFFFFF;">
+      Total: ${{price}}
+    </h3>
+
+    <button id="results-button8" ion-button color="dark" block>
+      Share
+    </button>
   </div>
 
-  <div class="spacer" style="width:300px;height:30vh;" id="results-spacer2"></div>
-
-  <h3 id="results-heading5" style="color:#FFFFFF;">
-    Total:
-  </h3>
-
-  <button id="results-button8" ion-button color="dark" block>
-    Share
-  </button>
 </ion-content>

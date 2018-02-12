@@ -10,22 +10,15 @@ import { ResultsPage } from '../results/results';
 export class OptimizerPage {
 
   model = {
-    chicken_amount: 5,
-    side_amount: 5,
-    drink_amount: 5
+    chicken_amount: 0,
+    side_amount: 0,
+    drink_amount: 0
   };
 
   constructor(public navCtrl: NavController) {
 
   }
 
-  increment(amt){
-    amt++;
-  }
-
-  decrement(amt){
-    amt--;
-  }
 
   goToResults(){
     this.navCtrl.push(ResultsPage, this.model);

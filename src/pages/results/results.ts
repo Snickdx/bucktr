@@ -15,13 +15,19 @@ import {OptimizerProvider} from "../../providers/optimizer/optimizer";
   providers: [OptimizerProvider]
 })
 export class ResultsPage {
-
+  posts = {
+    lol:{},
+    kek:{},
+    pop:{}
+  };
 
   result={};
-
+  menu=[];
+  price;
+  objectKeys = Object.keys;
 
   constructor(public navParams: NavParams, private optimizer:OptimizerProvider) {
-    console.log("in results");
+
 
     this.optimizer.sendOrder({
       chicken_amount: this.navParams.get('chicken_amount'),
@@ -30,7 +36,8 @@ export class ResultsPage {
     })
       .subscribe(res=>{
         this.result = res;
-        console.log(res);
+        this.menu = Object.keys(res.optimal_deal);
+        this.price = res.trans_info.price;
       });
 
   }

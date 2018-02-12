@@ -1,13 +1,14 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "Menu Hacker",
+  "short_name": "Menu Hacker",
   "start_url": "index.html",
-  "display": "standalone",
+  "display": "fullscreen",
+  "scope": ".",
   "icons": [{
     "src": "assets/imgs/logo.png",
     "sizes": "512x512",
     "type": "image/png"
   }],
-  "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7"
+  "background_color": "#FF4757",
+  "theme_color": "#FF4757"
 }

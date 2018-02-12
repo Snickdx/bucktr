@@ -9,7 +9,7 @@ const httpOptions = {
   })
 };
 
-const serverUrl = "http://18.219.93.50:8080/tt/kfc";
+const serverUrl = "https://hack-that-menu-api.herokuapp.com/tt/kfc";
 
 interface Order{
   chicken_amt: number;
