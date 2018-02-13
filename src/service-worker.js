@@ -8,7 +8,7 @@
 importScripts('./build/sw-toolbox.js');
 
 self.toolbox.options.cache = {
-  name: 'menu-hacker-cache-v0.1.4'
+  name: 'menu-hacker-cache-v0.1.7'
 };
 
 // pre-cache our key assets

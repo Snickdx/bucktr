@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavParams} from 'ionic-angular';
+import {LoadingController, NavParams} from 'ionic-angular';
 import {OptimizerProvider} from "../../providers/optimizer/optimizer";
 
 // interface Order{
@@ -15,8 +15,7 @@ import {OptimizerProvider} from "../../providers/optimizer/optimizer";
   providers: [OptimizerProvider]
 })
 export class ResultsPage {
-
-
+  shareable  = false;
   result={
     optimal_deal:{},
     trans_info:{}
@@ -34,8 +33,22 @@ export class ResultsPage {
     drink_amount: 0
   };
   objectKeys = Object.keys;
+  newVariable: any;
 
-  constructor(public navParams: NavParams, private optimizer:OptimizerProvider) {
+  constructor(public navParams: NavParams, private optimizer:OptimizerProvider, loadingCtrl:LoadingController) {
+
+
+    this.newVariable = window.navigator;
+
+    if (this.newVariable && this.newVariable.share) {
+      this.shareable = true;
+    }
+
+    let loading = loadingCtrl.create({
+      spinner: 'crescent',
+      content: 'Optimizing...'
+    });
+    loading.present();
     this.optimizer.sendOrder(this.order)
       .subscribe(res=>{
         this.result = res;
@@ -47,9 +60,21 @@ export class ResultsPage {
         });
         console.log(this.order, this.totals);
         this.price = res.trans_info.price;
+        loading.dismiss();
       });
   }
 
+  share(){
+
+
+    this.newVariable.share({
+      title: 'Menu Hacker',
+      text: "I'm saving money while buying chicken!",
+      url: `https://fixmehup.firebaseapp.com/#/results/${this.order.chicken_amount}/${this.order.side_amount}/${this.order.drink_amount}`,
+    })
+      .then(() => console.log('Successful share'))
+      .catch((error) => console.log('Error sharing', error));
+    }
 
 
 }

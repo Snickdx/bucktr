@@ -3,10 +3,7 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { ResultsPage } from '../pages/results/results';
 import { AboutPage } from '../pages/about/about';
-
-
 import { OptimizerPage } from '../pages/optimizer/optimizer';
 
 
@@ -22,16 +19,13 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+      // statusBar.styleDefault();
+      // splashScreen.hide();
     });
   }
   goToOptimizer(params){
     if (!params) params = {};
     this.navCtrl.setRoot(OptimizerPage);
-  }goToResults(params){
-    if (!params) params = {};
-    this.navCtrl.setRoot(ResultsPage);
   }goToAbout(params){
     if (!params) params = {};
     this.navCtrl.setRoot(AboutPage);

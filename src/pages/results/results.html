@@ -9,24 +9,22 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding id="page4"  style="background-color:#FF4757;">
+<ion-content padding id="results"  style="background-color:#FF4757;">
   <div offset-md-2 col-md-8 offset-lg-4 col-lg-4>
     <h2 style="color:white">
-      Chicken: {{order.chicken_amount}} Sides: {{order.side_amount}} Drinks: {{order.drink_amount}}
+      Pieces: {{order.chicken_amount}} Sides: {{order.side_amount}} Drinks: {{order.drink_amount}}
     </h2>
     <h1 id="results-heading4" style="color:#FFFFFF;">
       You Should Order
     </h1>
 
     <div id="results-container3">
-      <ion-list id="results-list2">
-        <ion-item id="results-list-item-container3" *ngFor="let key of menu">
+      <ion-list id="results-list2" color="dark">
+        <ion-item color="primary" id="results-list-item-container3" *ngFor="let key of menu">
           <div>
             <p>{{result.optimal_deal[key].count}} {{key}}</p>
-            <p>Pieces: {{result.optimal_deal[key].chicken_count}}</p>
-            <p>Sides: {{result.optimal_deal[key].side_count}}</p>
-            <p>Drinks: {{result.optimal_deal[key].drink_count}}</p>
-            <p>Cost: {{result.optimal_deal[key].price}}</p>
+            <p>Pieces: {{result.optimal_deal[key].chicken_count}} Sides: {{result.optimal_deal[key].side_count}}</p>
+            <p>Drinks: {{result.optimal_deal[key].drink_count}} Price: ${{result.optimal_deal[key].price}}</p>
           </div>
         </ion-item>
 
@@ -35,17 +33,36 @@
 
     <div class="spacer" style="width:300px;" id="results-spacer2"></div>
 
-    <h3  style="color:#FFFFFF;">
-      Extra Chicken: {{totals.chicken_amount - order.chicken_amount}}
-      Extra Sides: {{totals.side_amount - order.side_amount}}
-      Extra Drink: {{totals.drink_amount - order.drink_amount}}
-    </h3>
+    <div ion-row>
+      <p style="color:#FFFFFF;">
+        Extras
+      </p>
+    </div>
+
+    <div  ion-row>
+      <div ion-col>
+        <p style="color:#FFFFFF;">
+          Pieces:{{totals.chicken_amount - order.chicken_amount}}
+        </p>
+      </div>
+      <div ion-col>
+        <p style="color:#FFFFFF;">
+          Sides: {{totals.side_amount - order.side_amount}}
+        </p >
+      </div>
+      <div ion-col>
+        <p style="color:#FFFFFF;">
+          Drink: {{totals.drink_amount - order.drink_amount}}
+        </p>
+      </div>
+    </div>
 
     <h3 id="results-heading5" style="color:#FFFFFF;">
       Total: ${{price}}
     </h3>
 
-    <!--<button ion-button color="dark" block class="fb-share-button" data-href="https://fixmehup.firebaseapp.com/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffixmehup.firebaseapp.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></button>-->
+    <button ion-button color="dark" block *ngIf="shareable" (click)="share()">Share</button>
+    <!--<button  ion-button color="dark" block class="fb-share-button" data-href="https://fixmehup.firebaseapp.com/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffixmehup.firebaseapp.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></button>-->
   </div>
 
 </ion-content>

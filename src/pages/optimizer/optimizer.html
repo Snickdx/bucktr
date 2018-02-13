@@ -26,15 +26,21 @@
 
   <div id="optimizer-container1" ion-row>
     <div col-md-2 col-lg-4></div>
-    <button id="optimizer-button1" ion-col (click)="model.chicken_amount =  model.chicken_amount + 1"  ion-button color="primary">
-      <ion-icon name="arrow-up"></ion-icon>
-    </button>
-    <button id="optimizer-button3" ion-col  (click)="model.side_amount = model.side_amount + 1" ion-button color="primary">
-      <ion-icon name="arrow-up"></ion-icon>
-    </button>
-    <button id="optimizer-button2" ion-col (click)="model.drink_amount = model.drink_amount + 1" ion-button color="primary">
-      <ion-icon name="arrow-up"></ion-icon>
-    </button>
+    <div ion-col>
+      <button id="optimizer-button1" ion-col (click)="model.chicken_amount =  model.chicken_amount + 1"  ion-button color="primary">
+        <ion-icon name="arrow-up"></ion-icon>
+      </button>
+    </div>
+    <div ion-col>
+      <button id="optimizer-button3" ion-col  (click)="model.side_amount = model.side_amount + 1" ion-button color="primary">
+        <ion-icon name="arrow-up"></ion-icon>
+      </button>
+    </div>
+    <div ion-col>
+      <button id="optimizer-button2" ion-col (click)="model.drink_amount = model.drink_amount + 1" ion-button color="primary">
+        <ion-icon name="arrow-up"></ion-icon>
+      </button>
+    </div>
     <div col-md-2 col-lg-4></div>
   </div>
 
@@ -60,15 +66,26 @@
 
   <div class="row">
     <div col-md-2 col-lg-4></div>
-    <button id="optimizer-button4" ion-col (click)="model.chicken_amount = model.chicken_amount - 1" ion-button color="primary">
-      <ion-icon name="arrow-down"></ion-icon>
-    </button>
-    <button id="optimizer-button5" ion-col  (click)="model.side_amount = model.side_amount - 1" ion-button  color="primary">
-      <ion-icon name="arrow-down"></ion-icon>
-    </button>
-    <button id="optimizer-button6"  ion-col (click)="model.drink_amount = model.drink_amount - 1" ion-button color="primary">
-      <ion-icon name="arrow-down"></ion-icon>
-    </button>
+
+    <div ion-col>
+      <button id="optimizer-button4" ion-col (click)="model.chicken_amount = model.chicken_amount - 1" ion-button color="primary">
+        <ion-icon name="arrow-down"></ion-icon>
+      </button>
+    </div>
+
+    <div ion-col>
+      <button id="optimizer-button5" ion-col  (click)="model.side_amount = model.side_amount - 1" ion-button  color="primary">
+        <ion-icon name="arrow-down"></ion-icon>
+      </button>
+    </div>
+
+    <div ion-col>
+      <button id="optimizer-button6"  ion-col (click)="model.drink_amount = model.drink_amount - 1" ion-button color="primary">
+        <ion-icon name="arrow-down"></ion-icon>
+      </button>
+    </div>
+
+
     <div col-md-2 col-lg-4></div>
   </div>
 

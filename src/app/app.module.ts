@@ -26,10 +26,19 @@ import { OptimizerProvider } from '../providers/optimizer/optimizer';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp),
     FormsModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IonicModule.forRoot(MyApp, {}, {
+      links:[
+        {
+          component: ResultsPage,
+          name:'Results',
+          segment:'results/:chicken_amount/:side_amount/:drink_amount',
+          defaultHistory: [OptimizerPage]
+        }
+      ]
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
