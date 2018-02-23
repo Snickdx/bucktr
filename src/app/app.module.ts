@@ -1,8 +1,7 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, enableProdMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {ReactiveFormsModule} from "@angular/forms";
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -11,11 +10,10 @@ import { OptimizerPage } from '../pages/optimizer/optimizer';
 import { AboutPage } from '../pages/about/about';
 import { ResultsPage } from '../pages/results/results';
 
-
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 import { OptimizerProvider } from '../providers/optimizer/optimizer';
 
+
+enableProdMode();
 @NgModule({
   declarations: [
     MyApp,
@@ -28,7 +26,6 @@ import { OptimizerProvider } from '../providers/optimizer/optimizer';
     HttpClientModule,
     FormsModule,
     CommonModule,
-    ReactiveFormsModule,
     IonicModule.forRoot(MyApp, {}, {
       links:[
         {
@@ -48,8 +45,6 @@ import { OptimizerProvider } from '../providers/optimizer/optimizer';
     ResultsPage
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     OptimizerProvider,
     HttpClientModule

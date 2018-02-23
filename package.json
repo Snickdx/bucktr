@@ -5,12 +5,13 @@
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
+    "build-sw":"workbox inject:manifest",
     "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
+    "build": "npm-run-all ionic:build build-sw",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve --lab",
-    "deploy":"firebase deploy --only hosting"
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "@angular/common": "5.0.3",
@@ -28,13 +29,14 @@
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
     "rxjs": "5.5.2",
-    "sw-toolbox": "3.6.0",
     "zone.js": "0.8.18"
   },
   "devDependencies": {
     "@angular/cli": "^1.6.8",
     "@ionic/app-scripts": "3.1.8",
-    "typescript": "2.4.2"
+    "npm-run-all": "^4.1.2",
+    "typescript": "2.4.2",
+    "workbox-cli": "^2.1.2"
   },
   "description": "An Ionic project"
 }

@@ -26,13 +26,43 @@
 
 
 
-  <!--<script>-->
-    <!--if ('serviceWorker' in navigator) {-->
-      <!--navigator.serviceWorker.register('service-worker.js', {scope:"."})-->
-        <!--.then(() => console.log('service worker installed'))-->
-        <!--.catch(err => console.log('Error', err));-->
-    <!--}-->
-  <!--</script>-->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js', {scope:"."})
+        .then(reg => {
+          reg.installing; // the installing worker, or undefined
+          reg.waiting; // the waiting worker, or undefined
+          reg.active; // the active worker, or undefined
+
+          reg.addEventListener('updatefound', () => {
+            // A wild service worker has appeared in reg.installing!
+            const newWorker = reg.installing;
+            console.log("Update Found!");
+            newWorker.state;
+            // "installing" - the install event has fired, but not yet complete
+            // "installed"  - install complete
+            // "activating" - the activate event has fired, but not yet complete
+            // "activated"  - fully active
+            // "redundant"  - discarded. Either failed install, or it's been
+            //                replaced by a newer version
+//            timeout(3000, ()=>reg.update());
+            newWorker.addEventListener('statechange', () => {
+              // newWorker.state has changed
+            });
+          });
+          console.log('service worker installed');
+
+        })
+        .catch(err => console.log('Error', err));
+    }
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      // This fires when the service worker controlling this page
+      // changes, eg a new worker has skipped waiting and become
+      // the new active worker.
+      console.log('Control Changed');
+    });
+  </script>
 
   <link href="build/main.css" rel="stylesheet">
 

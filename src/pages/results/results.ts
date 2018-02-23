@@ -34,6 +34,7 @@ export class ResultsPage {
   };
   objectKeys = Object.keys;
   newVariable: any;
+  loadingFinished = false;
 
   constructor(public navParams: NavParams, private optimizer:OptimizerProvider, loadingCtrl:LoadingController) {
 
@@ -60,6 +61,7 @@ export class ResultsPage {
         });
         console.log(this.order, this.totals);
         this.price = res.trans_info.price;
+        this.loadingFinished = true;
         loading.dismiss();
       });
   }
