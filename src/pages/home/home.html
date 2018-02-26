@@ -11,7 +11,14 @@
 
 
 <ion-content padding style="background-color:#f05742;">
+
   <ion-grid>
+
+    <ion-row>
+      <button id="updateBtn" style="visibility: hidden" ion-button offset-md-4 col-md-4 block (click)="doRefresh()">
+        Update App
+      </button>
+    </ion-row>
 
     <ion-row style="text-align: center">
       <ion-col>
@@ -19,9 +26,9 @@
       </ion-col>
     </ion-row>
 
-    <ion-row style="height: 60vh">
+    <ion-row style="height: 50vh">
         <ion-col style="text-align: center;">
-          <img width="400" height="538" src="assets/imgs/white-logo.png" alt="menumizer logo">
+          <img style="max-width: 70%; max-height: 90%" src="assets/imgs/white-logo.png" alt="menumizer logo">
         </ion-col>
     </ion-row>
 
@@ -32,8 +39,8 @@
     </ion-row>
 
     <ion-row>
-      <ion-col col-4></ion-col>
-      <ion-item col-4>
+      <ion-col col-md-4></ion-col>
+      <ion-item col-md-4 col-sm-10 offset-sm-1>
         <ion-label>Select Restaurant</ion-label>
         <ion-select #C (ionChange)="change(C.value)" color="primary">
           <ion-option value="kfc">Kentucky Fried Chicken</ion-option>

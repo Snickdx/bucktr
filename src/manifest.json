@@ -1,6 +1,6 @@
 {
-  "name": "Menumizer",
-  "short_name": "The app for frugal food finder.",
+  "name": "The Menumizer",
+  "short_name": "The Menumizer",
   "start_url": "index.html",
   "display": "fullscreen",
   "scope": ".",

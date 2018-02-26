@@ -14,19 +14,23 @@ export class OptimizerPage {
   model = {
     chicken_amount: 0,
     side_amount: 0,
-    drink_amount: 0
+    drink_amount: 0,
+    popcorn_amount: 0,
+    sandwhich_amount: 0
   };
 
-  doRefresh(refresher) {
 
-    setTimeout(() => {
-      location.reload();
-      refresher.complete();
-    }, 2000);
-  }
 
   constructor(public navCtrl: NavController, public navParams:NavParams) {
 
+  }
+
+  increment(key){
+    this.model[key]++;
+  }
+
+  decrement(key){
+    if(this.model[key] > 0)this.model[key]--;
   }
 
 

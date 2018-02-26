@@ -3,7 +3,7 @@
 <head>
 
   <meta charset="UTF-8">
-  <meta name="description" content="Optimize your menu choices to save the most money.">
+  <meta name="description" content="Optimize your food menu choices to save the most money.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
@@ -16,9 +16,6 @@
   <meta name="theme-color" content="#f05742">
 
 
-  <link rel="shortcut icon" href="assets/icon/favicon.ico" type="image/x-icon">
-  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
-  <link href="build/main.css" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
 
   <link rel="apple-touch-icon" sizes="57x57" href="assets/icon/apple-icon-57x57.png">
@@ -37,8 +34,12 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/icon/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icon/favicon-16x16.png">
+  <link rel="shortcut icon" href="assets/icon/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
 
-  <title>Menumizer</title>
+  <title>The Menumizer</title>
+
+  <link href="build/main.css" rel="stylesheet">
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -48,10 +49,13 @@
           reg.waiting; // the waiting worker, or undefined
           reg.active; // the active worker, or undefined
 
+          reg.skip
+
           reg.addEventListener('updatefound', () => {
             // A wild service worker has appeared in reg.installing!
             const newWorker = reg.installing;
             console.log("Update Found!");
+            document.querySelector("#updateBtn").style.visibility = 'visible';
             newWorker.state;
             // "installing" - the install event has fired, but not yet complete
             // "installed"  - install complete
@@ -62,6 +66,10 @@
 //            timeout(3000, ()=>reg.update());
             newWorker.addEventListener('statechange', () => {
               // newWorker.state has changed
+            });
+
+            newWorker.addEventListener('install', () => {
+              self.skipWaiting();
             });
           });
           console.log('service worker installed');

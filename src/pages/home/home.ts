@@ -16,8 +16,14 @@ import {OptimizerPage} from "../optimizer/optimizer";
 })
 export class HomePage {
 
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
+
+  doRefresh() {
+    location.reload();
+  }
+
 
 
   change(outlet){
