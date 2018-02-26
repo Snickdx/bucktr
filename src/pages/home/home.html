@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar class="toolbar-md-primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding style="background-color:#f05742;">
+  <ion-grid>
+
+    <ion-row style="text-align: center">
+      <ion-col>
+        <h1 style="color:white">Welcome To The</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="height: 60vh">
+        <ion-col style="text-align: center;">
+          <img width="400" height="538" src="assets/imgs/white-logo.png" alt="menumizer logo">
+        </ion-col>
+    </ion-row>
+
+    <ion-row style="text-align: center">
+      <ion-col>
+        <h1 style="color:white">Let's get started.</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-4></ion-col>
+      <ion-item col-4>
+        <ion-label>Select Restaurant</ion-label>
+        <ion-select #C (ionChange)="change(C.value)" color="primary">
+          <ion-option value="kfc">Kentucky Fried Chicken</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

@@ -1,30 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113987093-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-113987093-1');
-  </script>
 
   <meta charset="UTF-8">
-  <title>Menu Hacker</title>
   <meta name="description" content="Optimize your menu choices to save the most money.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#f05742">
+  <meta name="apple-mobile-web-app-title" content="Menumizer">
+  <meta name="msapplication-TileColor" content="#f05742">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#f05742">
+
+
   <link rel="shortcut icon" href="assets/icon/favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+  <link href="build/main.css" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#FF4757">
 
+  <link rel="apple-touch-icon" sizes="57x57" href="assets/icon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="assets/icon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="assets/icon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/icon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="assets/icon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="assets/icon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="assets/icon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/icon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icon/apple-icon-180x180.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/icon/apple-icon-precomposed.png">
+  <link rel="apple-touch-startup-image" href="assets/icon/apple-icon-precomposed.png">
 
+  <link rel="icon" type="image/png" sizes="192x192"  href="assets/icon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/icon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icon/favicon-16x16.png">
 
+  <title>Menumizer</title>
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -64,31 +78,31 @@
     });
   </script>
 
-  <link href="build/main.css" rel="stylesheet">
+  <!-- Global site tag(gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113987093-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-113987093-1');
+  </script>
 
 </head>
 <body>
-  <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=776708959180751&autoLogAppEvents=1';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
 
-  <!-- Ionic's root component and where the app will load -->
-  <ion-app class="md"></ion-app>
+<!-- Ionic's root component and where the app will load -->
+<ion-app class="md"></ion-app>
 
-  <!-- The polyfills js is generated during the build process -->
-  <script src="build/polyfills.js"></script>
+<!-- The polyfills js is generated during the build process -->
+<script src="build/polyfills.js"></script>
 
-  <!-- The vendor js is generated during the build process
-       It contains all of the dependencies in node_modules -->
-  <script src="build/vendor.js"></script>
+<!-- The vendor js is generated during the build process
+     It contains all of the dependencies in node_modules -->
+<script src="build/vendor.js"></script>
 
-  <!-- The bundle js is generated during the build process -->
-  <script src="build/main.js"></script>
+<!-- The bundle js is generated during the build process -->
+<script src="build/main.js"></script>
 
 </body>
 </html>

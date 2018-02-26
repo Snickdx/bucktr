@@ -2,12 +2,6 @@ import { Component } from '@angular/core';
 import {LoadingController, NavParams} from 'ionic-angular';
 import {OptimizerProvider} from "../../providers/optimizer/optimizer";
 
-// interface Order{
-//   chicken_amt: number;
-//   side_amt: number;
-//   drink_amt;
-// }
-
 
 @Component({
   selector: 'page-results',

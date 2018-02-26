@@ -9,6 +9,7 @@ import { MyApp } from './app.component';
 import { OptimizerPage } from '../pages/optimizer/optimizer';
 import { AboutPage } from '../pages/about/about';
 import { ResultsPage } from '../pages/results/results';
+import { HomePage } from '../pages/home/home';
 
 import { OptimizerProvider } from '../providers/optimizer/optimizer';
 
@@ -19,7 +20,8 @@ enableProdMode();
     MyApp,
     OptimizerPage,
     AboutPage,
-    ResultsPage
+    ResultsPage,
+    HomePage
   ],
   imports: [
     BrowserModule,
@@ -33,6 +35,11 @@ enableProdMode();
           name:'Results',
           segment:'results/:chicken_amount/:side_amount/:drink_amount',
           defaultHistory: [OptimizerPage]
+        },
+        {
+          component: OptimizerPage,
+          name:'Optimizer',
+          segment:'optimize/:outlet'
         }
       ]
     })
@@ -42,7 +49,8 @@ enableProdMode();
     MyApp,
     OptimizerPage,
     AboutPage,
-    ResultsPage
+    ResultsPage,
+    HomePage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

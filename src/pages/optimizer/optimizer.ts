@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import { ResultsPage } from '../results/results';
 
 
@@ -8,6 +8,8 @@ import { ResultsPage } from '../results/results';
   templateUrl: 'optimizer.html'
 })
 export class OptimizerPage {
+
+  outlet = this.navParams.get('outlet');
 
   model = {
     chicken_amount: 0,
@@ -23,7 +25,7 @@ export class OptimizerPage {
     }, 2000);
   }
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public navParams:NavParams) {
 
   }
 

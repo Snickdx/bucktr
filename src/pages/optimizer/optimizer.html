@@ -1,15 +1,15 @@
-<!--<ion-header>-->
-<!--<ion-navbar class="toolbar-md-primary">-->
-<!--<button ion-button menuToggle>-->
-<!--<ion-icon name="menu"></ion-icon>-->
-<!--</button>-->
-<!--<ion-title>-->
-<!--Optimizer-->
-<!--</ion-title>-->
-<!--</ion-navbar>-->
-<!--</ion-header>-->
+<ion-header>
+  <ion-navbar class="toolbar-md-primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Optimizer
+    </ion-title>
+  </ion-navbar>
+</ion-header>
 
-<ion-content padding id="page1" style="background-color:#FF4757;">
+<ion-content padding id="page1" style="background-color:#f05742;">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
@@ -18,100 +18,119 @@
       refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
-  <div class="spacer" style="width:300px;height:20vh;"></div>
 
-  <h1 id="optimizer-heading1" style="color:#FFFFFF;text-align:center;">
-    I would like....
-  </h1>
+  <div class="spacer" style="width:300px;height:10vh;"></div>
 
-  <div id="optimizer-container1" ion-row>
+  <div ion-row>
     <div col-md-2 col-lg-4></div>
     <div ion-col>
-      <button id="optimizer-button1" ion-col (click)="model.chicken_amount =  model.chicken_amount + 1"  ion-button color="primary">
-        <ion-icon name="arrow-up"></ion-icon>
-      </button>
-    </div>
-    <div ion-col>
-      <button id="optimizer-button3" ion-col  (click)="model.side_amount = model.side_amount + 1" ion-button color="primary">
-        <ion-icon name="arrow-up"></ion-icon>
-      </button>
-    </div>
-    <div ion-col>
-      <button id="optimizer-button2" ion-col (click)="model.drink_amount = model.drink_amount + 1" ion-button color="primary">
-        <ion-icon name="arrow-up"></ion-icon>
-      </button>
+      <ion-item color="primary">
+        <ion-label>Select Restaurant</ion-label>
+        <ion-select [(ngModel)]="outlet"  color="primary">
+          <ion-option value="kfc">Kentucky Fried Chicken</ion-option>
+        </ion-select>
+      </ion-item>
     </div>
     <div col-md-2 col-lg-4></div>
   </div>
 
-  <div class="row">
-    <div col-md-2 col-lg-4></div>
-    <div class="col" style="text-align: center">
-      <h1 style="color:#FFFFFF;">
-        {{model.chicken_amount}}
-      </h1>
+  <div class="spacer" style="width:300px;height:10vh;"></div>
+
+  <div *ngIf="outlet !== undefined">
+    <h1 id="optimizer-heading1" style="color:#FFFFFF;text-align:center;">
+      I would like....
+    </h1>
+
+    <div id="optimizer-container1" ion-row>
+      <div col-md-2 col-lg-4></div>
+      <div ion-col>
+        <button id="optimizer-button1" ion-col (click)="model.chicken_amount =  model.chicken_amount + 1"  ion-button color="primary">
+          <ion-icon name="arrow-up"></ion-icon>
+        </button>
+      </div>
+      <div ion-col>
+        <button id="optimizer-button3" ion-col  (click)="model.side_amount = model.side_amount + 1" ion-button color="primary">
+          <ion-icon name="arrow-up"></ion-icon>
+        </button>
+      </div>
+      <div ion-col>
+        <button id="optimizer-button2" ion-col (click)="model.drink_amount = model.drink_amount + 1" ion-button color="primary">
+          <ion-icon name="arrow-up"></ion-icon>
+        </button>
+      </div>
+      <div col-md-2 col-lg-4></div>
     </div>
-    <div class="col" style="text-align: center">
-      <h1  style="color:#FFFFFF;">
-        {{model.side_amount}}
-      </h1>
+
+    <div class="row">
+      <div col-md-2 col-lg-4></div>
+      <div class="col" style="text-align: center">
+        <h1 style="color:#FFFFFF;">
+          {{model.chicken_amount}}
+        </h1>
+      </div>
+      <div class="col" style="text-align: center">
+        <h1  style="color:#FFFFFF;">
+          {{model.side_amount}}
+        </h1>
+      </div>
+      <div class="col" style="text-align: center">
+        <h1  style="color:#FFFFFF;">
+          {{model.drink_amount}}
+        </h1>
+      </div>
+      <div col-md-2 col-lg-4></div>
     </div>
-    <div class="col" style="text-align: center">
-      <h1  style="color:#FFFFFF;">
-        {{model.drink_amount}}
-      </h1>
+
+    <div class="row">
+      <div col-md-2 col-lg-4></div>
+
+      <div ion-col>
+        <button id="optimizer-button4" ion-col (click)="model.chicken_amount = model.chicken_amount - 1" ion-button color="primary">
+          <ion-icon name="arrow-down"></ion-icon>
+        </button>
+      </div>
+
+      <div ion-col>
+        <button id="optimizer-button5" ion-col  (click)="model.side_amount = model.side_amount - 1" ion-button  color="primary">
+          <ion-icon name="arrow-down"></ion-icon>
+        </button>
+      </div>
+
+      <div ion-col>
+        <button id="optimizer-button6"  ion-col (click)="model.drink_amount = model.drink_amount - 1" ion-button color="primary">
+          <ion-icon name="arrow-down"></ion-icon>
+        </button>
+      </div>
+
+
+      <div col-md-2 col-lg-4></div>
     </div>
-    <div col-md-2 col-lg-4></div>
+
+    <div class="row">
+      <div col-md-2 col-lg-4></div>
+      <div ion-col style="text-align: center">
+        <h1 style="color:#FFFFFF;">
+          Pieces
+        </h1>
+      </div>
+      <div ion-col style="text-align: center">
+        <h1  style="color:#FFFFFF;">
+          Sides
+        </h1>
+      </div>
+      <div ion-col style="text-align: center">
+        <h1  style="color:#FFFFFF;">
+          Drinks
+        </h1>
+      </div>
+      <div col-md-2 col-lg-4></div>
+    </div>
+
+    <div class="spacer" style="width:300px;height:20vh;"></div>
+
+    <button id="optimizer-button7" ion-button color="dark" offset-md-4 col-md-4 block on-click="goToResults()">
+      GO
+    </button>
   </div>
 
-  <div class="row">
-    <div col-md-2 col-lg-4></div>
-
-    <div ion-col>
-      <button id="optimizer-button4" ion-col (click)="model.chicken_amount = model.chicken_amount - 1" ion-button color="primary">
-        <ion-icon name="arrow-down"></ion-icon>
-      </button>
-    </div>
-
-    <div ion-col>
-      <button id="optimizer-button5" ion-col  (click)="model.side_amount = model.side_amount - 1" ion-button  color="primary">
-        <ion-icon name="arrow-down"></ion-icon>
-      </button>
-    </div>
-
-    <div ion-col>
-      <button id="optimizer-button6"  ion-col (click)="model.drink_amount = model.drink_amount - 1" ion-button color="primary">
-        <ion-icon name="arrow-down"></ion-icon>
-      </button>
-    </div>
-
-
-    <div col-md-2 col-lg-4></div>
-  </div>
-
-  <div class="row">
-    <div col-md-2 col-lg-4></div>
-    <div ion-col style="text-align: center">
-      <h1 style="color:#FFFFFF;">
-        Pieces
-      </h1>
-    </div>
-    <div ion-col style="text-align: center">
-      <h1  style="color:#FFFFFF;">
-        Sides
-      </h1>
-    </div>
-    <div ion-col style="text-align: center">
-      <h1  style="color:#FFFFFF;">
-        Drinks
-      </h1>
-    </div>
-    <div col-md-2 col-lg-4></div>
-  </div>
-
-  <div class="spacer" style="width:300px;height:20vh;"></div>
-
-  <button id="optimizer-button7" ion-button color="dark" offset-md-4 col-md-4 block on-click="goToResults()">
-    GO
-  </button>
 </ion-content>

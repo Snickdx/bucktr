@@ -2,18 +2,24 @@
   <ion-header>
     <ion-toolbar class="toolbar-md-primary">
       <ion-title>
-        Menu Hacker v0.1.10
+        Menu Hacker v0.1.2
       </ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content id="side-menu21"  style="background-color:#FF4757;">
+  <ion-content id="side-menu21">
     <ion-list id="menu-list1">
-      <ion-item   style="background-color:#FF4757;" menuClose="" on-click="goToOptimizer()" id="menu-list-item1">
+      <br>
+      <button ion-item  menuClose="" (click)="goToHome()" id="menu-list-item1">
+        Home
+      </button>
+      <br>
+      <button ion-item  menuClose="" (click)="goToOptimizer()" id="menu-list-item2">
         Optimizer
-      </ion-item>
-      <ion-item   style="background-color:#FF4757;" menuClose="" on-click="goToAbout()" id="menu-list-item2">
+      </button>
+      <br>
+      <button ion-item  menuClose="" (click)="goToAbout()" id="menu-list-item3">
         About
-      </ion-item>
+      </button>
     </ion-list>
   </ion-content>
 </ion-menu>
