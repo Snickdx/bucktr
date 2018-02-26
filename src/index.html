@@ -30,6 +30,7 @@
   <link rel="apple-touch-icon-precomposed" href="assets/icon/apple-icon-precomposed.png">
   <link rel="apple-touch-startup-image" href="assets/icon/apple-icon-precomposed.png">
 
+  <link rel="icon" type="image/png" sizes="512x512"  href="assets/icon/android-icon-512x512.png">
   <link rel="icon" type="image/png" sizes="192x192"  href="assets/icon/android-icon-192x192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/icon/favicon-96x96.png">
@@ -48,8 +49,6 @@
           reg.installing; // the installing worker, or undefined
           reg.waiting; // the waiting worker, or undefined
           reg.active; // the active worker, or undefined
-
-          reg.skip
 
           reg.addEventListener('updatefound', () => {
             // A wild service worker has appeared in reg.installing!

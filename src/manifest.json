@@ -1,9 +1,10 @@
 {
-  "name": "The Menumizer",
-  "short_name": "The Menumizer",
+  "name": "Menumizer",
+  "short_name": "Menumizer",
   "start_url": "index.html",
   "display": "fullscreen",
   "scope": ".",
+  "orientation":"portrait",
   "icons": [
     {
       "src": "assets/icon/android-icon-36x36.png",
@@ -34,8 +35,13 @@
       "src": "assets/icon/android-icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
+    },
+    {
+      "src": "assets/icon/android-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
-  "background_color": "#ffffff",
+  "background_color": "#f05742",
   "theme_color": "#222222"
 }

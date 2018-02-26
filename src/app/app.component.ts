@@ -18,6 +18,12 @@ export class MyApp {
     platform.ready().then(() => {
     });
   }
+
+  doRefresh() {
+    location.reload(true);
+  }
+
+
   goToHome(params){
     if (!params) params = {};
     this.navCtrl.setRoot(HomePage);

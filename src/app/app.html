@@ -2,7 +2,7 @@
   <ion-header>
     <ion-toolbar class="toolbar-md-primary">
       <ion-title>
-        Menu Hacker v0.1.4
+        Menu Hacker v0.1.6
       </ion-title>
     </ion-toolbar>
   </ion-header>
@@ -21,6 +21,20 @@
         About
       </button>
     </ion-list>
+
+    <ion-row style="margin-top:45vh" >
+      <ion-col>
+        <button id="updateBtn"  ion-button col-10 offset-1 block (click)="doRefresh()">
+          Reload App
+        </button>
+        <ion-row>
+          <ion-col offset-1 col-10>
+            <p>In case app is not updating</p>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+    </ion-row>
   </ion-content>
 </ion-menu>
 
