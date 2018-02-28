@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler, enableProdMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {FormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -12,6 +12,7 @@ import { ResultsPage } from '../pages/results/results';
 import { HomePage } from '../pages/home/home';
 
 import { OptimizerProvider } from '../providers/optimizer/optimizer';
+import { SworkerProvider } from '../providers/sworker/sworker';
 
 
 enableProdMode();
@@ -55,7 +56,8 @@ enableProdMode();
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     OptimizerProvider,
-    HttpClientModule
+    HttpClientModule,
+    SworkerProvider
   ]
 })
 export class AppModule {}

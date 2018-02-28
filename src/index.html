@@ -38,52 +38,10 @@
   <link rel="shortcut icon" href="assets/icon/favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
 
+
   <title>The Menumizer</title>
 
   <link href="build/main.css" rel="stylesheet">
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js', {scope:"."})
-        .then(reg => {
-          reg.installing; // the installing worker, or undefined
-          reg.waiting; // the waiting worker, or undefined
-          reg.active; // the active worker, or undefined
-
-          reg.addEventListener('updatefound', () => {
-            // A wild service worker has appeared in reg.installing!
-            const newWorker = reg.installing;
-            console.log("Update Found!");
-            document.querySelector("#updateBtn").style.visibility = 'visible';
-            newWorker.state;
-            // "installing" - the install event has fired, but not yet complete
-            // "installed"  - install complete
-            // "activating" - the activate event has fired, but not yet complete
-            // "activated"  - fully active
-            // "redundant"  - discarded. Either failed install, or it's been
-            //                replaced by a newer version
-//            timeout(3000, ()=>reg.update());
-            newWorker.addEventListener('statechange', () => {
-              // newWorker.state has changed
-            });
-
-            newWorker.addEventListener('install', () => {
-              self.skipWaiting();
-            });
-          });
-          console.log('service worker installed');
-
-        })
-        .catch(err => console.log('Error', err));
-    }
-
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      // This fires when the service worker controlling this page
-      // changes, eg a new worker has skipped waiting and become
-      // the new active worker.
-      console.log('Control Changed');
-    });
-  </script>
 
   <!-- Global site tag(gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113987093-1"></script>
@@ -93,13 +51,88 @@
     gtag('js', new Date());
 
     gtag('config', 'UA-113987093-1');
-  </script>
 
+    window.addEventListener('load', function() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js', {scope:"."})
+          .then(reg => {
+            reg.installing; // the installing worker, or undefined
+            reg.waiting; // the waiting worker, or undefined
+            reg.active; // the active worker, or undefined
+
+            reg.addEventListener('updatefound', () => {
+
+              const newWorker = reg.installing;
+              console.log("Update Found!");
+
+
+              newWorker.addEventListener('statechange', () => {
+                // newWorker.state has changed
+              });
+
+              newWorker.addEventListener('install', () => {
+                self.skipWaiting();
+              });
+
+            });
+            console.log('service worker installed');
+
+          })
+          .catch(err => console.log('Error', err));
+
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          console.log('App Updated with new SW');
+        });
+
+      }
+    });
+
+  </script>
+  <style>
+    ion-app{
+      background: #f05742 url(assets/imgs/white-logo.png) no-repeat fixed center;
+    }
+  </style>
 </head>
 <body>
 
+
+
 <!-- Ionic's root component and where the app will load -->
-<ion-app class="md"></ion-app>
+<ion-app class="md" style="background-color: #f05742">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionic/1.3.2/css/ionic.css">
+  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+  <div class="bar bar-header bar-dark">
+    <button class="button button-icon icon ion-navicon"></button>
+    <div class="h1 title">Loading...</div>
+  </div>
+
+  <!--<div style="text-align: center; margin-top: 20vh">-->
+    <!--<img style="max-width: 50%; max-height: 80%" src="assets/imgs/white-logo.png" alt="menumizer logo">-->
+  <!--</div>-->
+
+  <noscript>
+    <div class="list card" style="margin-top: 30vh; z-index: 10">
+      <div class="item item-body">
+        <div>
+          <i style="font-size: 200px; width: 3vw; margin-left:33vw" class="icon ion-sad-outline"></i>
+        </div>
+
+        <p>
+          Non-javascript browser detected. This app requires javascript to work, please enable and reload.
+        </p>
+
+        <p>
+          <a href="https://menumizer.com" class="subdued">Website</a>
+          <a href="https://fb.com/menumizer" class="subdued">Facebook</a>
+        </p>
+      </div>
+    </div>
+  </noscript>
+
+</ion-app>
 
 <!-- The polyfills js is generated during the build process -->
 <script src="build/polyfills.js"></script>

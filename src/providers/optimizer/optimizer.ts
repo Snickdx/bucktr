@@ -9,7 +9,7 @@ const httpOptions = {
   })
 };
 
-const serverUrl = "https://hack-that-menu-api.herokuapp.com/tt/kfc";
+const serverUrl = "https:api.menumizer.com";
 
 interface Order{
   chicken_amt: number;

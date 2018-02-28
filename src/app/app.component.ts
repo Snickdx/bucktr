@@ -20,6 +20,13 @@ export class MyApp {
   }
 
   doRefresh() {
+
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.getRegistration().then( function(reg){
+        if(reg.installing !== undefined)
+          reg.installing.skipWaiting().then(event=>console.log("Skipped Waiting", event));
+      })
+    }
     location.reload(true);
   }
 
