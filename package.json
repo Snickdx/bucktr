@@ -5,7 +5,7 @@
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
-    "build-sw":"workbox inject:manifest",
+    "build-sw": "workbox injectManifest",
     "clean": "ionic-app-scripts clean",
     "build": "npm-run-all ionic:build build-sw",
     "lint": "ionic-app-scripts lint",
@@ -36,7 +36,7 @@
     "@ionic/app-scripts": "3.1.8",
     "npm-run-all": "^4.1.2",
     "typescript": "2.4.2",
-    "workbox-cli": "^2.1.2"
+    "workbox-cli": "^3.0.0-beta.1"
   },
   "description": "An Ionic project"
 }

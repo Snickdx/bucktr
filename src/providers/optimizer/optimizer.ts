@@ -9,7 +9,8 @@ const httpOptions = {
   })
 };
 
-const serverUrl = "https:api.menumizer.com";
+///const serverUrl = "https://api.menumizer.com";
+const serverUrl = "http://validate.jsontest.com";
 
 interface Order{
   chicken_amt: number;
