@@ -34,7 +34,7 @@ enableProdMode();
         {
           component: ResultsPage,
           name:'Results',
-          segment:'results/:chicken_amount/:side_amount/:drink_amount',
+          segment:'results/:chicken_amount/:side_amount/:drink_amount/:popcorn_amount/:sandwich_amount',
           defaultHistory: [OptimizerPage]
         },
         {

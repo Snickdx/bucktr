@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {ToastController} from "ionic-angular";
-import {environment} from "../../app/environment";
 
 /*
   Generated class for the SworkerProvider provider.
@@ -56,15 +55,15 @@ export class SworkerProvider {
           .catch(err => console.log('Error', err));
 
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-
-          this.toastCtrl.create({
-            message: `App is updating`,
-            duration: 3000
-          }).present().then(()=>{
-            if (this.refreshing) return;
-            this.refreshing = true;
-            window.location.reload();
-          });
+          if (this.refreshing) return;
+          this.refreshing = true;
+          window.location.reload();
+          // this.toastCtrl.create({
+          //   message: `App is updating`,
+          //   duration: 3000
+          // }).present().then(()=>{
+          //
+          // });
 
         });
       }

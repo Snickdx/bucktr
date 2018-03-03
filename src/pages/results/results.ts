@@ -19,12 +19,16 @@ export class ResultsPage {
   order={
     chicken_amount: parseInt(this.navParams.get('chicken_amount')),
     side_amount: parseInt(this.navParams.get('side_amount')),
-    drink_amount: parseInt(this.navParams.get('drink_amount'))
+    drink_amount: parseInt(this.navParams.get('drink_amount')),
+    popcorn_amount: parseInt(this.navParams.get('popcorn_amount')),
+    sandwich_amount: parseInt(this.navParams.get('sandwich_amount'))
   };
   totals={
     chicken_amount: 0,
     side_amount: 0,
-    drink_amount: 0
+    drink_amount: 0,
+    popcorn_amount: 0,
+    sandwich_amount: 0
   };
   objectKeys = Object.keys;
   newVariable: any;
@@ -52,9 +56,14 @@ export class ResultsPage {
           this.totals.chicken_amount+=this.result.optimal_deal[key].count * this.result.optimal_deal[key].chicken_count;
           this.totals.side_amount+=this.result.optimal_deal[key].count * this.result.optimal_deal[key].side_count;
           this.totals.drink_amount+=this.result.optimal_deal[key].count * this.result.optimal_deal[key].drink_count;
+          this.totals.popcorn_amount+=this.result.optimal_deal[key].count * this.result.optimal_deal[key].popcorn_count;
+          this.totals.sandwich_amount+=this.result.optimal_deal[key].count * this.result.optimal_deal[key].sandwich_count;
         });
-        console.log(this.order, this.totals);
+
         this.price = res.trans_info.price;
+        this.loadingFinished = true;
+        loading.dismiss();
+      }, error=>{
         this.loadingFinished = true;
         loading.dismiss();
       });
@@ -62,15 +71,13 @@ export class ResultsPage {
 
   share(){
 
-
     this.newVariable.share({
-      title: 'Menu Hacker',
+      title: 'Menumizer',
       text: "I'm saving money while buying chicken!",
-      url: `https://fixmehup.firebaseapp.com/#/results/${this.order.chicken_amount}/${this.order.side_amount}/${this.order.drink_amount}`,
+      url: `https://fixmehup.firebaseapp.com/#/results/${this.order.chicken_amount}/${this.order.side_amount}/${this.order.drink_amount}/${this.order.popcorn_amount}/${this.order.sandwich_amount}`,
     })
       .then(() => console.log('Successful share'))
       .catch((error) => console.log('Error sharing', error));
     }
-
 
 }

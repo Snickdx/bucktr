@@ -16,7 +16,7 @@ export class OptimizerPage {
     side_amount: 0,
     drink_amount: 0,
     popcorn_amount: 0,
-    sandwhich_amount: 0
+    sandwich_amount: 0
   };
 
 

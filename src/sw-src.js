@@ -2,8 +2,8 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0-beta.0/
 // importScripts('https://code.jquery.com/jquery-3.2.1.min.js');
 // importScripts("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js");
 
-workbox.setConfig({debug: true});
-workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
+workbox.setConfig({debug: false});
+// workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
 // const orderQueue = new Queue("order-queue", {
 //   callbacks: {

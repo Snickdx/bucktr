@@ -12,7 +12,7 @@
 <ion-content padding id="results"  style="background-color:#f05742;">
   <div *ngIf="loadingFinished" offset-md-2 col-md-8 offset-lg-4 col-lg-4>
     <h2 style="color:white">
-      Pieces: {{order.chicken_amount}} Sides: {{order.side_amount}} Drinks: {{order.drink_amount}}
+      Pieces: {{order.chicken_amount}} Sides: {{order.side_amount}} Drinks: {{order.drink_amount}} Popcorn {{order.popcorn_amount}} Sandwiches {{order.sandwich_amount}}
     </h2>
     <h1 id="results-heading4" style="color:#FFFFFF;">
       You Should Order
@@ -24,6 +24,7 @@
           <div>
             <p>{{result.optimal_deal[key].count}} {{key}}</p>
             <p>Pieces: {{result.optimal_deal[key].chicken_count}} Sides: {{result.optimal_deal[key].side_count}}</p>
+            <p>Popcorn: {{result.optimal_deal[key].popcorn_count}} Sandwiches: {{result.optimal_deal[key].sandwich_count}}</p>
             <p>Drinks: {{result.optimal_deal[key].drink_count}} Price: ${{result.optimal_deal[key].price}}</p>
           </div>
         </ion-item>
@@ -53,6 +54,16 @@
       <div ion-col>
         <p style="color:#FFFFFF;">
           Drink: {{totals.drink_amount - order.drink_amount}}
+        </p>
+      </div>
+      <div ion-col>
+        <p style="color:#FFFFFF;">
+          Popcorn: {{totals.popcorn_amount - order.popcorn_amount}}
+        </p>
+      </div>
+      <div ion-col>
+        <p style="color:#FFFFFF;">
+          Sandwich: {{totals.sandwich_amount - order.sandwich_amount}}
         </p>
       </div>
     </div>
