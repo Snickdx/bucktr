@@ -55,45 +55,7 @@
     gtag('config', 'UA-113987093-1');
   </script>
 
-  <script>
-
-    window.addEventListener('load', function() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js', {scope:"."})
-          .then(reg => {
-            reg.installing; // the installing worker, or undefined
-            reg.waiting; // the waiting worker, or undefined
-            reg.active; // the active worker, or undefined
-
-            reg.addEventListener('updatefound', () => {
-
-              const newWorker = reg.installing;
-              console.log("Update Found!");
-
-
-              newWorker.addEventListener('statechange', () => {
-                // newWorker.state has changed
-              });
-
-              newWorker.addEventListener('install', () => {
-                self.skipWaiting();
-              });
-
-            });
-            console.log('service worker installed');
-
-          })
-          .catch(err => console.log('Error', err));
-
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          console.log('App Updated with new SW');
-        });
-
-      }
-    });
-
-  </script>
-  <style>
+   <style>
     ion-app{
       background: #f05742 url(assets/imgs/white-logo.png) no-repeat fixed center;
     }

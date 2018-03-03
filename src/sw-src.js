@@ -14,6 +14,8 @@ workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
 workbox.precaching.precacheAndRoute([]);
 
+
+//for handling updates https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68
 addEventListener('message', messageEvent => {
   if (messageEvent.data === 'skipWaiting') return skipWaiting();
 });
@@ -41,20 +43,21 @@ workbox.routing.registerRoute(
   }),
 );
 
-self.addEventListener('install', function(event) {
-  // The promise that skipWaiting() returns can be safely ignored.
-  
-  
-  // event.waitUntil(
-  //   caches.keys().then(function(names) {
-  //     for (let name of names) caches.delete(name);
-  //     self.skipWaiting().then(()=> workboxSW.clientsClaim());
-  //     console.log("Caches Cleared!");
-  //   })
-  // );
-  
-});
 
+addEventListener('fetch', event => {
+  event.respondWith((async () => {
+    if (event.request.mode === "navigate" &&
+      event.request.method === "GET" &&
+      registration.waiting &&
+      (await clients.matchAll()).length < 2
+    ) {
+      registration.waiting.postMessage('skipWaiting');
+      return new Response("", {headers: {"Refresh": "0"}});
+    }
+    return await caches.match(event.request) ||
+      fetch(event.request);
+  })());
+});
 
 self.addEventListener('push', function(event) {
   var title = 'Menumizer Says';

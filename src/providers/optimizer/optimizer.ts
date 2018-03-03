@@ -2,6 +2,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError} from "rxjs/operators";
+import {environment} from "../../app/environment";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -9,8 +10,6 @@ const httpOptions = {
   })
 };
 
-///const serverUrl = "https://api.menumizer.com";
-const serverUrl = "http://validate.jsontest.com";
 
 interface Order{
   chicken_amt: number;
@@ -41,7 +40,7 @@ export class OptimizerProvider {
   };
 
   public sendOrder(order){
-    return this.http.post<Order>(serverUrl, order, httpOptions)
+    return this.http.post<Order>(environment.backend, order, httpOptions)
       .pipe(
         catchError(OptimizerProvider.handleError)
       );
