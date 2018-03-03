@@ -12,20 +12,12 @@ import {ToastController} from "ionic-angular";
 export class SworkerProvider {
 
   refreshing;
-  registration;
+  registration = null;
   registered = false;
+  toastShowing = false;
 
 
   constructor(public http: HttpClient, public toastCtrl: ToastController) {
-
-    navigator.serviceWorker.addEventListener('controllerchange',
-      ()=> {
-        if (this.refreshing) return;
-        this.refreshing = true;
-        window.location.reload();
-      }
-    );
-
   }
 
   register(){
@@ -37,55 +29,61 @@ export class SworkerProvider {
             this.registration = reg;
 
             this.listenForWaitingServiceWorker(reg, ()=>{
-              let toast = this.toastCtrl.create({
-                message: 'New Update Available',
-                position: 'bottom',
-                showCloseButton: true,
-                closeButtonText: "Update"
-              });
 
-              toast.present();
-
-              toast.onDidDismiss(()=>{
-                reg.waiting.postMessage('skipWaiting');
-              });
+              if(!this.toastShowing){
+                let toast = this.toastCtrl.create({
+                  message: 'New Update Available',
+                  position: 'bottom',
+                  showCloseButton: true,
+                  closeButtonText: "Update"
+                });
+                this.toastShowing = true;
+                toast.present();
+                toast.onDidDismiss(()=>{
+                  this.registration.postMessage('skipWaiting');
+                  this.toastShowing = false;
+                });
+              }
 
             })
           })
           .catch(err => console.log('Error', err));
 
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (this.refreshing) return;
-          this.refreshing = true;
-          window.location.reload();
-          // this.toastCtrl.create({
-          //   message: `App is updating`,
-          //   duration: 3000
-          // }).present().then(()=>{
-          //
-          // });
+        navigator.serviceWorker.addEventListener('controllerchange',
+          () => {
+            if (this.refreshing) return;
+            this.refreshing = true;
+            window.location.reload();
+          }
+        );
 
-        });
+
       }
     });
   }
 
+  getRegistration(){
 
-  doRefresh() {
+    if(this.registration) return this.registration;
+    console.error("No registration found");
+    return undefined;
 
-    // if('serviceWorker' in navigator){
-    //   navigator.serviceWorker.getRegistration().then( function(reg){
-    //     if(reg.installing !== undefined)
-    //       reg.installing.skipWaiting().then(event=>console.log("Skipped Waiting", event));
-    //
-    //     caches.keys().then(function(names) {
-    //       for (let name of names)
-    //         caches.delete(name);
-    //     })
-    //   })
-    // }
-    location.reload(true);
   }
+
+  skipWaiting(){
+    if(this.registration.installing !== undefined){
+      console.log(this.registration.installing);
+      // this.registration.installing.skipWaiting()
+    }
+  }
+
+  clearCaches(){
+    caches.keys().then(function(names) {
+      for (let name of names)
+        caches.delete(name);
+    });
+  }
+
 
   listenForWaitingServiceWorker(reg, callback) {
     function awaitStateChange() {

@@ -20,10 +20,6 @@ export class HomePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-    doRefresh() {
-      location.reload(true);
-    }
-
 
 
   change(outlet){
