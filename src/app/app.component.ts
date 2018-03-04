@@ -24,10 +24,8 @@ export class MyApp {
   }
 
 
-  async doRefresh() {
-        this.sw.skipWaiting();
-        this.sw.clearCaches();
-        location.reload(true);
+  doRefresh() {
+    this.sw.reload();
   }
 
 

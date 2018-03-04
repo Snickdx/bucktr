@@ -15,9 +15,11 @@ export class SworkerProvider {
   registration = null;
   registered = false;
   toastShowing = false;
+  reopen  = localStorage.getItem("menumizer-started");
 
 
   constructor(public http: HttpClient, public toastCtrl: ToastController) {
+
   }
 
   register(){
@@ -28,9 +30,8 @@ export class SworkerProvider {
             this.registered = true;
             this.registration = reg;
 
-            this.listenForWaitingServiceWorker(reg, ()=>{
-
-              if(!this.toastShowing){
+            this.listenForWaitingServiceWorker(reg, reg=>{
+              if(!this.toastShowing && reg.waiting && this.reopen){
                 let toast = this.toastCtrl.create({
                   message: 'New Update Available',
                   position: 'bottom',
@@ -40,12 +41,13 @@ export class SworkerProvider {
                 this.toastShowing = true;
                 toast.present();
                 toast.onDidDismiss(()=>{
-                  this.registration.postMessage('skipWaiting');
+                  reg.waiting.postMessage('skipWaiting');
                   this.toastShowing = false;
                 });
               }
+            });
+            localStorage.setItem("menumizer-started", 'true')
 
-            })
           })
           .catch(err => console.log('Error', err));
 
@@ -62,18 +64,16 @@ export class SworkerProvider {
     });
   }
 
-  getRegistration(){
-
-    if(this.registration) return this.registration;
-    console.error("No registration found");
-    return undefined;
+  static getRegistration(){
+    if('serviceWorker' in navigator)
+      return navigator.serviceWorker.getRegistration();
 
   }
 
-  skipWaiting(){
-    if(this.registration.installing !== undefined){
-      console.log(this.registration.installing);
-      // this.registration.installing.skipWaiting()
+  async skipWaiting(){
+    this.registration = await SworkerProvider.getRegistration();
+    if(this.registration.installing){
+      this.registration.skipWaiting();
     }
   }
 
@@ -82,6 +82,13 @@ export class SworkerProvider {
       for (let name of names)
         caches.delete(name);
     });
+  }
+
+  reload(){
+    this.toastShowing = true;
+    this.skipWaiting();
+    this.clearCaches();
+    location.reload(true);
   }
 
 
