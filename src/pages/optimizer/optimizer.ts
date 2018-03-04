@@ -19,6 +19,9 @@ export class OptimizerPage {
     sandwich_amount: 0
   };
 
+  change(){
+    this.navCtrl.setRoot(OptimizerPage, {outlet: this.outlet});
+  }
 
 
   constructor(public navCtrl: NavController, public navParams:NavParams) {

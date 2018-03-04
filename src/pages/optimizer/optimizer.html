@@ -18,7 +18,7 @@
     <div col-lg-4 ion-col>
       <ion-item color="primary">
         <ion-label color="light">Select Restaurant</ion-label>
-        <ion-select [(ngModel)]="outlet" color="primary">
+        <ion-select [(ngModel)]="outlet" (ionChange)="change()" color="primary">
           <ion-option value="kfc">Kentucky Fried Chicken</ion-option>
         </ion-select>
       </ion-item>

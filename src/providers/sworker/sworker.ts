@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {ToastController} from "ionic-angular";
+import {environment} from "../../app/environment";
 
 /*
   Generated class for the SworkerProvider provider.
@@ -22,6 +23,7 @@ export class SworkerProvider {
 
   }
 
+
   register(){
     window.addEventListener('load', ()=> {
       if ('serviceWorker' in navigator) {
@@ -33,7 +35,7 @@ export class SworkerProvider {
             this.listenForWaitingServiceWorker(reg, reg=>{
               if(!this.toastShowing && reg.waiting && this.reopen){
                 let toast = this.toastCtrl.create({
-                  message: 'New Update Available',
+                  message: `New Update Available`,
                   position: 'bottom',
                   showCloseButton: true,
                   closeButtonText: "Update"
@@ -86,8 +88,6 @@ export class SworkerProvider {
 
   reload(){
     this.toastShowing = true;
-    this.skipWaiting();
-    this.clearCaches();
     location.reload(true);
   }
 

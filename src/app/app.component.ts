@@ -6,6 +6,7 @@ import { AboutPage } from '../pages/about/about';
 import { OptimizerPage } from '../pages/optimizer/optimizer';
 import { HomePage} from "../pages/home/home";
 import { SworkerProvider} from "../providers/sworker/sworker";
+import {environment} from "./environment";
 
 
 @Component({
@@ -13,14 +14,18 @@ import { SworkerProvider} from "../providers/sworker/sworker";
 })
 export class MyApp {
   @ViewChild(Nav) navCtrl: Nav;
-    rootPage:any = HomePage;
+  rootPage:any = HomePage;
+  version = environment.version;
+
 
 
   constructor(platform: Platform, public sw:SworkerProvider) {
     platform.ready().then(() => {
 
     });
+    console.log(environment, environment.version);
     sw.register();
+
   }
 
 
