@@ -41,7 +41,17 @@ enableProdMode();
           component: OptimizerPage,
           name:'Optimizer',
           segment:'optimize/:outlet'
-        }
+        },
+        {
+          component: AboutPage,
+          name:'About',
+          segment:'about'
+        },
+        {
+          component: HomePage,
+          name:'Home',
+          segment:''
+        },
       ]
     })
   ],
