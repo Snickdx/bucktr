@@ -1,16 +1,27 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0-beta.0/workbox-sw.js');
-// importScripts('https://code.jquery.com/jquery-3.2.1.min.js');
-// importScripts("https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js");
 
-workbox.setConfig({debug: false});
-// workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
-// const orderQueue = new Queue("order-queue", {
-//   callbacks: {
-//     requestWillEnqueue: (req) => console.log("Offline, queueing req: ", req),
-//     queueDidReplay: (reqs)=> console.log("Replayed requests", reqs)
-//   }
-// });
+workbox.setConfig({debug: true});
+
+workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
+
+const orderQueue = new workbox.backgroundSync.Queue("order-queue", {
+  callbacks: {
+    requestWillEnqueue: (req) => console.log("Offline, queueing req: ", req),
+    queueDidReplay: (reqs)=> {
+      console.log(reqs);
+      self.registration.showNotification("Results sent in background", {
+        body: "Menumizer your results are ready!",
+        icon: "assets/icon/android-icon-144x144.png",
+        tag: "results-sync"
+      })
+    },
+    requestWillReplay: (req)=> console.log(req),
+    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
+  }
+});
+
+
 
 workbox.precaching.precacheAndRoute([]);
 
@@ -32,43 +43,83 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
+  /\.(?:png|gif|jpg|jpeg|svg)$/,
   workbox.strategies.cacheFirst({
-    cacheName: 'googleapis',
+    cacheName: 'images',
     plugins: [
       new workbox.expiration.Plugin({
-        maxEntries: 30,
+        maxEntries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
       }),
     ],
   }),
 );
 
+workbox.routing.registerRoute(
+  /.*(?:googleapis)\.com.*$/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'googleapis',
+  }),
+);
+
+workbox.routing.registerRoute(
+  /.*(?:gstatic)\.com.*$/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'gstatic',
+  }),
+);
+
+workbox.routing.registerRoute(
+  '/*',
+  workbox.strategies.networkFirst({
+    networkTimetoutSeconds: 3,
+    cacheName: 'all-cache',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 50,
+        maxAgeSeconds: 5 * 60, // 5 minutes
+      }),
+    ],
+  }),
+);
+
+workbox.routing.registerRoute(
+  new RegExp('/assets/(.*)'),
+  workbox.strategies.staleWhileRevalidate(),
+);
+
 
 addEventListener('fetch', event => {
-  event.respondWith((async () => {
-    if (event.request.mode === "navigate" &&
-      event.request.method === "GET" &&
-      registration.waiting &&
-      (await clients.matchAll()).length < 2
-    ) {
-      registration.waiting.postMessage('skipWaiting');
-      return new Response("", {headers: {"Refresh": "0"}});
-    }
-    return await caches.match(event.request) ||
-      fetch(event.request);
-  })());
+  // Clone the request to ensure it's save to read when
+  // adding to the Queue.
+  const promiseChain = fetch(event.request.clone())
+    .catch((err) => {
+      return orderQueue.addRequest(event.request);
+    });
+  
+  event.waitUntil(promiseChain);
+  
+  // event.respondWith((async () => {
+  //   if (event.request.mode === "navigate" && event.request.method === "GET" && registration.waiting && (await clients.matchAll()).length < 2) {
+  //     registration.waiting.postMessage('skipWaiting');
+  //     return new Response("", {headers: {"Refresh": "0"}});
+  //   }
+  //   return await caches.match(event.request) ||
+  //     fetch(event.request);
+  // })());
 });
 
-self.addEventListener('push', function(event) {
-  var title = 'Menumizer Says';
-  var body = 'We have received a push message.';
-  var icon = 'assets/icon/android-icon-144x144.png';
-  var tag = 'test-notification';
-  event.waitUntil(
-    self.registration.showNotification(title, {
-      body: body,
-      icon: icon,
-      tag: tag
-    })
-  );
-});
+// self.addEventListener('push', function(event) {
+//   var title = 'Menumizer Says';
+//   var body = 'We have received a push message.';
+//   var icon = 'assets/icon/android-icon-144x144.png';
+//   var tag = 'test-notification';
+//   if(tag === 'test-notification')
+//     event.waitUntil(
+//       self.registration.showNotification(title, {
+//         body: body,
+//         icon: icon,
+//         tag: tag
+//       })
+//     );
+// });

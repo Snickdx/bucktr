@@ -16,7 +16,7 @@
     <div col-lg-4 ion-col>
       <ion-item color="primary">
         <ion-label color="light">Select Restaurant</ion-label>
-        <ion-select [(ngModel)]="outlet" (ionChange)="change()" color="primary">
+        <ion-select [(ngModel)]="model.outlet" (ionChange)="change()" color="primary">
           <ion-option value="kfc">Kentucky Fried Chicken</ion-option>
         </ion-select>
       </ion-item>
@@ -26,7 +26,7 @@
 
   <div class="spacer" style="width:300px;height:5vh;"></div>
 
-  <div *ngIf="outlet !== undefined">
+  <div *ngIf="model.outlet !== undefined">
     <h1 id="optimizer-heading1" style="color:#FFFFFF;text-align:center;">
       I would like....
     </h1>

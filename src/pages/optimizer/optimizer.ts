@@ -9,9 +9,10 @@ import { ResultsPage } from '../results/results';
 })
 export class OptimizerPage {
 
-  outlet = this.navParams.get('outlet');
+
 
   model = {
+    outlet : undefined,
     chicken_amount: 0,
     side_amount: 0,
     drink_amount: 0,
@@ -20,12 +21,12 @@ export class OptimizerPage {
   };
 
   change(){
-    this.navCtrl.setRoot(OptimizerPage, {outlet: this.outlet});
+    this.navCtrl.setRoot(OptimizerPage, {outlet: this.model.outlet});
   }
 
 
   constructor(public navCtrl: NavController, public navParams:NavParams) {
-
+    this.model.outlet = this.navParams.get('outlet');
   }
 
   increment(key){
@@ -38,6 +39,7 @@ export class OptimizerPage {
 
 
   goToResults(){
+    console.log(this.model);
     this.navCtrl.push(ResultsPage, this.model);
   }
 
