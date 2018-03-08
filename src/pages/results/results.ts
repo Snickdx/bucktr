@@ -30,7 +30,6 @@ export class ResultsPage {
     popcorn_amount: 0,
     sandwich_amount: 0
   };
-  objectKeys = Object.keys;
   newVariable: any;
   loadingFinished = false;
 
@@ -73,8 +72,8 @@ export class ResultsPage {
 
     this.newVariable.share({
       title: 'Menumizer',
-      text: "I'm saving money while buying chicken!",
-      url: `https://fixmehup.firebaseapp.com/#/results/${this.order.chicken_amount}/${this.order.side_amount}/${this.order.drink_amount}/${this.order.popcorn_amount}/${this.order.sandwich_amount}`,
+      text: `Take a look at my Mizer for ${this.navParams.get("outlet")} I pay only $${this.price}`,
+      url: `https://app.menumizer.com/#/results/${this.navParams.get("outlet")}/${this.order.chicken_amount}/${this.order.side_amount}/${this.order.drink_amount}/${this.order.popcorn_amount}/${this.order.sandwich_amount}`,
     })
       .then(() => console.log('Successful share'))
       .catch((error) => console.log('Error sharing', error));

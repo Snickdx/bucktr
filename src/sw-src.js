@@ -22,6 +22,13 @@ const orderQueue = new workbox.backgroundSync.Queue("order-queue", {
 });
 
 
+workbox.routing.registerRoute(
+  "https://app.menumizer.com",
+  workbox.strategies.cacheFirst({
+    cacheName:"resultsCache"
+  })
+);
+
 
 workbox.precaching.precacheAndRoute([]);
 

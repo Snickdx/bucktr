@@ -16,7 +16,7 @@ export class MyApp {
   @ViewChild(Nav) navCtrl: Nav;
   rootPage:any = HomePage;
   version = environment.version;
-
+  online = true;
 
 
   constructor(platform: Platform, public sw:SworkerProvider) {
@@ -25,7 +25,14 @@ export class MyApp {
     });
     console.log(environment, environment.version);
     sw.register();
-
+    console.log("monitoring");
+    sw.monitorNetworkState(event=>{
+      this.online = true;
+      console.log("App is online");
+    }, event=>{
+      this.online = false;
+      console.log("App is offline");
+    });
   }
 
 

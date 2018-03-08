@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {AlertController, NavController, NavParams} from 'ionic-angular';
 import { ResultsPage } from '../results/results';
+import {SworkerProvider} from "../../providers/sworker/sworker";
+import {HomePage} from "../home/home";
 
 
 @Component({
@@ -25,12 +27,13 @@ export class OptimizerPage {
   }
 
 
-  constructor(public navCtrl: NavController, public navParams:NavParams) {
+  constructor(public navCtrl: NavController, public navParams:NavParams, public sw:SworkerProvider, public alertCtrl: AlertController, public nav:NavController) {
     this.model.outlet = this.navParams.get('outlet');
+
   }
 
   increment(key){
-    this.model[key]++;
+    if(this.model[key] < 20)this.model[key]++;
   }
 
   decrement(key){
@@ -39,8 +42,31 @@ export class OptimizerPage {
 
 
   goToResults(){
-    console.log(this.model);
-    this.navCtrl.push(ResultsPage, this.model);
+    if(this.sw.getNetworkState())
+      this.navCtrl.push(ResultsPage, this.model);
+    else{
+      let alert = this.alertCtrl.create({
+        title: 'App is offline',
+        message: 'You are offline. Should Menumizer remember and notify you when its ready? (You will need to grant notification permission)',
+        buttons: [
+          {
+            text: 'No',
+            role: 'cancel',
+            handler: () => {
+              this.navCtrl.setRoot(HomePage, this.model);
+            }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.navCtrl.setRoot(HomePage, this.model);
+            }
+          }
+        ]
+      });
+
+      alert.present();
+    }
   }
 
 

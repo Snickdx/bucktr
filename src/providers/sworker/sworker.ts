@@ -17,6 +17,7 @@ export class SworkerProvider {
   registered = false;
   toastShowing = false;
   reopen  = localStorage.getItem("menumizer-started");
+  online = true;
 
 
   constructor(public http: HttpClient, public toastCtrl: ToastController) {
@@ -91,7 +92,6 @@ export class SworkerProvider {
     location.reload(true);
   }
 
-
   listenForWaitingServiceWorker(reg, callback) {
     function awaitStateChange() {
       reg.installing.addEventListener('statechange', function() {
@@ -104,5 +104,28 @@ export class SworkerProvider {
     reg.addEventListener('updatefound', awaitStateChange);
   }
 
+  getNetworkState(){
+    return this.online;
+  }
+
+  monitorNetworkState(onlineHandler, offlineHandler){
+    window.addEventListener('load', ()=>{
+      console.log("state monitoring");
+      window.addEventListener('online', event =>{
+        console.log(navigator.onLine);
+        if(navigator.onLine){
+          this.online = true;
+          onlineHandler(event);
+        }
+      });
+      window.addEventListener('offline', event => {
+        console.log(navigator.onLine);
+        if(!navigator.onLine){
+          this.online = false;
+          offlineHandler(event)
+        }
+      });
+    });
+  }
 
 }

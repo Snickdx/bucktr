@@ -5,34 +5,45 @@
     </button>
     <ion-title>
       Results
-    </ion-title>P
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding id="results"  style="background-color:#f05742;">
-  <div *ngIf="loadingFinished" offset-md-2 col-md-8 offset-lg-4 col-lg-4>
-    <div  ion-row>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Pieces:</p>
-        <p style="color:#FFFFFF;"><ion-badge item-end>{{order.chicken_amount}}</ion-badge></p>
-      </div>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Sides:</p>
-        <p style="color:#FFFFFF;"><ion-badge item-end>{{order.side_amount}}</ion-badge></p>
-      </div>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Drink:</p>
-        <p style="color:#FFFFFF;"><ion-badge item-end>{{order.drink_amount}}</ion-badge></p>
-      </div>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Popcorn:</p>
-        <p style="color:#FFFFFF;"><ion-badge item-end>{{order.popcorn_amount}}</ion-badge></p>
-      </div>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Sandwich:</p>
-        <p style="color:#FFFFFF;"><ion-badge item-end>{{order.sandwich_amount}}</ion-badge></p>
-      </div>
-    </div>
+  <div *ngIf="loadingFinished" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
+    <ion-row justify-content-center>
+      <ion-col>
+        <ion-chip  color="primary">
+          <ion-label color="light">Pieces: <ion-badge color="danger">{{order.chicken_amount}}</ion-badge></ion-label>
+        </ion-chip>
+      </ion-col>
+
+      <ion-col>
+        <ion-chip color="primary">
+          <ion-label color="light">Sides: <ion-badge color="danger">{{order.side_amount}}</ion-badge></ion-label>
+        </ion-chip>
+      </ion-col>
+
+      <ion-col>
+        <ion-chip color="primary">
+          <ion-label color="light">Drinks: <ion-badge color="danger">{{order.drink_amount}}</ion-badge></ion-label>
+        </ion-chip>
+      </ion-col>
+
+      <ion-col>
+        <ion-chip color="primary">
+          <ion-label color="light">Popcorn: <ion-badge color="danger">{{order.popcorn_amount}}</ion-badge></ion-label>
+        </ion-chip>
+      </ion-col>
+
+      <ion-col>
+        <ion-chip color="primary">
+          <ion-label color="light">Sandwich: <ion-badge color="danger">{{order.sandwich_amount}}</ion-badge></ion-label>
+        </ion-chip>
+      </ion-col>
+
+    </ion-row>
+
 
     <h1 id="results-heading4" style="color:#FFFFFF;">
       You Should Order
@@ -41,11 +52,22 @@
     <div id="results-container3">
       <ion-list id="results-list2" color="dark">
         <ion-card color="primary" id="results-list-item-container3" *ngFor="let key of menu">
+          <ion-card-header>
+
+              <ion-item color="primary">
+                {{key}} ${{result.optimal_deal[key].price}}
+                <ion-badge  *ngIf="result.optimal_deal[key].count > 1" color="danger" item-end>x{{result.optimal_deal[key].count}}</ion-badge>
+              </ion-item>
+
+          </ion-card-header>
           <ion-card-content>
-            <p>{{result.optimal_deal[key].count}} {{key}}</p>
-            <p>Pieces: {{result.optimal_deal[key].chicken_count}} Sides: {{result.optimal_deal[key].side_count}}</p>
-            <p>Popcorn: {{result.optimal_deal[key].popcorn_count}} Sandwiches: {{result.optimal_deal[key].sandwich_count}}</p>
-            <p>Drinks: {{result.optimal_deal[key].drink_count}} Price: ${{result.optimal_deal[key].price}}</p>
+            <ion-row>
+              <ion-col *ngIf="result.optimal_deal[key].chicken_count > 0" >Pieces: {{result.optimal_deal[key].chicken_count}}</ion-col>
+              <ion-col *ngIf="result.optimal_deal[key].side_count > 0" >Sides: {{result.optimal_deal[key].side_count}}</ion-col>
+              <ion-col *ngIf="result.optimal_deal[key].popcorn_count > 0" >Popcorn: {{result.optimal_deal[key].popcorn_count}}</ion-col>
+              <ion-col *ngIf="result.optimal_deal[key].sanwich_count > 0" >Sandwiches: {{result.optimal_deal[key].sandwich_count}}</ion-col>
+              <ion-col *ngIf="result.optimal_deal[key].drink_count > 0" >Drinks: {{result.optimal_deal[key].drink_count}}</ion-col>
+            </ion-row>
           </ion-card-content>
         </ion-card>
       </ion-list>
@@ -60,7 +82,7 @@
     </div>
 
     <ion-card  ion-row color="primary">
-      <div ion-col style="text-align: center">
+      <div ion-col style="text-align: center" >
         <p style="color:#FFFFFF;">Pieces:</p>
         <p style="color:#FFFFFF;">{{totals.chicken_amount - order.chicken_amount}}</p>
       </div>
