@@ -100,14 +100,14 @@ addEventListener('fetch', event => {
   
   event.waitUntil(promiseChain);
   
-  // event.respondWith((async () => {
-  //   if (event.request.mode === "navigate" && event.request.method === "GET" && registration.waiting && (await clients.matchAll()).length < 2) {
-  //     registration.waiting.postMessage('skipWaiting');
-  //     return new Response("", {headers: {"Refresh": "0"}});
-  //   }
-  //   return await caches.match(event.request) ||
-  //     fetch(event.request);
-  // })());
+  event.respondWith((async () => {
+    if (event.request.mode === "navigate" && event.request.method === "GET" && registration.waiting && (await clients.matchAll()).length < 2) {
+      if(registration.waiting)registration.waiting.postMessage('skipWaiting');
+      return new Response("", {headers: {"Refresh": "0"}});
+    }
+    return await caches.match(event.request) ||
+      fetch(event.request);
+  })());
 });
 
 // self.addEventListener('push', function(event) {
