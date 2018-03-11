@@ -11,7 +11,8 @@
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build --prod --generateSourceMap false",
     "ionic:serve": "ionic-app-scripts serve -c",
-    "deploy": "firebase deploy --only hosting"
+    "deploy": "firebase deploy --only hosting",
+    "emulate": "firebase serve --only functions"
   },
   "dependencies": {
     "@angular/common": "5.0.3",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@angular/cli": "^1.6.8",
     "@ionic/app-scripts": "3.1.8",
+    "firebase-tools": "^3.17.6",
     "npm-run-all": "^4.1.2",
     "typescript": "2.4.2",
     "workbox-cli": "^3.0.0-beta.1"

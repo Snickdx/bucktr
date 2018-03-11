@@ -44,7 +44,8 @@ export class SworkerProvider {
                 this.toastShowing = true;
                 toast.present();
                 toast.onDidDismiss(()=>{
-                  reg.waiting.postMessage('skipWaiting');
+                  if(reg.waiting)
+                    reg.waiting.postMessage('skipWaiting');
                   this.toastShowing = false;
                 });
               }

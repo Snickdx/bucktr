@@ -76,17 +76,11 @@ workbox.routing.registerRoute(
   }),
 );
 
+
 workbox.routing.registerRoute(
-  '/*',
+  "https://us-central1-fixmehup.cloudfunctions.net",
   workbox.strategies.networkFirst({
-    networkTimetoutSeconds: 3,
-    cacheName: 'all-cache',
-    plugins: [
-      new workbox.expiration.Plugin({
-        maxEntries: 50,
-        maxAgeSeconds: 5 * 60, // 5 minutes
-      }),
-    ],
+    cacheName: 'mizers',
   }),
 );
 

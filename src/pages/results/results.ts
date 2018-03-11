@@ -47,7 +47,7 @@ export class ResultsPage {
       content: 'Optimizing...'
     });
     loading.present();
-    this.optimizer.sendOrder(this.order)
+    this.optimizer.sendOrder(this.order, this.navParams.get("outlet"))
       .subscribe(res=>{
         this.result = res;
         this.menu = Object.keys(res.optimal_deal);

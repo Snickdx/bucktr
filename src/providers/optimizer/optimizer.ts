@@ -39,8 +39,13 @@ export class OptimizerProvider {
       'Something bad happened; please try again later.');
   };
 
-  public sendOrder(order){
-    return this.http.post<Order>(environment.backend, order, httpOptions)
+  public sendOrder(order, outlet){
+    let options = outlet;
+
+    for(let key in order){
+      options+= "/"+order[key];
+    }
+    return this.http.get<Order>(environment.backend+options, httpOptions)
       .pipe(
         catchError(OptimizerProvider.handleError)
       );
