@@ -46,11 +46,11 @@
 
         <ion-row align-items-end>
           <expandable [expandHeight]="70" [expanded]="mizer[combo].expanded">
-            <ion-row align-items-end style="height: 70px">
+            <ion-row align-items-end justify-content-start style="height: 70px">
               <ion-col *ngIf="mizer[combo].chicken_count > 0" >Pieces: {{mizer[combo].chicken_count}}</ion-col>
               <ion-col *ngIf="mizer[combo].side_count > 0" >Sides: {{mizer[combo].side_count}}</ion-col>
               <ion-col *ngIf="mizer[combo].popcorn_count > 0" >Popcorn: {{mizer[combo].popcorn_count}}</ion-col>
-              <ion-col *ngIf="mizer[combo].sanwich_count > 0" >Sandwiches: {{mizer[combo].sandwich_count}}</ion-col>
+              <ion-col *ngIf="mizer[combo].sandwich_count > 0" >Sandwiches: {{mizer[combo].sandwich_count}}</ion-col>
               <ion-col *ngIf="mizer[combo].drink_count > 0" >Drinks: {{mizer[combo].drink_count}}</ion-col>
               <ion-col> Price: ${{mizer[combo].price}}</ion-col>
             </ion-row>
