@@ -23,7 +23,7 @@ export class MyApp {
     platform.ready().then(() => {
 
     });
-    console.log(environment, environment.version);
+    // console.log(environment, environment.version);
     sw.register();
     console.log("monitoring");
     sw.monitorNetworkState(event=>{

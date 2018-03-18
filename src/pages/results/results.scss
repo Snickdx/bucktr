@@ -1,8 +1,20 @@
-page-results {
+.ios, .md {
+
+  page-results {
+    ion-item {
+      align-items: baseline;
+    }
+  }
 
 }
 
-.chip-md-primary{
-  margin:5px;
+.label-md {
+  margin: 13px 8px 13px 8px;
 }
 
+.item-md{
+  padding-left:0;
+}
+.item-md.item-block .item-inner {
+  padding-right: 0;
+}

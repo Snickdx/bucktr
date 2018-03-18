@@ -8,7 +8,7 @@ app.use(cors);
 
 admin.initializeApp(functions.config().firebase);
 
-app.get('/kfc/:chicken_amount/:side_amount/:drink_amount/:popcorn_amount/:sandwich_amount',  (req, res) => {
+app.get('/kfc/:chicken_count/:side_count/:drink_count/:popcorn_count/:sandwich_count',  (req, res) => {
   
   let ref = "/cache/kfc";
   let options = "";

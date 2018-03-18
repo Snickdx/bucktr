@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {ToastController} from "ionic-angular";
-import {environment} from "../../app/environment";
+
 
 /*
   Generated class for the SworkerProvider provider.
@@ -42,7 +42,7 @@ export class SworkerProvider {
                   closeButtonText: "Update"
                 });
                 this.toastShowing = true;
-                toast.present();
+                toast.present().then(e=>console.log(e));
                 toast.onDidDismiss(()=>{
                   if(reg.waiting)
                     reg.waiting.postMessage('skipWaiting');
@@ -77,15 +77,8 @@ export class SworkerProvider {
   async skipWaiting(){
     this.registration = await SworkerProvider.getRegistration();
     if(this.registration.installing){
-      this.registration.skipWaiting();
+      this.registration.skipWaiting().then(e=>console.log(e));
     }
-  }
-
-  clearCaches(){
-    caches.keys().then(function(names) {
-      for (let name of names)
-        caches.delete(name);
-    });
   }
 
   reload(){

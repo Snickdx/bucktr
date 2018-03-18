@@ -15,11 +15,11 @@ export class OptimizerPage {
 
   model = {
     outlet : undefined,
-    chicken_amount: 0,
-    side_amount: 0,
-    drink_amount: 0,
-    popcorn_amount: 0,
-    sandwich_amount: 0
+    chicken_count: 0,
+    side_count: 0,
+    drink_count: 0,
+    popcorn_count: 0,
+    sandwich_count: 0
   };
 
   change(){

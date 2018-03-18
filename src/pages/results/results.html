@@ -8,86 +8,100 @@
     </ion-title>
   </ion-navbar>
   <ion-toolbar color="primary" >
-      <ion-row style="text-align: center" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
-        <ion-label color="light">Pieces</ion-label>
-        <ion-label color="light">Sides</ion-label>
-        <ion-label color="light">Drinks</ion-label>
-        <ion-label color="light">Popcorn</ion-label>
-        <ion-label color="light">Sandwich</ion-label>
-      </ion-row>
-      <ion-row style="text-align: center" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
-        <ion-col><ion-badge color="danger">{{order.chicken_amount}}</ion-badge></ion-col>
-        <ion-col><ion-badge color="danger">{{order.side_amount}}</ion-badge></ion-col>
-        <ion-col><ion-badge color="danger">{{order.drink_amount}}</ion-badge></ion-col>
-        <ion-col><ion-badge color="danger">{{order.popcorn_amount}}</ion-badge></ion-col>
-        <ion-col><ion-badge color="danger">{{order.sandwich_amount}}</ion-badge></ion-col>
-      </ion-row>
+    <ion-row style="text-align: center" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
+      <ion-label color="light">Pieces</ion-label>
+      <ion-label color="light">Sides</ion-label>
+      <ion-label color="light">Drinks</ion-label>
+      <ion-label color="light">Popcorn</ion-label>
+      <ion-label color="light">Sandwich</ion-label>
+    </ion-row>
+    <ion-row style="text-align: center" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
+      <ion-col><ion-badge color="danger">{{order.chicken_count}}</ion-badge></ion-col>
+      <ion-col><ion-badge color="danger">{{order.side_count}}</ion-badge></ion-col>
+      <ion-col><ion-badge color="danger">{{order.drink_count}}</ion-badge></ion-col>
+      <ion-col><ion-badge color="danger">{{order.popcorn_count}}</ion-badge></ion-col>
+      <ion-col><ion-badge color="danger">{{order.sandwich_count}}</ion-badge></ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
 <ion-content id="results"  style="background-color:#f05742;">
   <div *ngIf="loadingFinished" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
 
-      <ion-list id="results-list2" color="dark">
-        <ion-list-header>
-          Your Order
-        </ion-list-header>
-        <ion-item color="primary" id="results-list-item-container3" *ngFor="let key of menu">
-          <ion-card-header>
+    <ion-scroll scrollY="true" id="results-list2" style="height: 45vh;">
+      <button ion-item  id="results-list-item-container3" *ngFor="let combo of menu" (click)="expandItem(combo)">
 
-            <ion-item color="primary">
-              <ion-badge  color="danger">{{result.optimal_deal[key].count}}</ion-badge>
-              {{key}} ${{result.optimal_deal[key].price}}
-              </ion-item>
+        <ion-row align-items-baseline >
+          <ion-col col-1>
+            <ion-badge  color="danger">{{mizer[combo].count}}</ion-badge>
+          </ion-col>
+          <ion-col col-7>
+            <h2>{{combo}}</h2>
+          </ion-col>
+          <ion-col  >
+            <span style="text-decoration: underline">DETAILS</span>
+          </ion-col>
 
-          </ion-card-header>
-          <ion-card-content>
-            <ion-row>
-              <ion-col *ngIf="result.optimal_deal[key].chicken_count > 0" >Pieces: {{result.optimal_deal[key].chicken_count}}</ion-col>
-              <ion-col *ngIf="result.optimal_deal[key].side_count > 0" >Sides: {{result.optimal_deal[key].side_count}}</ion-col>
-              <ion-col *ngIf="result.optimal_deal[key].popcorn_count > 0" >Popcorn: {{result.optimal_deal[key].popcorn_count}}</ion-col>
-              <ion-col *ngIf="result.optimal_deal[key].sanwich_count > 0" >Sandwiches: {{result.optimal_deal[key].sandwich_count}}</ion-col>
-              <ion-col *ngIf="result.optimal_deal[key].drink_count > 0" >Drinks: {{result.optimal_deal[key].drink_count}}</ion-col>
+        </ion-row>
+
+        <ion-row align-items-end>
+          <expandable [expandHeight]="70" [expanded]="mizer[combo].expanded">
+            <ion-row align-items-end style="height: 70px">
+              <ion-col *ngIf="mizer[combo].chicken_count > 0" >Pieces: {{mizer[combo].chicken_count}}</ion-col>
+              <ion-col *ngIf="mizer[combo].side_count > 0" >Sides: {{mizer[combo].side_count}}</ion-col>
+              <ion-col *ngIf="mizer[combo].popcorn_count > 0" >Popcorn: {{mizer[combo].popcorn_count}}</ion-col>
+              <ion-col *ngIf="mizer[combo].sanwich_count > 0" >Sandwiches: {{mizer[combo].sandwich_count}}</ion-col>
+              <ion-col *ngIf="mizer[combo].drink_count > 0" >Drinks: {{mizer[combo].drink_count}}</ion-col>
+              <ion-col> Price: ${{mizer[combo].price}}</ion-col>
             </ion-row>
-          </ion-card-content>
-        </ion-item>
-      </ion-list>
-
+          </expandable>
+        </ion-row>
+      </button>
+    </ion-scroll>
 
     <div class="spacer" style="width:300px;" id="results-spacer2"></div>
 
-    <div ion-row>
-      <p style="color:#FFFFFF;">
-        Extras
-      </p>
-    </div>
+    <ion-card color="primary">
+      <ion-row>
+        <ion-col col-12 style="text-align: center">
+          <p style="color:#FFFFFF; text-align: center">
+            Extras
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <div ion-col style="text-align: center" >
+          <p style="color:#FFFFFF;">Pieces:</p>
+          <p style="color:#FFFFFF;">{{totals.chicken_count - order.chicken_count}}</p>
+        </div>
+        <div ion-col style="text-align: center">
+          <p style="color:#FFFFFF;">Sides:</p>
+          <p style="color:#FFFFFF;">{{totals.side_count - order.side_count}}</p>
+        </div>
+        <div ion-col style="text-align: center">
+          <p style="color:#FFFFFF;">Drink:</p>
+          <p style="color:#FFFFFF;">{{totals.drink_count - order.drink_count}}</p>
+        </div>
+        <div ion-col style="text-align: center">
+          <p style="color:#FFFFFF;">Popcorn:</p>
+          <p style="color:#FFFFFF;">{{totals.popcorn_count - order.popcorn_count}}</p>
+        </div>
+        <div ion-col style="text-align: center">
+          <p style="color:#FFFFFF;">Sandwich:</p>
+          <p style="color:#FFFFFF;">{{totals.sandwich_count - order.sandwich_count}}</p>
+        </div>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12 style="text-align: center">
+          <h1 id="results-heading5" style="color:#FFFFFF;">
+            Total: ${{price}}
+          </h1>
+        </ion-col>
+      </ion-row>
 
-    <ion-card  ion-row color="primary">
-      <div ion-col style="text-align: center" >
-        <p style="color:#FFFFFF;">Pieces:</p>
-        <p style="color:#FFFFFF;">{{totals.chicken_amount - order.chicken_amount}}</p>
-      </div>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Sides:</p>
-        <p style="color:#FFFFFF;">{{totals.side_amount - order.side_amount}}</p>
-      </div>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Drink:</p>
-        <p style="color:#FFFFFF;">{{totals.drink_amount - order.drink_amount}}</p>
-      </div>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Popcorn:</p>
-        <p style="color:#FFFFFF;">{{totals.popcorn_amount - order.popcorn_amount}}</p>
-      </div>
-      <div ion-col style="text-align: center">
-        <p style="color:#FFFFFF;">Sandwich:</p>
-        <p style="color:#FFFFFF;">{{totals.sandwich_amount - order.sandwich_amount}}</p>
-      </div>
     </ion-card>
 
-    <h3 id="results-heading5" style="color:#FFFFFF;">
-      Total: ${{price}}
-    </h3>
+
 
     <button ion-button color="dark" block *ngIf="shareable" (click)="share()">Share</button>
     <!--<button  ion-button color="dark" block class="fb-share-button" data-href="https://fixmehup.firebaseapp.com/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffixmehup.firebaseapp.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></button>-->

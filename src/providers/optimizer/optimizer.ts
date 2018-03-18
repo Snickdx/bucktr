@@ -11,13 +11,6 @@ const httpOptions = {
 };
 
 
-interface Order{
-  chicken_amt: number;
-  side_amt: number;
-  drink_amt;
-}
-
-
 @Injectable()
 export class OptimizerProvider {
 
@@ -45,7 +38,7 @@ export class OptimizerProvider {
     for(let key in order){
       options+= "/"+order[key];
     }
-    return this.http.get<Order>(environment.backend+options, httpOptions)
+    return this.http.get(environment.backend+options, httpOptions)
       .pipe(
         catchError(OptimizerProvider.handleError)
       );

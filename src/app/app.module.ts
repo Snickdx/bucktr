@@ -10,6 +10,7 @@ import { OptimizerPage } from '../pages/optimizer/optimizer';
 import { AboutPage } from '../pages/about/about';
 import { ResultsPage } from '../pages/results/results';
 import { HomePage } from '../pages/home/home';
+import {ExpandableComponent} from "../components/expandable/expandable";
 
 import { OptimizerProvider } from '../providers/optimizer/optimizer';
 import { SworkerProvider } from '../providers/sworker/sworker';
@@ -22,7 +23,8 @@ enableProdMode();
     OptimizerPage,
     AboutPage,
     ResultsPage,
-    HomePage
+    HomePage,
+    ExpandableComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,7 @@ enableProdMode();
         {
           component: ResultsPage,
           name:'Results',
-          segment:'results/:outlet/:chicken_amount/:side_amount/:drink_amount/:popcorn_amount/:sandwich_amount',
+          segment:'results/:outlet/:chicken_count/:side_count/:drink_count/:popcorn_count/:sandwich_count',
           defaultHistory: [OptimizerPage]
         },
         {
@@ -61,7 +63,8 @@ enableProdMode();
     OptimizerPage,
     AboutPage,
     ResultsPage,
-    HomePage
+    HomePage,
+    ExpandableComponent
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

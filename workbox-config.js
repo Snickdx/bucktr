@@ -6,7 +6,6 @@ module.exports = {
   "swDest": "www/service-worker.js",
   "swSrc": "src/sw-src.js",
   "globIgnores": [
-    "..\\workbox-cli-config.js",
     "src/sw-src.js"
   ]
 };
