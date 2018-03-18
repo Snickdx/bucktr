@@ -23,9 +23,9 @@ const orderQueue = new workbox.backgroundSync.Queue("order-queue", {
 
 
 workbox.routing.registerRoute(
-  "https://app.menumizer.com",
-  workbox.strategies.cacheFirst({
-    cacheName:"resultsCache"
+  new RegExp('https://us-central1-fixmehup.cloudfunctions.net/menumize/(.*)'),
+  workbox.strategies.staleWhileRevalidate({
+    cacheName:"mizers"
   })
 );
 
@@ -77,16 +77,10 @@ workbox.routing.registerRoute(
 );
 
 
-workbox.routing.registerRoute(
-  "https://us-central1-fixmehup.cloudfunctions.net",
-  workbox.strategies.networkFirst({
-    cacheName: 'mizers',
-  }),
-);
 
 workbox.routing.registerRoute(
   new RegExp('/assets/(.*)'),
-  workbox.strategies.staleWhileRevalidate(),
+  workbox.strategies.staleWhileRevalidate({"cacheName":"assets"}),
 );
 
 
@@ -102,7 +96,7 @@ addEventListener('fetch', event => {
   
   event.respondWith((async () => {
     if (event.request.mode === "navigate" && event.request.method === "GET" && registration.waiting && (await clients.matchAll()).length < 2) {
-      if(registration.waiting)registration.waiting.postMessage('skipWaiting');
+      registration.waiting.postMessage('skipWaiting');
       return new Response("", {headers: {"Refresh": "0"}});
     }
     return await caches.match(event.request) ||

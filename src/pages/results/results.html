@@ -7,56 +7,37 @@
       Results
     </ion-title>
   </ion-navbar>
+  <ion-toolbar color="primary" >
+      <ion-row style="text-align: center" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
+        <ion-label color="light">Pieces</ion-label>
+        <ion-label color="light">Sides</ion-label>
+        <ion-label color="light">Drinks</ion-label>
+        <ion-label color="light">Popcorn</ion-label>
+        <ion-label color="light">Sandwich</ion-label>
+      </ion-row>
+      <ion-row style="text-align: center" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
+        <ion-col><ion-badge color="danger">{{order.chicken_amount}}</ion-badge></ion-col>
+        <ion-col><ion-badge color="danger">{{order.side_amount}}</ion-badge></ion-col>
+        <ion-col><ion-badge color="danger">{{order.drink_amount}}</ion-badge></ion-col>
+        <ion-col><ion-badge color="danger">{{order.popcorn_amount}}</ion-badge></ion-col>
+        <ion-col><ion-badge color="danger">{{order.sandwich_amount}}</ion-badge></ion-col>
+      </ion-row>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding id="results"  style="background-color:#f05742;">
+<ion-content id="results"  style="background-color:#f05742;">
   <div *ngIf="loadingFinished" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
-    <ion-row justify-content-center>
-      <ion-col>
-        <ion-chip  color="primary">
-          <ion-label color="light">Pieces: <ion-badge color="danger">{{order.chicken_amount}}</ion-badge></ion-label>
-        </ion-chip>
-      </ion-col>
 
-      <ion-col>
-        <ion-chip color="primary">
-          <ion-label color="light">Sides: <ion-badge color="danger">{{order.side_amount}}</ion-badge></ion-label>
-        </ion-chip>
-      </ion-col>
-
-      <ion-col>
-        <ion-chip color="primary">
-          <ion-label color="light">Drinks: <ion-badge color="danger">{{order.drink_amount}}</ion-badge></ion-label>
-        </ion-chip>
-      </ion-col>
-
-      <ion-col>
-        <ion-chip color="primary">
-          <ion-label color="light">Popcorn: <ion-badge color="danger">{{order.popcorn_amount}}</ion-badge></ion-label>
-        </ion-chip>
-      </ion-col>
-
-      <ion-col>
-        <ion-chip color="primary">
-          <ion-label color="light">Sandwich: <ion-badge color="danger">{{order.sandwich_amount}}</ion-badge></ion-label>
-        </ion-chip>
-      </ion-col>
-
-    </ion-row>
-
-
-    <h1 id="results-heading4" style="color:#FFFFFF;">
-      You Should Order
-    </h1>
-
-    <div id="results-container3">
       <ion-list id="results-list2" color="dark">
-        <ion-card color="primary" id="results-list-item-container3" *ngFor="let key of menu">
+        <ion-list-header>
+          Your Order
+        </ion-list-header>
+        <ion-item color="primary" id="results-list-item-container3" *ngFor="let key of menu">
           <ion-card-header>
 
-              <ion-item color="primary">
-                {{key}} ${{result.optimal_deal[key].price}}
-                <ion-badge  *ngIf="result.optimal_deal[key].count > 1" color="danger" item-end>x{{result.optimal_deal[key].count}}</ion-badge>
+            <ion-item color="primary">
+              <ion-badge  color="danger">{{result.optimal_deal[key].count}}</ion-badge>
+              {{key}} ${{result.optimal_deal[key].price}}
               </ion-item>
 
           </ion-card-header>
@@ -69,9 +50,9 @@
               <ion-col *ngIf="result.optimal_deal[key].drink_count > 0" >Drinks: {{result.optimal_deal[key].drink_count}}</ion-col>
             </ion-row>
           </ion-card-content>
-        </ion-card>
+        </ion-item>
       </ion-list>
-    </div>
+
 
     <div class="spacer" style="width:300px;" id="results-spacer2"></div>
 
