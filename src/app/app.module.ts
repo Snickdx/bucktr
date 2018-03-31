@@ -10,12 +10,14 @@ import { OptimizerPage } from '../pages/optimizer/optimizer';
 import { AboutPage } from '../pages/about/about';
 import { ResultsPage } from '../pages/results/results';
 import { HomePage } from '../pages/home/home';
+import { KfcPage} from "../pages/results/kfc/kfc";
 import {ExpandableComponent} from "../components/expandable/expandable";
 import {ShareComponent} from "../components/share/share";
 
 
 import { MizerProvider } from '../providers/mizer/mizer';
 import { SworkerProvider } from '../providers/sworker/sworker';
+import {KfcOpPage} from "../pages/optimizer/kfc-op/kfc-op";
 
 
 
@@ -27,6 +29,8 @@ enableProdMode();
     AboutPage,
     ResultsPage,
     HomePage,
+    KfcPage,
+    KfcOpPage,
     ExpandableComponent,
     ShareComponent
   ],
@@ -39,13 +43,21 @@ enableProdMode();
       links:[
         {
           component: ResultsPage,
-          name:'Results',
-          segment:'results/:outlet/:chicken_count/:side_count/:drink_count/:popcorn_count/:sandwich_count',
+          name:'Results'
+        },
+        {
+          component: KfcPage,
+          name:'KfcResults',
+          segment:'results/kfc/:chicken_count/:side_count/:drink_count/:popcorn_count/:sandwich_count',
           defaultHistory: [OptimizerPage]
         },
         {
+          component: KfcOpPage,
+          name:'KfcOptimizer'
+        },
+        {
           component: OptimizerPage,
-          name:'Optimizer',
+          name:'optimizer/',
           segment:'optimize/:outlet'
         },
         {
@@ -68,6 +80,8 @@ enableProdMode();
     AboutPage,
     ResultsPage,
     HomePage,
+    KfcPage,
+    KfcOpPage,
     ExpandableComponent,
     ShareComponent
   ],

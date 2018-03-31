@@ -37,14 +37,15 @@ export class MizerProvider {
   public parseParams(params)
   {
     return Object.keys(params).reduce((acc, ele)=>{
-      acc[ele] = ele == "outlet" ? params[ele] : parseInt(params[ele]);
+      acc[ele] = parseInt(params[ele]);
       return acc;
     }, {});
   };
 
-  public async sendOrder(order)
+  public async sendOrder(order, outlet)
   {
-    let options = "";
+
+    let options = outlet+"/";
 
     for(let key in order){
       options+= order[key]+"/";

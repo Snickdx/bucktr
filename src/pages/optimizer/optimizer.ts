@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import { ResultsPage } from '../results/results';
+import {KfcOpPage} from "./kfc-op/kfc-op";
+
+
+export interface kfcOrder {
+  chicken_count: number;
+  side_count: number,
+  drink_count: number,
+  popcorn_count: number,
+  sandwich_count: number
+}
 
 
 @Component({
@@ -9,38 +18,24 @@ import { ResultsPage } from '../results/results';
 })
 export class OptimizerPage {
 
+  outlet=undefined;
 
-
-  model = {
-    outlet : undefined,
-    chicken_count: 0,
-    side_count: 0,
-    drink_count: 0,
-    popcorn_count: 0,
-    sandwich_count: 0
-  };
 
   change(){
-    this.navCtrl.setRoot(OptimizerPage, {outlet: this.model.outlet});
-  }
-
-
-  constructor(public navCtrl: NavController, public navParams:NavParams, public nav:NavController) {
-    this.model.outlet = this.navParams.get('outlet');
+    switch(this.outlet){
+      case "kfc": this.navCtrl.setRoot(KfcOpPage);
+        break;
+    }
 
   }
 
-  increment(key){
-    if(this.model[key] < 20)this.model[key]++;
-  }
 
-  decrement(key){
-    if(this.model[key] > 0)this.model[key]--;
-  }
-
-
-  goToResults(){
-      this.navCtrl.push(ResultsPage, this.model);
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.outlet = navParams.get("outlet");
+    switch(this.outlet){
+      case "kfc": this.navCtrl.setRoot(KfcOpPage);
+        break;
+    }
   }
 
 
