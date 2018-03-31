@@ -85,10 +85,10 @@ export class ResultsPage {
 
     loading.present();
     this.optimizer.sendOrder(this.order)
-      .subscribe(res=>{
-        this.menu = Object.keys(res.optimal_deal);
-        this.mizer = res.optimal_deal;
-        this.price = res.trans_info.price;
+      .then(res=>{
+        this.menu = Object.keys(res['optimal_deal']);
+        this.mizer = res['optimal_deal'];
+        this.price = res['trans_info']['price'];
 
         for(let combo in this.mizer){
           for(let item in this.totals){

@@ -3,11 +3,18 @@ import { Injectable } from '@angular/core';
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError} from "rxjs/operators";
 import {environment} from "../../app/environment";
+import {AlertController, LoadingController} from "ionic-angular";
+import {SworkerProvider} from "../sworker/sworker";
 
 @Injectable()
 export class MizerProvider {
 
-  constructor(public http: HttpClient)
+  constructor(
+    public http: HttpClient,
+    public alertCtrl: AlertController,
+    public sw: SworkerProvider,
+    public loadingCtrl: LoadingController
+  )
   { }
 
   private static handleError(error: HttpErrorResponse)
@@ -35,7 +42,7 @@ export class MizerProvider {
     }, {});
   };
 
-  public sendOrder(order)
+  public async sendOrder(order)
   {
     let options = "";
 
@@ -43,13 +50,19 @@ export class MizerProvider {
       options+= order[key]+"/";
     }
 
-    return this.http.get(
+    let subscription = this.http.get(
       environment.backend+options,
       {headers: new HttpHeaders({'Content-Type': 'application/json'})}
-      )
-    .pipe(
+      );
+
+    subscription.pipe(
       catchError(MizerProvider.handleError)
     );
+
+    let data = Object.assign(await subscription.toPromise());
+
+
+    return data;
 
   }
 
