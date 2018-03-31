@@ -11,9 +11,12 @@ import { AboutPage } from '../pages/about/about';
 import { ResultsPage } from '../pages/results/results';
 import { HomePage } from '../pages/home/home';
 import {ExpandableComponent} from "../components/expandable/expandable";
+import {ShareComponent} from "../components/share/share";
+
 
 import { MizerProvider } from '../providers/mizer/mizer';
 import { SworkerProvider } from '../providers/sworker/sworker';
+
 
 
 enableProdMode();
@@ -24,7 +27,8 @@ enableProdMode();
     AboutPage,
     ResultsPage,
     HomePage,
-    ExpandableComponent
+    ExpandableComponent,
+    ShareComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,8 @@ enableProdMode();
     AboutPage,
     ResultsPage,
     HomePage,
-    ExpandableComponent
+    ExpandableComponent,
+    ShareComponent
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

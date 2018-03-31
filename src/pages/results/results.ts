@@ -11,10 +11,9 @@ import {SworkerProvider} from "../../providers/sworker/sworker";
   providers: [MizerProvider]
 })
 export class ResultsPage {
-  isShareable       = false;
+
   mizer             = {};
   menu              = [];
-  _window:any       = window.navigator;
   isLoadingFinished = false;
   price;
   order;
@@ -37,32 +36,13 @@ export class ResultsPage {
   ) {
 
     this.order = this.optimizer.parseParams(this.navParams.data);
-    this.isShareable = this._window && this._window.share;
+
 
     if(this.sw.getNetworkState())
       this.menumize();
     else{
 
     }
-  }
-
-  share()
-  {
-    this._window.share({
-        title: 'Menumizer',
-        text: `Take a look at my Mizer for ${this.navParams.get("outlet")} I pay only $${this.price}`,
-        url: `
-        https://app.menumizer.com/#/results/
-        ${this.navParams.get("outlet")}/
-        ${this.order['chicken_count']}/
-        ${this.order['side_count']}/
-        ${this.order['drink_count']}/
-        ${this.order['popcorn_count']}/
-        ${this.order['sandwich_count']}
-       `
-      })
-      .then(() => console.log('Successful share'))
-      .catch((error) => console.log('Error sharing', error));
   }
 
   expandItem(item)
