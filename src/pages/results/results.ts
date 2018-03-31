@@ -1,27 +1,24 @@
 import { Component } from '@angular/core';
-import {LoadingController, NavParams} from 'ionic-angular';
-import {OptimizerProvider} from "../../providers/optimizer/optimizer";
+import {AlertController, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {MizerProvider} from "../../providers/mizer/mizer";
+import {HomePage} from "../home/home";
+import {SworkerProvider} from "../../providers/sworker/sworker";
 
 
 @Component({
   selector: 'page-results',
   templateUrl: 'results.html',
-  providers: [OptimizerProvider]
+  providers: [MizerProvider]
 })
 export class ResultsPage {
-  shareable  = false;
-  mizer = {};
-  menu=[];
+  isShareable       = false;
+  mizer             = {};
+  menu              = [];
+  _window:any       = window.navigator;
+  isLoadingFinished = false;
   price;
-  //service should return this obj in future, cause its specific to kfc
-  order={
-    chicken_count: parseInt(this.navParams.get('chicken_count')),
-    side_count: parseInt(this.navParams.get('side_count')),
-    drink_count: parseInt(this.navParams.get('drink_count')),
-    popcorn_count: parseInt(this.navParams.get('popcorn_count')),
-    sandwich_count: parseInt(this.navParams.get('sandwich_count'))
-  };
-  //service should return this too
+  order;
+
   totals={
     chicken_count: 0,
     side_count: 0,
@@ -29,36 +26,85 @@ export class ResultsPage {
     popcorn_count: 0,
     sandwich_count: 0
   };
-  newVariable: any;
-  loadingFinished = false;
 
-  constructor(public navParams: NavParams, private optimizer:OptimizerProvider, loadingCtrl:LoadingController) {
-    this.items = [
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false}
-    ];
+  constructor(
+    private navParams: NavParams,
+    private optimizer:MizerProvider,
+    private navCtrl: NavController,
+    private loadingCtrl:LoadingController,
+    private sw:SworkerProvider,
+    private alertCtrl: AlertController
+  ) {
 
-    this.newVariable = window.navigator;
+    this.order = this.optimizer.parseParams(this.navParams.data);
+    this.isShareable = this._window && this._window.share;
 
-    if (this.newVariable && this.newVariable.share) {
-      this.shareable = true;
+    if(this.sw.getNetworkState())
+      this.menumize();
+    else{
+
     }
+  }
 
-    let loading = loadingCtrl.create({
+  share()
+  {
+    this._window.share({
+        title: 'Menumizer',
+        text: `Take a look at my Mizer for ${this.navParams.get("outlet")} I pay only $${this.price}`,
+        url: `
+        https://app.menumizer.com/#/results/
+        ${this.navParams.get("outlet")}/
+        ${this.order['chicken_count']}/
+        ${this.order['side_count']}/
+        ${this.order['drink_count']}/
+        ${this.order['popcorn_count']}/
+        ${this.order['sandwich_count']}
+       `
+      })
+      .then(() => console.log('Successful share'))
+      .catch((error) => console.log('Error sharing', error));
+  }
+
+  expandItem(item)
+  {
+    for(let combo in this.mizer){
+      if(combo == item)this.mizer[combo].expanded= !this.mizer[combo].expanded;
+      else this.mizer[combo].expanded= false;
+    }
+  }
+
+  offlineModal = ()=>
+  {
+    this.alertCtrl.create({
+      title: 'App is offline',
+      message: 'You are offline. Should Menumizer remember and notify you when its ready? (You will need to grant notification permission)',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            this.navCtrl.setRoot(HomePage);
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.navCtrl.setRoot(HomePage);
+          }
+        }
+      ]
+    }).present();
+  };
+
+  menumize = ()=>
+  {
+    let loading = this.loadingCtrl.create({
       spinner: 'crescent',
       content: 'Optimizing...'
     });
 
     loading.present();
-
-    this.optimizer.sendOrder(this.order, this.navParams.get("outlet"))
+    this.optimizer.sendOrder(this.order)
       .subscribe(res=>{
         this.menu = Object.keys(res.optimal_deal);
         this.mizer = res.optimal_deal;
@@ -71,34 +117,13 @@ export class ResultsPage {
           this.mizer[combo].expanded=false;
         }
 
-        this.loadingFinished = true;
+        this.isLoadingFinished = true;
         loading.dismiss();
       }, error=>{
-        this.loadingFinished = true;
+        this.isLoadingFinished = true;
         loading.dismiss();
       });
-  }
 
-  share(){
-
-    this.newVariable.share({
-      title: 'Menumizer',
-      text: `Take a look at my Mizer for ${this.navParams.get("outlet")} I pay only $${this.price}`,
-      url: `https://app.menumizer.com/#/results/${this.navParams.get("outlet")}/${this.order.chicken_count}/${this.order.side_count}/${this.order.drink_count}/${this.order.popcorn_count}/${this.order.sandwich_count}`,
-    })
-      .then(() => console.log('Successful share'))
-      .catch((error) => console.log('Error sharing', error));
-  }
-
-  items: any = [];
-
-
-  expandItem(item){
-    // console.log('expanded');
-    for(let combo in this.mizer){
-      if(combo == item)this.mizer[combo].expanded= !this.mizer[combo].expanded;
-      else this.mizer[combo].expanded= false;
-    }
   }
 
 }

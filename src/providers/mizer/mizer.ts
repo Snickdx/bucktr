@@ -4,19 +4,14 @@ import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError} from "rxjs/operators";
 import {environment} from "../../app/environment";
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
-
-
 @Injectable()
-export class OptimizerProvider {
+export class MizerProvider {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient)
+  { }
 
-  private static handleError(error: HttpErrorResponse) {
+  private static handleError(error: HttpErrorResponse)
+  {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
@@ -32,16 +27,29 @@ export class OptimizerProvider {
       'Something bad happened; please try again later.');
   };
 
-  public sendOrder(order, outlet){
-    let options = outlet;
+  public parseParams(params)
+  {
+    return Object.keys(params).reduce((acc, ele)=>{
+      acc[ele] = ele == "outlet" ? params[ele] : parseInt(params[ele]);
+      return acc;
+    }, {});
+  };
+
+  public sendOrder(order)
+  {
+    let options = "";
 
     for(let key in order){
-      options+= "/"+order[key];
+      options+= order[key]+"/";
     }
-    return this.http.get(environment.backend+options, httpOptions)
-      .pipe(
-        catchError(OptimizerProvider.handleError)
-      );
+
+    return this.http.get(
+      environment.backend+options,
+      {headers: new HttpHeaders({'Content-Type': 'application/json'})}
+      )
+    .pipe(
+      catchError(MizerProvider.handleError)
+    );
 
   }
 

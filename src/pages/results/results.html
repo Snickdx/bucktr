@@ -26,10 +26,10 @@
 </ion-header>
 
 <ion-content id="results"  style="background-color:#f05742;">
-  <div *ngIf="loadingFinished" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
+  <div *ngIf="isLoadingFinished" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
 
     <ion-scroll scrollY="true" id="results-list2" style="height: 45vh;">
-      <button ion-item  id="results-list-item-container3" *ngFor="let combo of menu" (click)="expandItem(combo)">
+      <button ion-item color="primary" id="results-list-item-container3" *ngFor="let combo of menu" (click)="expandItem(combo)">
 
         <ion-row align-items-baseline >
           <ion-col col-1>
@@ -103,7 +103,7 @@
 
 
 
-    <button ion-button color="dark" block *ngIf="shareable" (click)="share()">Share</button>
+    <button ion-button color="dark" block *ngIf="isShareable" (click)="share()">Share</button>
     <!--<button  ion-button color="dark" block class="fb-share-button" data-href="https://fixmehup.firebaseapp.com/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffixmehup.firebaseapp.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></button>-->
   </div>
 

@@ -2,13 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {ToastController} from "ionic-angular";
 
-
-/*
-  Generated class for the SworkerProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class SworkerProvider {
 
@@ -19,13 +12,13 @@ export class SworkerProvider {
   reopen  = localStorage.getItem("menumizer-started");
   online = true;
 
-
-  constructor(public http: HttpClient, public toastCtrl: ToastController) {
+  constructor(public http: HttpClient, public toastCtrl: ToastController)
+  {
 
   }
 
-
-  register(){
+  register()
+  {
     window.addEventListener('load', ()=> {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('service-worker.js', {scope:"/"})
@@ -68,25 +61,29 @@ export class SworkerProvider {
     });
   }
 
-  static getRegistration(){
+  static getRegistration()
+  {
     if('serviceWorker' in navigator)
       return navigator.serviceWorker.getRegistration();
 
   }
 
-  async skipWaiting(){
+  async skipWaiting()
+  {
     this.registration = await SworkerProvider.getRegistration();
     if(this.registration.installing){
       this.registration.skipWaiting().then(e=>console.log(e));
     }
   }
 
-  reload(){
+  reload()
+  {
     this.toastShowing = true;
     location.reload(true);
   }
 
-  listenForWaitingServiceWorker(reg, callback) {
+  listenForWaitingServiceWorker(reg, callback)
+  {
     function awaitStateChange() {
       reg.installing.addEventListener('statechange', function() {
         if (this.state === 'installed') callback(reg);
@@ -98,11 +95,13 @@ export class SworkerProvider {
     reg.addEventListener('updatefound', awaitStateChange);
   }
 
-  getNetworkState(){
+  getNetworkState()
+  {
     return this.online;
   }
 
-  monitorNetworkState(onlineHandler, offlineHandler){
+  monitorNetworkState(onlineHandler, offlineHandler)
+  {
     window.addEventListener('load', ()=>{
       console.log("state monitoring");
       window.addEventListener('online', event =>{
@@ -120,6 +119,11 @@ export class SworkerProvider {
         }
       });
     });
+  }
+
+  async isCached(url, cacheName)
+  {
+
   }
 
 }

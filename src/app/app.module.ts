@@ -12,7 +12,7 @@ import { ResultsPage } from '../pages/results/results';
 import { HomePage } from '../pages/home/home';
 import {ExpandableComponent} from "../components/expandable/expandable";
 
-import { OptimizerProvider } from '../providers/optimizer/optimizer';
+import { MizerProvider } from '../providers/mizer/mizer';
 import { SworkerProvider } from '../providers/sworker/sworker';
 
 
@@ -68,7 +68,7 @@ enableProdMode();
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    OptimizerProvider,
+    MizerProvider,
     HttpClientModule,
     SworkerProvider
   ]
