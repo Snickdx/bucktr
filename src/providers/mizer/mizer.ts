@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError} from "rxjs/operators";
 import {environment} from "../../app/environment";
-import {AlertController, LoadingController} from "ionic-angular";
+import {AlertController, LoadingController, NavController} from "ionic-angular";
 import {SworkerProvider} from "../sworker/sworker";
+import {HomePage} from "../../pages/home/home";
 
 @Injectable()
-export class MizerProvider {
+export class MizerProvider{
 
   constructor(
     public http: HttpClient,
@@ -42,29 +43,75 @@ export class MizerProvider {
     }, {});
   };
 
-  public async sendOrder(order, outlet)
+  // public offlineRedirect()
+  // {
+  //   this.alertCtrl.create({
+  //     title: 'App is offline',
+  //     message: 'You are offline. Should Menumizer remember and notify you when its ready? (You will need to grant notification permission)',
+  //     buttons: [
+  //       {
+  //         text: 'No',
+  //         role: 'cancel',
+  //         handler: () => {
+  //           this.navCtrl.setRoot(HomePage);
+  //         }
+  //       },
+  //       {
+  //         text: 'Yes',
+  //         handler: () => {
+  //           this.navCtrl.setRoot(HomePage);
+  //         }
+  //       }
+  //     ]
+  //   }).present();
+  // }
+
+  static getUrlFromOrder(order, outlet)
   {
-
-    let options = outlet+"/";
-
+    let url = environment.backend+outlet+"/";
     for(let key in order){
-      options+= order[key]+"/";
+      url+=order[key]+"/";
+    }
+    return url;
+  }
+
+  static async transformPromise(mizerPromise, order)
+  {
+    const data = await mizerPromise;
+
+    let result = {
+      totals: {},
+      price: data.price,
+      mizer : data.optimal_deal
+    };
+
+    for(let combo in result.mizer){
+      for(let item in order){
+        let acc = result.totals.hasOwnProperty(item) ? result.totals[item] : 0;
+        result.totals[item]= acc + result.mizer[combo].count * result.mizer[combo][item];
+      }
+      result.mizer[combo].expanded = false;
     }
 
-    let subscription = this.http.get(
-      environment.backend+options,
-      {headers: new HttpHeaders({'Content-Type': 'application/json'})}
-      );
+    return result;
+  }
 
-    subscription.pipe(
-      catchError(MizerProvider.handleError)
-    );
+  public async run(order, outlet)
+  {
 
-    let data = Object.assign(await subscription.toPromise());
+    let url = MizerProvider.getUrlFromOrder(order, outlet);
 
+    // console.log(url);
 
-    return data;
+    // SworkerProvider.isCached(url, "mizers");
+
+    const sub = this.http.get(url, {headers: new HttpHeaders({'Content-Type': 'application/json'})});
+
+    sub.pipe(catchError(MizerProvider.handleError));
+
+    return MizerProvider.transformPromise(sub.toPromise(), order);
 
   }
+
 
 }

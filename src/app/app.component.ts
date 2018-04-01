@@ -25,7 +25,7 @@ export class MyApp {
     });
     // console.log(environment, environment.version);
     sw.register();
-    console.log("monitoring");
+
     sw.monitorNetworkState(event=>{
       this.online = true;
       console.log("App is online");

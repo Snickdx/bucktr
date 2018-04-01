@@ -3,15 +3,6 @@ import {NavController, NavParams} from 'ionic-angular';
 import {KfcOpPage} from "./kfc-op/kfc-op";
 
 
-export interface kfcOrder {
-  chicken_count: number;
-  side_count: number,
-  drink_count: number,
-  popcorn_count: number,
-  sandwich_count: number
-}
-
-
 @Component({
   selector: 'page-optimizer',
   templateUrl: 'optimizer.html'

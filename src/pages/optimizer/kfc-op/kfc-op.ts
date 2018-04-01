@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import {KfcPage} from "../../results/kfc/kfc";
+import {OptimizerPage} from "../optimizer";
 
 export interface kfcOrder {
   chicken_count: number;
@@ -25,16 +26,14 @@ export class KfcOpPage {
     drink_count: 0,
     popcorn_count: 0,
     sandwich_count: 0
-  };
-
-  // change(){
-  //   this.navCtrl.setRoot(OptimizerPage, {outlet: this.outlet});
-  // }
-
+  } as kfcOrder;
 
   constructor(public navCtrl: NavController, public nav:NavController) {
     this.outlet = "kfc";
+  }
 
+  change(){
+    this.navCtrl.setRoot(OptimizerPage, {outlet: this.outlet});
   }
 
   increment(key){
@@ -44,7 +43,6 @@ export class KfcOpPage {
   decrement(key){
     if(this.model[key] > 0)this.model[key]--;
   }
-
 
   goToResults(){
     this.navCtrl.push(KfcPage, this.model);

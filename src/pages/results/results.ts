@@ -16,7 +16,6 @@ export class ResultsPage {
   constructor(
     private navParams: NavParams,
   ) {
-    console.log(this.navParams.data);
     switch(this.navParams.data['outlet']){
       case "kfc":this.curPage = KfcPage;
     }

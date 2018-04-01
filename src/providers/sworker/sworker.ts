@@ -103,7 +103,6 @@ export class SworkerProvider {
   monitorNetworkState(onlineHandler, offlineHandler)
   {
     window.addEventListener('load', ()=>{
-      console.log("state monitoring");
       window.addEventListener('online', event =>{
         console.log(navigator.onLine);
         if(navigator.onLine){
@@ -121,9 +120,11 @@ export class SworkerProvider {
     });
   }
 
-  async isCached(url, cacheName)
+  static async isCached(url, cacheName)
   {
-
+    let req = new Request(url);
+    let res = await caches.match(req, {cacheName: cacheName});
+    console.log(res);
   }
 
 }
