@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError} from "rxjs/operators";
 import {environment} from "../../app/environment";
-import {AlertController, LoadingController, NavController} from "ionic-angular";
+import {AlertController, LoadingController} from "ionic-angular";
 import {SworkerProvider} from "../sworker/sworker";
-import {HomePage} from "../../pages/home/home";
+
 
 @Injectable()
 export class MizerProvider{
@@ -17,6 +17,7 @@ export class MizerProvider{
     public loadingCtrl: LoadingController
   )
   { }
+
 
   private static handleError(error: HttpErrorResponse)
   {
@@ -43,29 +44,6 @@ export class MizerProvider{
     }, {});
   };
 
-  // public offlineRedirect()
-  // {
-  //   this.alertCtrl.create({
-  //     title: 'App is offline',
-  //     message: 'You are offline. Should Menumizer remember and notify you when its ready? (You will need to grant notification permission)',
-  //     buttons: [
-  //       {
-  //         text: 'No',
-  //         role: 'cancel',
-  //         handler: () => {
-  //           this.navCtrl.setRoot(HomePage);
-  //         }
-  //       },
-  //       {
-  //         text: 'Yes',
-  //         handler: () => {
-  //           this.navCtrl.setRoot(HomePage);
-  //         }
-  //       }
-  //     ]
-  //   }).present();
-  // }
-
   static getUrlFromOrder(order, outlet)
   {
     let url = environment.backend+outlet+"/";
@@ -81,7 +59,7 @@ export class MizerProvider{
 
     let result = {
       totals: {},
-      price: data.price,
+      price: data.trans_info.price,
       mizer : data.optimal_deal
     };
 
@@ -98,19 +76,22 @@ export class MizerProvider{
 
   public async run(order, outlet)
   {
+    console.log("Optimizer started");
 
     let url = MizerProvider.getUrlFromOrder(order, outlet);
 
-    // console.log(url);
+    let isCached = await SworkerProvider.isCached(url, "mizers");
 
-    // SworkerProvider.isCached(url, "mizers");
+    console.log(isCached?"This request was cached":"This request was not cached");
 
-    const sub = this.http.get(url, {headers: new HttpHeaders({'Content-Type': 'application/json'})});
+    if(isCached || this.sw.isOnline() ){
+      const sub = this.http.get(url, {headers: new HttpHeaders({'Content-Type': 'application/json'})});
 
-    sub.pipe(catchError(MizerProvider.handleError));
+      sub.pipe(catchError(MizerProvider.handleError));
 
-    return MizerProvider.transformPromise(sub.toPromise(), order);
-
+      return MizerProvider.transformPromise(sub.toPromise(), order);
+    }
+    return null;
   }
 
 

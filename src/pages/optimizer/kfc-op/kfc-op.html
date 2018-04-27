@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar class="toolbar-md-primary">
+  <ion-navbar class=" md toolbar-md-primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -24,15 +24,13 @@
     <div col-md-2 col-lg-4></div>
   </div>
 
-  <div class="spacer" style="width:300px;height:5vh;"></div>
-
   <div>
     <h1 id="optimizer-heading1" style="color:#FFFFFF;text-align:center;">
       I would like....
     </h1>
 
     <div id="optimizer-container1" ion-row>
-      <div col-md-2 col-lg-4></div>
+
       <div ion-col>
         <button id="optimizer-button1" ion-col (click)="increment('chicken_count')"  ion-button color="primary">
           <ion-icon name="arrow-up"></ion-icon>
@@ -58,11 +56,11 @@
           <ion-icon name="arrow-up"></ion-icon>
         </button>
       </div>
-      <div col-md-2 col-lg-4></div>
+
     </div>
 
     <div class="row">
-      <div col-md-2 col-lg-4></div>
+
       <div class="col" style="text-align: center">
         <h1 style="color:#FFFFFF;">
           {{model.chicken_count}}
@@ -88,11 +86,11 @@
           {{model.sandwich_count}}
         </h1>
       </div>
-      <div col-md-2 col-lg-4></div>
+
     </div>
 
     <div class="row">
-      <div col-md-2 col-lg-4></div>
+
 
       <div ion-col>
         <button id="optimizer-button6" ion-col (click)="decrement('chicken_count')" ion-button color="primary">
@@ -124,11 +122,10 @@
         </button>
       </div>
 
-      <div col-md-2 col-lg-4></div>
     </div>
 
     <div class="row">
-      <div col-md-2 col-lg-4></div>
+
       <div ion-col style="text-align: center">
         <p style="color:#FFFFFF;">
           Pieces
@@ -154,10 +151,8 @@
           Sandwich
         </p>
       </div>
-      <div col-md-2 col-lg-4></div>
-    </div>
 
-    <div class="spacer" style="width:300px;height:10vh;"></div>
+    </div>
 
     <button id="optimizer-button11" ion-button color="dark" offset-md-4 col-md-4 block on-click="goToResults()">
       GO

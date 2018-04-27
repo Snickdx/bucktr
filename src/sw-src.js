@@ -1,6 +1,4 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
-// importScripts('../node_modules/workbox-sw/build/workbox-sw.js');
-
 
 workbox.setConfig({debug: true});
 
@@ -22,26 +20,28 @@ const orderQueue = new workbox.backgroundSync.Queue("order-queue", {
   }
 });
 
+workbox.precaching.precacheAndRoute([]);
+
+//for handling updates https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68
+addEventListener('message', messageEvent => {
+  console.log("message received in sw!");
+  if (messageEvent.data === 'skipWaiting') return skipWaiting();
+});
+
+workbox.googleAnalytics.initialize();
 
 workbox.routing.registerRoute(
   new RegExp('https://us-central1-fixmehup.cloudfunctions.net/menumize/(.*)'),
   workbox.strategies.staleWhileRevalidate({
-    cacheName:"mizers"
+   cacheName:"mizers",
+   plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 7 * 24 * 60 * 60,
+        maxEntries: 20,
+      }),
+    ]
   })
-);
-
-
-workbox.precaching.precacheAndRoute([]);
-
-
-//for handling updates https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68
-addEventListener('message', messageEvent => {
-  if (messageEvent.data === 'skipWaiting') return skipWaiting();
-});
-
-
-workbox.googleAnalytics.initialize();
-
+)
 
 workbox.routing.registerRoute(
   /\.(?:js|css)$/,
@@ -76,8 +76,6 @@ workbox.routing.registerRoute(
     cacheName: 'gstatic',
   }),
 );
-
-
 
 workbox.routing.registerRoute(
   new RegExp('/assets/(.*)'),

@@ -35,7 +35,7 @@
   "devDependencies": {
     "@angular/cli": "^1.6.8",
     "@ionic/app-scripts": "3.1.8",
-    "firebase-tools": "^3.17.6",
+    "firebase-tools": "^3.18.4",
     "ionic": "3.20.0",
     "npm-run-all": "^4.1.2",
     "typescript": "2.4.2",

@@ -23,10 +23,10 @@ export class MyApp {
     platform.ready().then(() => {
 
     });
-    // console.log(environment, environment.version);
+
     sw.register();
 
-    sw.monitorNetworkState(event=>{
+    sw.networkStateChanged(event=>{
       this.online = true;
       console.log("App is online");
     }, event=>{

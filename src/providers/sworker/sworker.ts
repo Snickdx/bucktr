@@ -17,12 +17,31 @@ export class SworkerProvider {
 
   }
 
+  public messageSW(message){
+    return new Promise(function(resolve, reject) {
+      var messageChannel = new MessageChannel();
+      messageChannel.port1.onmessage = function(event) {
+        if (event.data.error) {
+          reject(event.data.error);
+        } else {
+          resolve(event.data);
+        }
+      };
+      // See https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
+      navigator.serviceWorker.controller.postMessage(message,
+        [messageChannel.port2]);
+    });
+  }
+
+
   register()
   {
     window.addEventListener('load', ()=> {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js', {scope:"/"})
+
+        navigator.serviceWorker.register('service-worker.js', {scope:"./"})
           .then(reg => {
+
             this.registered = true;
             this.registration = reg;
 
@@ -35,10 +54,10 @@ export class SworkerProvider {
                   closeButtonText: "Update"
                 });
                 this.toastShowing = true;
-                toast.present().then(e=>console.log(e));
+                toast.present();
                 toast.onDidDismiss(()=>{
-                  if(reg.waiting)
-                    reg.waiting.postMessage('skipWaiting');
+
+                  if(reg.waiting)reg.waiting.postMessage('skipWaiting');
                   this.toastShowing = false;
                 });
               }
@@ -72,7 +91,7 @@ export class SworkerProvider {
   {
     this.registration = await SworkerProvider.getRegistration();
     if(this.registration.installing){
-      this.registration.skipWaiting().then(e=>console.log(e));
+      this.registration.skipWaiting().then(e=>console.log("Waiting Skipped!"));
     }
   }
 
@@ -95,12 +114,12 @@ export class SworkerProvider {
     reg.addEventListener('updatefound', awaitStateChange);
   }
 
-  getNetworkState()
+  isOnline()
   {
     return this.online;
   }
 
-  monitorNetworkState(onlineHandler, offlineHandler)
+  networkStateChanged(onlineHandler, offlineHandler)
   {
     window.addEventListener('load', ()=>{
       window.addEventListener('online', event =>{
@@ -120,11 +139,35 @@ export class SworkerProvider {
     });
   }
 
+  static async  getCachedData(name){
+    if('caches' in self){
+
+      const result = [];
+
+      const cache = await caches.open(name);
+
+      // Get a list of entries. Each item is a Request object
+      for (const request of await cache.keys()) {
+          result.push(await cache.match(request));
+      }
+      return result;
+    }else{
+      console.log("Caches not available");
+      return [];
+    }
+  }
+
   static async isCached(url, cacheName)
   {
-    let req = new Request(url);
-    let res = await caches.match(req, {cacheName: cacheName});
-    console.log(res);
+    if('caches' in self){
+      let cache = await caches.open(cacheName);
+      for (const request of await cache.keys()) {
+        if(request.url === url)return true;
+      }
+    }else{
+      console.log("Caches not available");
+    }
+    return false;
   }
 
 }

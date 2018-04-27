@@ -39,39 +39,44 @@ enableProdMode();
     HttpClientModule,
     FormsModule,
     CommonModule,
-    IonicModule.forRoot(MyApp, {}, {
-      links:[
-        {
-          component: ResultsPage,
-          name:'Results'
-        },
-        {
-          component: KfcPage,
-          name:'KfcResults',
-          segment:'results/kfc/:chicken_count/:side_count/:drink_count/:popcorn_count/:sandwich_count',
-          defaultHistory: [OptimizerPage]
-        },
-        {
-          component: KfcOpPage,
-          name:'KfcOptimizer'
-        },
-        {
-          component: OptimizerPage,
-          name:'optimizer/',
-          segment:'optimize/:outlet'
-        },
-        {
-          component: AboutPage,
-          name:'About',
-          segment:'about'
-        },
-        {
-          component: HomePage,
-          name:'Home',
-          segment:''
-        },
-      ]
-    })
+    IonicModule.forRoot(MyApp,
+      {
+        platform:"android"
+      },
+      {
+        links:[
+          {
+            component: ResultsPage,
+            name:'Results'
+          },
+          {
+            component: KfcPage,
+            name:'KfcResults',
+            segment:'results/kfc/:chicken_count/:side_count/:drink_count/:popcorn_count/:sandwich_count',
+            defaultHistory: [OptimizerPage]
+          },
+          {
+            component: KfcOpPage,
+            name:'KfcOptimizer'
+          },
+          {
+            component: OptimizerPage,
+            name:'optimizer/',
+            segment:'optimize/:outlet'
+          },
+          {
+            component: AboutPage,
+            name:'About',
+            segment:'about'
+          },
+          {
+            component: HomePage,
+            name:'Home',
+            segment:''
+          },
+        ]
+      }
+    )
   ],
   bootstrap: [IonicApp],
   entryComponents: [

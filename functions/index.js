@@ -45,6 +45,10 @@ app.get('/kfc/:chicken_amount/:side_amount/:drink_amount/:popcorn_amount/:sandwi
   dbref.child("/count"+options).transaction(val=>{
     return (val || 0) + 1
   });
+  
+  dbref.child("/totalMizers").transaction(val=>{
+    return (val || 0) + 1
+  });
 
   
 });
