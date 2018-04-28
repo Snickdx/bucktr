@@ -10,6 +10,31 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "headers": [
+        {
+        "source" : "**/*.@(html|js|css)",
+        "headers" : [
+          {
+            "key" : "Cache-Control",
+            "value" : "max-age=0"
+          }
+        ]
+      },
+      {
+        "source": "/",
+        "headers": [{"key": "Link", "value": "</build/main.js>;rel=preload;as=script;nopush,</build/main.css>;rel=preload;as=style;nopush"}]
+      },
+      {
+        "source": "https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js'",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=0"
+          }
+        ]
+      }
+    ],
+    "trailingSlash":false,
     "rewrites": [
       {
         "source": "**",

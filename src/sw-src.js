@@ -4,21 +4,21 @@ workbox.setConfig({debug: true});
 
 workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
-const orderQueue = new workbox.backgroundSync.Queue("order-queue", {
-  callbacks: {
-    requestWillEnqueue: (req) => console.log("Offline, queueing req: ", req),
-    queueDidReplay: (reqs)=> {
-      console.log(reqs);
-      self.registration.showNotification("Results sent in background", {
-        body: "Menumizer your results are ready!",
-        icon: "assets/icon/android-icon-144x144.png",
-        tag: "results-sync"
-      })
-    },
-    requestWillReplay: (req)=> console.log(req),
-    maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
-  }
-});
+// const orderQueue = new workbox.backgroundSync.Queue("order-queue", {
+//   callbacks: {
+//     requestWillEnqueue: (req) => console.log("Offline, queueing req: ", req),
+//     queueDidReplay: (reqs)=> {
+//       console.log(reqs);
+//       self.registration.showNotification("Results sent in background", {
+//         body: "Menumizer your results are ready!",
+//         icon: "assets/icon/android-icon-144x144.png",
+//         tag: "results-sync"
+//       })
+//     },
+//     requestWillReplay: (req)=> console.log(req),
+//     maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
+//   }
+// });
 
 workbox.precaching.precacheAndRoute([]);
 
@@ -37,11 +37,11 @@ workbox.routing.registerRoute(
    plugins: [
       new workbox.expiration.Plugin({
         maxAgeSeconds: 7 * 24 * 60 * 60,
-        maxEntries: 20,
+        maxEntries: 10,
       }),
     ]
   })
-)
+);
 
 workbox.routing.registerRoute(
   /\.(?:js|css)$/,
@@ -50,18 +50,6 @@ workbox.routing.registerRoute(
   }),
 );
 
-workbox.routing.registerRoute(
-  /\.(?:png|gif|jpg|jpeg|svg)$/,
-  workbox.strategies.cacheFirst({
-    cacheName: 'images',
-    plugins: [
-      new workbox.expiration.Plugin({
-        maxEntries: 60,
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-      }),
-    ],
-  }),
-);
 
 workbox.routing.registerRoute(
   /.*(?:googleapis)\.com.*$/,
@@ -77,10 +65,6 @@ workbox.routing.registerRoute(
   }),
 );
 
-workbox.routing.registerRoute(
-  new RegExp('/assets/(.*)'),
-  workbox.strategies.staleWhileRevalidate({"cacheName":"assets"}),
-);
 
 
 addEventListener('fetch', event => {

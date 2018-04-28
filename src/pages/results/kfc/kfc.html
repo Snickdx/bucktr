@@ -45,14 +45,15 @@
 
 
         <ion-row align-items-end>
-          <expandable [expandHeight]="90" [expanded]="mizer[combo].expanded">
-            <ion-row align-items-end justify-content-start style="height: 90px">
-              <ion-col *ngIf="mizer[combo].chicken_count > 0" >Pieces: {{mizer[combo].chicken_count}} <ion-badge  color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
-              <ion-col *ngIf="mizer[combo].side_count > 0" >Sides: {{mizer[combo].side_count}} <ion-badge  color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
-              <ion-col *ngIf="mizer[combo].popcorn_count > 0" >Popcorn: {{mizer[combo].popcorn_count}} <ion-badge  color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
-              <ion-col *ngIf="mizer[combo].sandwich_count > 0" >Sandwiches: {{mizer[combo].sandwich_count}} <ion-badge  color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
-              <ion-col *ngIf="mizer[combo].drink_count > 0" >Drinks: {{mizer[combo].drink_count}} <ion-badge  color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
-              <ion-col> Price: ${{mizer[combo].price}} <ion-badge  color="danger">x{{mizer[combo].count}}</ion-badge> = {{mizer[combo].price * mizer[combo].count}}</ion-col>
+          <expandable [expandHeight]="100" [expanded]="mizer[combo].expanded">
+            <ion-row align-items-end justify-content-start style="height: 100px">
+              <ion-col *ngIf="mizer[combo].chicken_count > 0" >Pieces: {{mizer[combo].chicken_count}} <ion-badge *ngIf="mizer[combo].count > 1" color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
+              <ion-col *ngIf="mizer[combo].side_count > 0" >Sides: {{mizer[combo].side_count}} <ion-badge *ngIf="mizer[combo].count > 1" color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
+              <ion-col *ngIf="mizer[combo].popcorn_count > 0" >Popcorn: {{mizer[combo].popcorn_count}} <ion-badge *ngIf="mizer[combo].count > 1" color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
+              <ion-col *ngIf="mizer[combo].sandwich_count > 0" >Sandwiches: {{mizer[combo].sandwich_count}} <ion-badge *ngIf="mizer[combo].count > 1" color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
+              <ion-col *ngIf="mizer[combo].drink_count > 0" >Drinks: {{mizer[combo].drink_count}} <ion-badge *ngIf="mizer[combo].count > 1" color="danger">x{{mizer[combo].count}}</ion-badge></ion-col>
+              <ion-col *ngIf="mizer[combo].count == 1" col-12> Total Price: $ {{mizer[combo].price}}</ion-col>
+              <ion-col *ngIf="mizer[combo].count > 1" col-12> Total Price: <ion-badge *ngIf="mizer[combo].count > 1" color="danger">${{mizer[combo].price * mizer[combo].count}}</ion-badge></ion-col>
             </ion-row>
           </expandable>
         </ion-row>

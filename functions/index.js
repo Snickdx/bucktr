@@ -6,7 +6,7 @@ const cors = require('cors')({origin: true});
 
 app.use(cors);
 
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
 app.get('/kfc/:chicken_amount/:side_amount/:drink_amount/:popcorn_amount/:sandwich_amount',  (req, res) => {
   
