@@ -6,23 +6,33 @@
       </ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content id="side-menu21" class="md">
-    <ion-list id="menu-list1" style="padding-right: 20px">
+  <ion-content id="side-menu21" class="md" style="overflow-y: hidden">
+    <ion-list id="menu-list1">
+      <ion-item color="primary">
+        <ion-label color="light">Select Restaurant</ion-label>
+        <ion-select [(ngModel)]="outlet" (ionChange)="change()" color="primary">
+          <ion-option value="kfc">Kentucky Fried Chicken</ion-option>
+        </ion-select>
+      </ion-item>
       <br>
-      <button ion-item  menuClose="" (click)="goToHome()" id="menu-list-item1">
+      <button ion-item  menuClose="" (click)="goToHome()">
         Home
       </button>
       <br>
-      <button ion-item  menuClose="" (click)="goToOptimizer()" id="menu-list-item2">
-        Optimizer
+      <button ion-item  menuClose="" (click)="goToOptimizer()" [disabled]="outlet === undefined">
+        Optimizer <span *ngIf="outlet === undefined">(Select Restaurant)</span>
+      </button>
+      <br/>
+      <button ion-item  menuClose="" (click)="goToRecent()">
+        Recent Mizers
       </button>
       <br>
-      <button ion-item  menuClose="" (click)="goToAbout()" id="menu-list-item3">
+      <button ion-item  menuClose="" (click)="goToAbout()">
         About
       </button>
     </ion-list>
 
-    <ion-row style="margin-top:45vh" >
+    <ion-row style="margin-top:30vh" >
       <ion-col>
         <button id="updateBtn"  ion-button col-10 offset-1 block (click)="doRefresh()">
           Reload App

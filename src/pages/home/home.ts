@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {OptimizerPage} from "../optimizer/optimizer";
+import {ConfigProvider} from "../../providers/config/config";
+import {KfcOpPage} from "../optimizer/kfc/kfcOptimizer";
 
 /**
  * Generated class for the HomePage page.
@@ -17,13 +18,19 @@ import {OptimizerPage} from "../optimizer/optimizer";
 export class HomePage {
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public config:ConfigProvider) {
+
   }
 
 
 
   change(outlet){
-    this.navCtrl.setRoot(OptimizerPage, {outlet: outlet});
+    this.config.changeRestaurant(outlet);
+    switch(outlet){
+      case "kfc": this.navCtrl.setRoot(KfcOpPage);
+        break;
+    }
+
   }
 
 }

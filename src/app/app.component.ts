@@ -3,38 +3,49 @@ import { Platform, Nav } from 'ionic-angular';
 
 
 import { AboutPage } from '../pages/about/about';
-import { OptimizerPage } from '../pages/optimizer/optimizer';
 import { HomePage} from "../pages/home/home";
 import { SworkerProvider} from "../providers/sworker/sworker";
 import {environment} from "./environment";
+import {RecentPage} from "../pages/recent/recent";
+import {ConfigProvider} from "../providers/config/config";
+import {KfcOpPage} from "../pages/optimizer/kfc/kfcOptimizer";
 
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers:[ConfigProvider]
 })
 export class MyApp {
   @ViewChild(Nav) navCtrl: Nav;
   rootPage:any = HomePage;
   version = environment.version;
-  online = true;
+  outlet=undefined;
 
-
-  constructor(platform: Platform, public sw:SworkerProvider) {
+  constructor(platform: Platform, public sw:SworkerProvider, public config:ConfigProvider) {
     platform.ready().then(() => {
 
     });
 
-    sw.register();
+    config.getSelectedRestaurant().then(res=>{
 
-    sw.networkStateChanged(event=>{
-      this.online = true;
-      console.log("App is online");
-    }, event=>{
-      this.online = false;
-      console.log("App is offline");
+      this.outlet = res.selected;
     });
+
+
+    //sw.register();
+
+    // sw.networkStateChanged(event=>{
+    //   this.online = true;
+    //   console.log("App is online");
+    // }, event=>{
+    //   this.online = false;
+    //   console.log("App is offline");
+    // });
   }
 
+  change(){
+    this.config.changeRestaurant(this.outlet);
+  }
 
   doRefresh() {
     this.sw.reload();
@@ -47,9 +58,17 @@ export class MyApp {
   }
   goToOptimizer(params){
     if (!params) params = {};
-    this.navCtrl.setRoot(OptimizerPage);
-  }goToAbout(params){
+    switch(this.outlet){
+      case "kfc": this.navCtrl.setRoot(KfcOpPage);
+      break;
+    }
+  }
+  goToAbout(params){
     if (!params) params = {};
     this.navCtrl.setRoot(AboutPage);
+  }
+  goToRecent(params){
+    if(!params)params =  {};
+    this.navCtrl.setRoot(RecentPage);
   }
 }

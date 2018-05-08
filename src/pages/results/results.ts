@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {NavParams} from 'ionic-angular';
 import {MizerProvider} from "../../providers/mizer/mizer";
-import {KfcPage} from "./kfc/kfc";
+import {KfcPage} from "./kfc/kfcResults";
 
 
 @Component({

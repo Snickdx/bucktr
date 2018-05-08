@@ -15,8 +15,7 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-.item-md.item-block .item-inner {
-  padding-right: 8px;
-  border-bottom: 1px solid #222222;
-}
+.scroll-content{
+  overflow-y: auto;
 
+}

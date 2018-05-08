@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import {KfcPage} from "../../results/kfc/kfc";
+import {KfcPage} from "../../results/kfc/kfcResults";
 import {OptimizerPage} from "../optimizer";
 
 export interface kfcOrder {
@@ -14,7 +14,7 @@ export interface kfcOrder {
 @IonicPage()
 @Component({
   selector: 'page-kfc-op',
-  templateUrl: 'kfc-op.html',
+  templateUrl: 'kfcOptimizer.html',
 })
 export class KfcOpPage {
 

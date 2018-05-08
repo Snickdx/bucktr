@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {KfcOpPage} from "./kfc-op/kfc-op";
+import {KfcOpPage} from "./kfc/kfcOptimizer";
 
 
 @Component({

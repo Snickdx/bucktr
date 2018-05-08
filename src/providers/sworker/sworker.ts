@@ -13,13 +13,12 @@ export class SworkerProvider {
   online = true;
 
   constructor(public http: HttpClient, public toastCtrl: ToastController)
+  {}
+
+  public messageSW(message)
   {
-
-  }
-
-  public messageSW(message){
     return new Promise(function(resolve, reject) {
-      var messageChannel = new MessageChannel();
+      let messageChannel = new MessageChannel();
       messageChannel.port1.onmessage = function(event) {
         if (event.data.error) {
           reject(event.data.error);
@@ -74,8 +73,6 @@ export class SworkerProvider {
             window.location.reload();
           }
         );
-
-
       }
     });
   }

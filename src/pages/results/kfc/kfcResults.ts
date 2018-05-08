@@ -8,7 +8,7 @@ import {HomePage} from "../../home/home";
 @IonicPage()
 @Component({
   selector: 'page-kfc',
-  templateUrl: 'kfc.html',
+  templateUrl: 'kfcResults.html',
 })
 export class KfcPage {
 
