@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {SworkerProvider} from "../../providers/sworker/sworker";
 
 /**
  * Generated class for the RecentPage page.
@@ -15,11 +16,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RecentPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  mizers;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public sw:SworkerProvider) {
+    this.loadMizers();
+  }
+
+  async loadMizers(){
+    // this.mizers = await SworkerProvider.getCachedData("mizers");
+    console.log(this.mizers);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RecentPage');
+
   }
 
 }

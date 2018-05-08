@@ -40,7 +40,7 @@
     "npm-run-all": "^4.1.2",
     "typescript": "2.4.2",
     "workbox-cli": "^3.1.0",
-    "workbox-sw": "^3.0.0"
+    "workbox-sw": "^3.2.0"
   },
   "description": "An Ionic project"
 }

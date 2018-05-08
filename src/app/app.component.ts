@@ -20,6 +20,7 @@ export class MyApp {
   rootPage:any = HomePage;
   version = environment.version;
   outlet=undefined;
+  online = true;
 
   constructor(platform: Platform, public sw:SworkerProvider, public config:ConfigProvider) {
     platform.ready().then(() => {
@@ -32,15 +33,15 @@ export class MyApp {
     });
 
 
-    //sw.register();
+    sw.register();
 
-    // sw.networkStateChanged(event=>{
-    //   this.online = true;
-    //   console.log("App is online");
-    // }, event=>{
-    //   this.online = false;
-    //   console.log("App is offline");
-    // });
+    sw.networkStateChanged(event=>{
+      this.online = true;
+      console.log("App is online");
+    }, event=>{
+      this.online = false;
+      console.log("App is offline");
+    });
   }
 
   change(){

@@ -1,8 +1,8 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js');
 
-workbox.setConfig({debug: true});
+workbox.setConfig({debug: false});
 
-workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
+// workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
 // const orderQueue = new workbox.backgroundSync.Queue("order-queue", {
 //   callbacks: {
@@ -32,7 +32,7 @@ workbox.googleAnalytics.initialize();
 
 workbox.routing.registerRoute(
   new RegExp('https://us-central1-fixmehup.cloudfunctions.net/menumize/(.*)'),
-  workbox.strategies.staleWhileRevalidate({
+  workbox.strategies.cacheFirst({
    cacheName:"mizers",
    plugins: [
       new workbox.expiration.Plugin({
