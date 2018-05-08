@@ -9,7 +9,7 @@
     "clean": "ionic-app-scripts clean",
     "build": "npm-run-all ionic:build build-sw",
     "lint": "ionic-app-scripts lint",
-    "ionic:build": "ionic-app-scripts build --prod --generateSourceMap false",
+    "ionic:build": "ionic-app-scripts build --prod --release",
     "ionic:serve": "ionic-app-scripts serve",
     "deploy": "firebase deploy --only hosting",
     "emulate": "firebase serve --only functions"
@@ -39,7 +39,7 @@
     "ionic": "3.20.0",
     "npm-run-all": "^4.1.2",
     "typescript": "2.4.2",
-    "workbox-cli": "^3.0.0",
+    "workbox-cli": "^3.1.0",
     "workbox-sw": "^3.0.0"
   },
   "description": "An Ionic project"
