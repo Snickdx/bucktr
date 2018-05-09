@@ -136,7 +136,21 @@ export class SworkerProvider {
     });
   }
 
+  //parses a url returns order object
+  //array destructing and object prop value shorthand
+  static kfcUrlSerialzer([chicken_count, side_count, drink_count, popcorn_count, sandwich_count]){
+    return {chicken_count, side_count, drink_count, popcorn_count, sandwich_count};
+  }
+
+  static getOrderFromUrl(url){
+    let str = url.split("/");
+    switch (str[4]){
+      case "kfc": return this.kfcUrlSerialzer(str.slice(5));
+    }
+  }
+
   static async  getCachedData(name){
+
     if('caches' in self){
 
       const result = [];
@@ -145,7 +159,11 @@ export class SworkerProvider {
 
       // Get a list of entries. Each item is a Request object
       for (const request of await cache.keys()) {
-          result.push(await cache.match(request));
+
+        let res = await cache.match(request);
+        let mizer = await res.json();
+        mizer.order = SworkerProvider.getOrderFromUrl(res.url);
+        result.push(mizer);
       }
       return result;
     }else{
