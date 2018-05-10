@@ -32,17 +32,14 @@
       </button>
     </ion-list>
 
-    <ion-row style="margin-top:30vh" >
+    <ion-row style="margin-top:100px" >
       <ion-col>
         <button id="updateBtn"  ion-button col-10 offset-1 block (click)="doRefresh()">
-          Reload App
+          Reload (force updates)
         </button>
-        <ion-row>
-          <ion-col offset-1 col-10>
-            <p>In case app is not updating</p>
-          </ion-col>
-        </ion-row>
-
+        <button *ngIf="!installed" id="installBtn" ion-button col-10 offset-1 block (click)="install()">
+          Install App
+        </button>
       </ion-col>
     </ion-row>
   </ion-content>

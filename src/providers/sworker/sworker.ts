@@ -11,6 +11,7 @@ export class SworkerProvider {
   toastShowing = false;
   reopen  = localStorage.getItem("menumizer-started");
   online = true;
+  deferredPrompt;
 
   constructor(public http: HttpClient, public toastCtrl: ToastController)
   {}
@@ -32,9 +33,33 @@ export class SworkerProvider {
     });
   }
 
+  public showToast({onDismiss, ...options}, cb){
+    let toast = this.toastCtrl.create(options);
+    let promise = toast.present();
+    if(onDismiss)toast.onDidDismiss(onDismiss);
+    if(cb) promise.then(cb);
+  }
 
-  register()
+  public getDeferredPrompt(){
+    return this.deferredPrompt;
+  }
+
+
+  register(cb)
   {
+    window.addEventListener('appinstalled', (evt) => {
+      //log when installed
+    });
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      this.deferredPrompt = e;
+
+      cb(e);
+    });
+
     window.addEventListener('load', ()=> {
       if ('serviceWorker' in navigator) {
 
@@ -42,26 +67,37 @@ export class SworkerProvider {
           .then(reg => {
 
             this.registered = true;
+
             this.registration = reg;
 
             this.listenForWaitingServiceWorker(reg, reg=>{
               if(!this.toastShowing && reg.waiting && this.reopen){
-                let toast = this.toastCtrl.create({
-                  message: `New Update Available`,
-                  position: 'bottom',
-                  showCloseButton: true,
-                  closeButtonText: "Update"
-                });
                 this.toastShowing = true;
-                toast.present();
-                toast.onDidDismiss(()=>{
-
-                  if(reg.waiting)reg.waiting.postMessage('skipWaiting');
-                  this.toastShowing = false;
-                });
+                this.showToast(
+                  {
+                    message: `New Update Available`,
+                    position: 'bottom',
+                    showCloseButton: true,
+                    closeButtonText: "Update",
+                    onDismiss: ()=>{
+                      if(reg.waiting)reg.waiting.postMessage('skipWaiting');
+                      this.toastShowing = false;
+                    }
+                  },undefined
+                  );
               }
             });
-            localStorage.setItem("menumizer-started", 'true')
+
+            if(reg.installing){
+              this.showToast({
+                message: 'Menumizer is now available offline!',
+                duration: 3000,
+                position: 'bottom',
+                onDismiss: undefined
+              }, undefined);
+            }
+
+            localStorage.setItem("menumizer-started", 'true');
 
           })
           .catch(err => console.log('Error', err));
@@ -73,6 +109,7 @@ export class SworkerProvider {
             window.location.reload();
           }
         );
+
       }
     });
   }

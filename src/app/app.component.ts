@@ -21,6 +21,8 @@ export class MyApp {
   version = environment.version;
   outlet=undefined;
   online = true;
+  installed = true;
+
 
   constructor(platform: Platform, public sw:SworkerProvider, public config:ConfigProvider) {
     platform.ready().then(() => {
@@ -28,12 +30,12 @@ export class MyApp {
     });
 
     config.getSelectedRestaurant().then(res=>{
-
       this.outlet = res.selected;
     });
 
-
-    sw.register();
+    sw.register(e=>{
+      this.installed = false;
+    });
 
     sw.networkStateChanged(event=>{
       this.online = true;
@@ -50,6 +52,15 @@ export class MyApp {
 
   doRefresh() {
     this.sw.reload();
+  }
+
+  install(){
+    this.installed = false;
+    let prompt = this.sw.getDeferredPrompt();
+    prompt.prompt();
+    prompt.userChoice.then(choice=>{
+      console.log(choice.outcome);
+    })
   }
 
 

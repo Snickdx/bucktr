@@ -26,7 +26,6 @@ export class RecentPage {
 
   async loadMizers(){
     this.mizers = await SworkerProvider.getCachedData("mizer-cache");
-    console.log(this.mizers);
   }
 
   ionViewDidLoad() {
