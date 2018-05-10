@@ -1,40 +1,54 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
+import {environment} from "../../app/environment";
 
-/*
-  Generated class for the ConfigProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class ConfigProvider {
 
-  loaded = false;
+  constructor(public storage: Storage) {}
 
-
-  async changeRestaurant(restaurant){
+  async initConfig(){
     let config = await this.storage.get("CONFIG");
-    config.selected = restaurant;
+    if(config){
+      return config;
+    }else{
+      return this.storage.set("CONFIG", environment.defaultConfig);
+    }
+  }
+
+
+  getConfig(){
+    return this.storage.get("CONFIG");
+  }
+
+  setConfig(config){
     this.storage.set("CONFIG", config);
   }
 
-  initConfig(){
-    this.storage.set("CONFIG", {selected : "kfc"});
+  mutateConfig(cb){
+    let config = this.getConfig();
+    cb(config);
+    this.setConfig(config);
+
   }
 
   async getSelectedRestaurant(){
-    let config = await this.storage.get("CONFIG");
-    if(config==null){
-      this.initConfig();
-      config = {selected:"kfc"};
-    }
-    return config;
+    let config = await this.getConfig();
+    return config.selected;
   }
 
+  changeRestaurant(restaurant){
+    this.mutateConfig(config=>config.selected = restaurant);
+  }
 
-  constructor(public storage: Storage) {
-    if(this.storage.get("CONFIG") == null)this.initConfig();
+  async getInstalled(){
+    let config = await this.getConfig();
+    return config.installed;
+  }
+
+  setInstalled(){
+    this.mutateConfig(config=>config.installed = true);
   }
 
 }

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {ToastController} from "ionic-angular";
+import {ConfigProvider} from "../config/config";
+import {environment} from "../../app/environment";
 
 @Injectable()
 export class SworkerProvider {
@@ -9,12 +11,17 @@ export class SworkerProvider {
   registration = null;
   registered = false;
   toastShowing = false;
-  reopen  = localStorage.getItem("menumizer-started");
+  reopen  = undefined;
   online = true;
   deferredPrompt;
 
-  constructor(public http: HttpClient, public toastCtrl: ToastController)
-  {}
+  //hadda refactor to remove dependencies some time
+  constructor(public http: HttpClient, public toastCtrl: ToastController, public config:ConfigProvider)
+  {
+    config.initConfig().then(config=>{
+      this.reopen = !config.firstLaunch;
+    });
+  }
 
   public messageSW(message)
   {
@@ -40,23 +47,32 @@ export class SworkerProvider {
     if(cb) promise.then(cb);
   }
 
-  public getDeferredPrompt(){
-    return this.deferredPrompt;
-  }
 
+  handleInstall(){
+    window.addEventListener('appinstalled', (evt) => {
+      //log when installed
+      this.showToast({
+        message: 'Thanks!',
+        duration: 1000,
+        position: 'bottom',
+        onDismiss: undefined
+      }, undefined);
+      this.config.setInstalled();
+
+    });
+  }
 
   register(cb)
   {
-    window.addEventListener('appinstalled', (evt) => {
-      //log when installed
-    });
+
+    this.handleInstall();
 
     window.addEventListener('beforeinstallprompt', (e) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
+      console.log("Prompt Deferred");
       this.deferredPrompt = e;
-
       cb(e);
     });
 
@@ -75,7 +91,7 @@ export class SworkerProvider {
                 this.toastShowing = true;
                 this.showToast(
                   {
-                    message: `New Update Available`,
+                    message: `New Update Available v${environment.version}`,
                     position: 'bottom',
                     showCloseButton: true,
                     closeButtonText: "Update",

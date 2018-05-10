@@ -16,33 +16,36 @@ import {KfcOpPage} from "../pages/optimizer/kfc/kfcOptimizer";
   providers:[ConfigProvider]
 })
 export class MyApp {
+
   @ViewChild(Nav) navCtrl: Nav;
-  rootPage:any = HomePage;
-  version = environment.version;
-  outlet=undefined;
-  online = true;
-  installed = true;
+  rootPage:any  = HomePage;
+  version       = environment.version;
+  online        = true;
+  outlet        = undefined;
+  installed     = undefined;
+  firstLaunch   = undefined;
+  prompt        = undefined;
 
 
   constructor(platform: Platform, public sw:SworkerProvider, public config:ConfigProvider) {
     platform.ready().then(() => {
 
-    });
+      config.initConfig().then(config=>{
+        this.outlet = config.selected;
+        this.installed = config.installed;
+        this.firstLaunch = config.firstLaunch;
+      });
 
-    config.getSelectedRestaurant().then(res=>{
-      this.outlet = res.selected;
-    });
+      sw.register(prompt=>{
+        this.prompt = prompt;
+        this.installed = false;
+      });
 
-    sw.register(e=>{
-      this.installed = false;
-    });
+      sw.networkStateChanged(
+        _=>{this.online = true;},
+        _=>{this.online = false;}
+      );
 
-    sw.networkStateChanged(event=>{
-      this.online = true;
-      console.log("App is online");
-    }, event=>{
-      this.online = false;
-      console.log("App is offline");
     });
   }
 
@@ -55,32 +58,33 @@ export class MyApp {
   }
 
   install(){
-    this.installed = false;
-    let prompt = this.sw.getDeferredPrompt();
-    prompt.prompt();
-    prompt.userChoice.then(choice=>{
-      console.log(choice.outcome);
-    })
+    try{
+      this.prompt.prompt();
+      this.prompt.userChoice.then(choice=>{
+        console.log(choice.outcome);
+        this.installed = true;//hides button regardless of outcome because prompt can only be called once until page reload
+      })
+    }catch(e){
+      console.log(e);
+    }
+
   }
 
-
-  goToHome(params){
-    if (!params) params = {};
-    this.navCtrl.setRoot(HomePage);
-  }
-  goToOptimizer(params){
-    if (!params) params = {};
-    switch(this.outlet){
-      case "kfc": this.navCtrl.setRoot(KfcOpPage);
-      break;
+  navTo(selectedPage){
+    let pages = {
+      "home":HomePage,
+      "recent": RecentPage,
+      "about":AboutPage,
+      "optimizer":{
+        "kfc":KfcOpPage
+      }
+    };
+    if(selectedPage == "optimizer"){
+      this.navCtrl.setRoot(pages["optimizer"][this.outlet])
+    }else{
+      this.navCtrl.setRoot(pages[selectedPage])
     }
   }
-  goToAbout(params){
-    if (!params) params = {};
-    this.navCtrl.setRoot(AboutPage);
-  }
-  goToRecent(params){
-    if(!params)params =  {};
-    this.navCtrl.setRoot(RecentPage);
-  }
+
+
 }

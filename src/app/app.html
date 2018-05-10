@@ -15,19 +15,19 @@
         </ion-select>
       </ion-item>
       <br>
-      <button ion-item  menuClose="" (click)="goToHome()">
+      <button ion-item  menuClose="" (click)="navTo('home')">
         Home
       </button>
       <br>
-      <button ion-item  menuClose="" (click)="goToOptimizer()" [disabled]="outlet === undefined">
+      <button ion-item  menuClose="" (click)="navTo('optimizer')" [disabled]="outlet === undefined">
         Optimizer <span *ngIf="outlet === undefined">(Select Restaurant)</span>
       </button>
       <br/>
-      <button ion-item  menuClose="" (click)="goToRecent()">
+      <button ion-item  menuClose="" (click)="navTo('recent')">
         Recent Mizers
       </button>
       <br>
-      <button ion-item  menuClose="" (click)="goToAbout()">
+      <button ion-item  menuClose="" (click)="navTo('about')">
         About
       </button>
     </ion-list>
