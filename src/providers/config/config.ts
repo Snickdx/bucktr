@@ -17,7 +17,6 @@ export class ConfigProvider {
     }
   }
 
-
   getConfig(){
     return this.storage.get("CONFIG");
   }
@@ -30,21 +29,10 @@ export class ConfigProvider {
     let config = this.getConfig();
     cb(config);
     this.setConfig(config);
-
-  }
-
-  async getSelectedRestaurant(){
-    let config = await this.getConfig();
-    return config.selected;
   }
 
   changeRestaurant(restaurant){
     this.mutateConfig(config=>config.selected = restaurant);
-  }
-
-  async getInstalled(){
-    let config = await this.getConfig();
-    return config.installed;
   }
 
   setInstalled(){

@@ -11,7 +11,7 @@ export class SworkerProvider {
   registration = null;
   registered = false;
   toastShowing = false;
-  reopen  = undefined;
+  firstLaunch;
   online = true;
   deferredPrompt;
 
@@ -19,7 +19,7 @@ export class SworkerProvider {
   constructor(public http: HttpClient, public toastCtrl: ToastController, public config:ConfigProvider)
   {
     config.initConfig().then(config=>{
-      this.reopen = !config.firstLaunch;
+      this.firstLaunch = config.firstLaunch;
     });
   }
 
@@ -87,7 +87,7 @@ export class SworkerProvider {
             this.registration = reg;
 
             this.listenForWaitingServiceWorker(reg, reg=>{
-              if(!this.toastShowing && reg.waiting && this.reopen){
+              if(!this.toastShowing && reg.waiting && !this.firstLaunch){
                 this.toastShowing = true;
                 this.showToast(
                   {

@@ -3,5 +3,5 @@ export const environment = {
   gaTracking: "UA-113987093-1",
   backend: "https://us-central1-fixmehup.cloudfunctions.net/menumize/",
   debug: false,
-  defaultConfig :{selected : "kfc", installed: true, firstLaunch:false}
+  defaultConfig :{selected : "kfc", installed: true, firstLaunch:true}
 };
