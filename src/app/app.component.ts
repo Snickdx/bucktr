@@ -9,6 +9,7 @@ import {environment} from "./environment";
 import {RecentPage} from "../pages/recent/recent";
 import {ConfigProvider} from "../providers/config/config";
 import {KfcOpPage} from "../pages/optimizer/kfc/kfcOptimizer";
+// import {GoogleAnalytics} from "@ionic-native/google-analytics";
 
 
 @Component({
@@ -35,6 +36,17 @@ export class MyApp {
         this.installed = config.installed;
         this.firstLaunch = config.firstLaunch;
       });
+
+
+      // this.ga.startTrackerWithId('UA-113987093-1')
+      //   .then(() => {
+      //     console.log('Google analytics is ready now');
+      //     //the component is ready and you can call any method here
+      //     if(environment.debug)this.ga.debugMode();
+      //     this.ga.setAllowIDFACollection(true);
+      //   })
+      //   .catch(e => console.log('Error starting GoogleAnalytics', e));
+
 
       sw.register(prompt=>{
         this.prompt = prompt;

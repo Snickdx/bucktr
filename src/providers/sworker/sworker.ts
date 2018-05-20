@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {ToastController} from "ionic-angular";
 import {ConfigProvider} from "../config/config";
-import {environment} from "../../app/environment";
 
 @Injectable()
 export class SworkerProvider {
@@ -91,7 +90,7 @@ export class SworkerProvider {
                 this.toastShowing = true;
                 this.showToast(
                   {
-                    message: `New Update Available v${environment.version}`,
+                    message: `New Update Available!`,
                     position: 'bottom',
                     showCloseButton: true,
                     closeButtonText: "Update",

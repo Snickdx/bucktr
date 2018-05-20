@@ -76,13 +76,12 @@ export class MizerProvider{
 
   public async run(order, outlet)
   {
-    console.log("Optimizer started");
 
     let url = MizerProvider.getUrlFromOrder(order, outlet);
 
-    let isCached = await SworkerProvider.isCached(url, "mizers");
+    let isCached = await SworkerProvider.isCached(url, environment.cacheName);
 
-    console.log(isCached?"This request was cached":"This request was not cached");
+    console.log(isCached?"This request was cached":"This request was not in cache");
 
     if(isCached || this.sw.isOnline() ){
       const sub = this.http.get(url, {headers: new HttpHeaders({'Content-Type': 'application/json'})});
