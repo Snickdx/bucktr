@@ -31,7 +31,7 @@ export class ShareComponent {
     }
 
     const text = `Take a look at my Mizer for ${this.order["outlet"]} I pay only $${this["price"]}`;
-    const url = `https://app.menumizer.com/#/results/${options}`;
+    const url = `https://app.menumizer.com/results/${options}`;
     console.log(text, url);
 
 

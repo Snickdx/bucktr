@@ -44,6 +44,7 @@ enableProdMode();
     IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp,
       {
+        locationStrategy:'path',
         platform:"android"
       },
       {
