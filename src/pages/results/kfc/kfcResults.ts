@@ -74,10 +74,9 @@ export class KfcPage {
       spinner: 'crescent',
       content: 'Optimizing...'
     });
-    loading.present();
+    await loading.present();
     const result = await this.optimizer.run(this.order, "kfc");
     if(result === null){
-      loading.dismiss();
       this.offlineRedirect();
     }else{
       this.mizer = result.mizer;
@@ -85,8 +84,8 @@ export class KfcPage {
       this.totals = result.totals;
       this.menu = Object.keys(result.mizer);
       this.isLoadingFinished = true;
-      loading.dismiss();
     }
+    await loading.dismiss();
   }
 
 

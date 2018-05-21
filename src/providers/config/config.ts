@@ -9,15 +9,18 @@ export class ConfigProvider {
   constructor(public storage: Storage) {}
 
   async initConfig(){
+    await this.storage.ready();
     let config = await this.storage.get("CONFIG");
     if(config){
       return config;
     }else{
-      return this.storage.set("CONFIG", environment.defaultConfig);
+      await this.storage.set("CONFIG", environment.defaultConfig);
+      this.initConfig();
     }
   }
 
-  getConfig(){
+  async getConfig(){
+    await this.storage.ready();
     return this.storage.get("CONFIG");
   }
 
@@ -25,18 +28,21 @@ export class ConfigProvider {
     this.storage.set("CONFIG", config);
   }
 
-  mutateConfig(cb){
-    let config = this.getConfig();
-    cb(config);
+
+  async mutateConfig(key, value){
+    let config = await this.getConfig();
+    console.log("before:",config);
+    config[key]=value;
+    console.log("after:",config);
     this.setConfig(config);
   }
 
   changeRestaurant(restaurant){
-    this.mutateConfig(config=>config.selected = restaurant);
+    this.mutateConfig("selected" ,restaurant);
   }
 
   setInstalled(){
-    this.mutateConfig(config=>config.installed = true);
+    this.mutateConfig("installed", true);
   }
 
 }

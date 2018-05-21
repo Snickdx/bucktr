@@ -53,9 +53,9 @@ export class MizerProvider{
     return url;
   }
 
-  static async transformPromise(mizerPromise, order)
+  //calculates totals for extras
+  static calcTotals(data, order)
   {
-    const data = await mizerPromise;
 
     let result = {
       totals: {},
@@ -88,7 +88,7 @@ export class MizerProvider{
 
       sub.pipe(catchError(MizerProvider.handleError));
 
-      return MizerProvider.transformPromise(sub.toPromise(), order);
+      return MizerProvider.calcTotals(await sub.toPromise(), order);
     }
     return null;
   }

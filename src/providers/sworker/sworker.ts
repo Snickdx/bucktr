@@ -10,7 +10,7 @@ export class SworkerProvider {
   registration = null;
   registered = false;
   toastShowing = false;
-  firstLaunch;
+  firstLaunch = true;
   online = true;
   deferredPrompt;
 
@@ -43,7 +43,7 @@ export class SworkerProvider {
     let toast = this.toastCtrl.create(options);
     let promise = toast.present();
     if(onDismiss)toast.onDidDismiss(onDismiss);
-    if(cb) promise.then(cb);
+    if(cb != undefined) promise.then(cb);
   }
 
 
@@ -86,11 +86,13 @@ export class SworkerProvider {
             this.registration = reg;
 
             this.listenForWaitingServiceWorker(reg, reg=>{
+              console.log("Service Worker Waiting!", !reg.waiting==undefined , this.firstLaunch);
               if(!this.toastShowing && reg.waiting && !this.firstLaunch){
+                console.log("Showing Toast");
                 this.toastShowing = true;
                 this.showToast(
                   {
-                    message: `New Update Available!`,
+                    message: `New Version Available!`,
                     position: 'bottom',
                     showCloseButton: true,
                     closeButtonText: "Update",
@@ -102,7 +104,6 @@ export class SworkerProvider {
                   );
               }
             });
-
             if(reg.installing){
               this.showToast({
                 message: 'Menumizer is now available offline!',
@@ -111,8 +112,10 @@ export class SworkerProvider {
                 onDismiss: undefined
               }, undefined);
             }
-
-            localStorage.setItem("menumizer-started", 'true');
+            if(this.firstLaunch){
+              this.config.mutateConfig("firstLaunch", false);
+              this.firstLaunch = false;
+            }
 
           })
           .catch(err => console.log('Error', err));

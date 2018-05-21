@@ -9,7 +9,6 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content padding style="background-color:#f05742;">
   <ion-item-group>
     <ion-card color="primary" *ngFor="let mizer of mizers">
@@ -22,6 +21,15 @@
       </ion-card-content>
 
     </ion-card>
-
   </ion-item-group>
+
+  <div *ngIf="mizers.length == 0" style="margin-top: 100px">
+    <h1 id="optimizer-heading1" style="color:#FFFFFF;text-align:center;">
+      You don't have any saved mizers! (Yet)
+    </h1>
+    <button id="optimizer-button" ion-button color="dark" offset-md-4 col-md-4 block on-click="goToOptimizer()">
+      Go To Optimizer
+    </button>
+  </div>
+
 </ion-content>
