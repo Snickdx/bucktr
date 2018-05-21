@@ -15,7 +15,7 @@ export class ConfigProvider {
       return config;
     }else{
       await this.storage.set("CONFIG", environment.defaultConfig);
-      this.initConfig();
+      return this.initConfig();
     }
   }
 

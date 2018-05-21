@@ -5,6 +5,9 @@ import { CommonModule } from "@angular/common";
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 
+
+
+
 import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { ResultsPage } from '../pages/results/results';
@@ -20,8 +23,6 @@ import {KfcOpPage} from "../pages/optimizer/kfc/kfcOptimizer";
 import {RecentPage} from "../pages/recent/recent";
 import {IonicStorageModule} from "@ionic/storage";
 import { ConfigProvider } from '../providers/config/config';
-
-
 
 enableProdMode();
 @NgModule({

@@ -18,6 +18,7 @@ export class SworkerProvider {
   constructor(public http: HttpClient, public toastCtrl: ToastController, public config:ConfigProvider)
   {
     config.initConfig().then(config=>{
+      console.log(config);
       this.firstLaunch = config.firstLaunch;
     });
   }
@@ -86,10 +87,11 @@ export class SworkerProvider {
             this.registration = reg;
 
             this.listenForWaitingServiceWorker(reg, reg=>{
-              console.log("Service Worker Waiting!", !reg.waiting==undefined , this.firstLaunch);
+
               if(!this.toastShowing && reg.waiting && !this.firstLaunch){
-                console.log("Showing Toast");
                 this.toastShowing = true;
+                console.log(reg);
+                console.log(this.firstLaunch);
                 this.showToast(
                   {
                     message: `New Version Available!`,
@@ -111,11 +113,12 @@ export class SworkerProvider {
                 position: 'bottom',
                 onDismiss: undefined
               }, undefined);
+              // if(this.firstLaunch){
+              //   this.config.mutateConfig("firstLaunch", false);
+              //   this.firstLaunch = false;
+              // }
             }
-            if(this.firstLaunch){
-              this.config.mutateConfig("firstLaunch", false);
-              this.firstLaunch = false;
-            }
+
 
           })
           .catch(err => console.log('Error', err));
