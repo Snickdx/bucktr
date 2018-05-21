@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav } from 'ionic-angular';
+import {Platform, Nav, ToastController} from 'ionic-angular';
 
 
 import { AboutPage } from '../pages/about/about';
@@ -27,8 +27,8 @@ export class MyApp {
   firstLaunch   = undefined;
   prompt        = undefined;
 
-
-  constructor(platform: Platform, public sw:SworkerProvider, public config:ConfigProvider) {
+  //service worker bootstrapping and configuring done here via registering events
+  constructor(platform: Platform, public sw:SworkerProvider, public config:ConfigProvider, public toastCtrl:ToastController) {
     platform.ready().then(() => {
 
       config.initConfig().then(config=>{
@@ -37,26 +37,53 @@ export class MyApp {
         this.firstLaunch = config.firstLaunch;
       });
 
+      sw.addAppInstalledListener(()=>{
+        this.toastCtrl.create({
+          message:"Thanks!",
+          duration: 1000,
+          position: 'bottom',
+        }).present();
+        this.config.setInstalled();
+      });
 
-      // this.ga.startTrackerWithId('UA-113987093-1')
-      //   .then(() => {
-      //     console.log('Google analytics is ready now');
-      //     //the component is ready and you can call any method here
-      //     if(environment.debug)this.ga.debugMode();
-      //     this.ga.setAllowIDFACollection(true);
-      //   })
-      //   .catch(e => console.log('Error starting GoogleAnalytics', e));
+      sw.addAppInstalledListener(()=>{
+        this.toastCtrl.create({
+          message:'Menumizer is now available offline!',
+          duration: 3000,
+          position: 'bottom'
+        }).present();
+      });
 
+      sw.addControlChangeListener(()=>{
+        // window.location.reload();
+        console.log("control changed!");
+      });
 
-      sw.register(prompt=>{
+      sw.addBeforeInstallPromptListener(prompt=>{
         this.prompt = prompt;
         this.installed = false;
       });
 
-      sw.networkStateChanged(
-        _=>{this.online = true;},
-        _=>{this.online = false;}
-      );
+      sw.networkStateChanged(()=>{this.online = true}, ()=>{this.online = false});
+
+      sw.register(reg=>{
+          console.log("Update Event Fired!");
+
+          let toast = this.toastCtrl.create(
+            {
+              message: `New Version Available!`,
+              position: 'bottom',
+              showCloseButton: true,
+              closeButtonText: "Update",
+            }
+          );
+
+          toast.onDidDismiss(()=>{
+            if(reg.waiting)reg.waiting.postMessage('skipWaiting');
+          });
+
+          if(reg.waiting)toast.present();
+      });
 
     });
   }
@@ -66,7 +93,7 @@ export class MyApp {
   }
 
   doRefresh() {
-    this.sw.reload();
+    location.reload(true);
   }
 
   install(){

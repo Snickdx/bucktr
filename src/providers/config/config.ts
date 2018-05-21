@@ -12,10 +12,11 @@ export class ConfigProvider {
     await this.storage.ready();
     let config = await this.storage.get("CONFIG");
     if(config){
+      console.log(config);
       return config;
     }else{
       await this.storage.set("CONFIG", environment.defaultConfig);
-      return this.initConfig();
+      return environment.defaultConfig;
     }
   }
 

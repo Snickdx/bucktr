@@ -1,163 +1,100 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {ToastController} from "ionic-angular";
-import {ConfigProvider} from "../config/config";
 
 @Injectable()
 export class SworkerProvider {
 
   refreshing;
-  registration = null;
-  registered = false;
+  updateReadyEvent = new Event('updateReady');
+  registration = undefined;
   toastShowing = false;
-  firstLaunch = true;
   online = true;
-  deferredPrompt;
 
-  //hadda refactor to remove dependencies some time
-  constructor(public http: HttpClient, public toastCtrl: ToastController, public config:ConfigProvider)
+  constructor()
   {
-    config.initConfig().then(config=>{
-      console.log(config);
-      this.firstLaunch = config.firstLaunch;
+    this.addControlChangeListener(()=>{
+      if (this.refreshing) return;
+      this.refreshing = true;
+      window.location.reload();
+    })
+  }
+
+  public addInstallingListener(cb)
+  {
+
+  }
+
+  public addInstalledListener(cb)
+  {
+
+  }
+
+  public addActivatingListener(cb)
+  {
+
+  }
+
+  public addActivatedListener(cb)
+  {
+
+  }
+
+  public addRedundantListener(cb)
+  {
+
+  }
+
+  public addStateChangeListener(cb)
+  {
+  }
+
+  public addControlChangeListener(cb)
+  {
+    navigator.serviceWorker.addEventListener('controllerchange',cb);
+  }
+
+  public addUpdateFoundListener(reg, cb)
+  {}
+
+  public addAppInstalledListener(cb)
+  {
+    window.addEventListener('appinstalled', cb);
+  }
+
+  public addBeforeInstallPromptListener(cb)
+  {
+    window.addEventListener('beforeinstallprompt', e=>{
+      e.preventDefault();
+      cb(e);
     });
   }
 
-  public messageSW(message)
+  // See https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
+  public message(message)
   {
     return new Promise(function(resolve, reject) {
       let messageChannel = new MessageChannel();
-      messageChannel.port1.onmessage = function(event) {
-        if (event.data.error) {
-          reject(event.data.error);
-        } else {
-          resolve(event.data);
-        }
+      messageChannel.port1.onmessage = event => {
+        event.data.error ? reject(event.data.error) : resolve(event.data);
       };
-      // See https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
-      navigator.serviceWorker.controller.postMessage(message,
-        [messageChannel.port2]);
+      navigator.serviceWorker.controller.postMessage(message, [messageChannel.port2]);
     });
   }
 
-  public showToast({onDismiss, ...options}, cb){
-    let toast = this.toastCtrl.create(options);
-    let promise = toast.present();
-    if(onDismiss)toast.onDidDismiss(onDismiss);
-    if(cb != undefined) promise.then(cb);
-  }
-
-
-  handleInstall(){
-    window.addEventListener('appinstalled', (evt) => {
-      //log when installed
-      this.showToast({
-        message: 'Thanks!',
-        duration: 1000,
-        position: 'bottom',
-        onDismiss: undefined
-      }, undefined);
-      this.config.setInstalled();
-
-    });
-  }
-
-  register(cb)
+  public register(cb)
   {
 
-    this.handleInstall();
+    if (!('serviceWorker' in navigator))return;
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      console.log("Prompt Deferred");
-      this.deferredPrompt = e;
-      cb(e);
-    });
-
-    window.addEventListener('load', ()=> {
-      if ('serviceWorker' in navigator) {
-
-        navigator.serviceWorker.register('service-worker.js', {scope:"./"})
-          .then(reg => {
-
-            this.registered = true;
-
-            this.registration = reg;
-
-            this.listenForWaitingServiceWorker(reg, reg=>{
-
-              if(!this.toastShowing && reg.waiting && !this.firstLaunch){
-                this.toastShowing = true;
-                console.log(reg);
-                console.log(this.firstLaunch);
-                this.showToast(
-                  {
-                    message: `New Version Available!`,
-                    position: 'bottom',
-                    showCloseButton: true,
-                    closeButtonText: "Update",
-                    onDismiss: ()=>{
-                      if(reg.waiting)reg.waiting.postMessage('skipWaiting');
-                      this.toastShowing = false;
-                    }
-                  },undefined
-                  );
-              }
-            });
-            if(reg.installing){
-              this.showToast({
-                message: 'Menumizer is now available offline!',
-                duration: 3000,
-                position: 'bottom',
-                onDismiss: undefined
-              }, undefined);
-              // if(this.firstLaunch){
-              //   this.config.mutateConfig("firstLaunch", false);
-              //   this.firstLaunch = false;
-              // }
-            }
-
-
-          })
-          .catch(err => console.log('Error', err));
-
-        navigator.serviceWorker.addEventListener('controllerchange',
-          () => {
-            if (this.refreshing) return;
-            this.refreshing = true;
-            window.location.reload();
-          }
-        );
-
-      }
-    });
+    return navigator.serviceWorker.register('service-worker.js', {scope:"./"})
+      .then(reg => {
+        this.registration = reg;
+        this.listenForWaitingServiceWorker(reg, cb);
+      })
+      .catch(err => console.log('Error', err));
   }
 
-  static getRegistration()
-  {
-    if('serviceWorker' in navigator)
-      return navigator.serviceWorker.getRegistration();
-
-  }
-
-  async skipWaiting()
-  {
-    this.registration = await SworkerProvider.getRegistration();
-    if(this.registration.installing){
-      this.registration.skipWaiting().then(e=>console.log("Waiting Skipped!"));
-    }
-  }
-
-  reload()
-  {
-    this.toastShowing = true;
-    location.reload(true);
-  }
-
-  listenForWaitingServiceWorker(reg, callback)
-  {
+  //ugly google boiler plate code to ensure the registration is in the proper updated state
+  listenForWaitingServiceWorker(reg, callback) {
     function awaitStateChange() {
       reg.installing.addEventListener('statechange', function() {
         if (this.state === 'installed') callback(reg);
@@ -196,18 +133,21 @@ export class SworkerProvider {
 
   //parses a url returns order object
   //array destructing and object prop value shorthand
-  static kfcUrlSerialzer([chicken_count, side_count, drink_count, popcorn_count, sandwich_count]){
+  static kfcUrlSerialzer([chicken_count, side_count, drink_count, popcorn_count, sandwich_count])
+  {
     return {chicken_count, side_count, drink_count, popcorn_count, sandwich_count};
   }
 
-  static getOrderFromUrl(url){
+  static getOrderFromUrl(url)
+  {
     let str = url.split("/");
     switch (str[4]){
       case "kfc": return this.kfcUrlSerialzer(str.slice(5));
     }
   }
 
-  static async  getCachedData(name){
+  static async  getCachedData(name)
+  {
 
     if('caches' in self){
 
