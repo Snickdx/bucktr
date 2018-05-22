@@ -1,6 +1,6 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js');
 
-const DEBUG = true;
+const DEBUG = false;
 
 workbox.setConfig({debug: DEBUG});
 
@@ -10,7 +10,6 @@ workbox.precaching.precacheAndRoute([]);
 
 //for handling updates https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68
 addEventListener('message', messageEvent => {
-  console.log("message received in sw!");
   if (messageEvent.data === 'skipWaiting') return skipWaiting();
 });
 
@@ -51,6 +50,16 @@ workbox.routing.registerRoute(
   }),
 );
 
+addEventListener('fetch', event => {
+  event.respondWith((async () => {
+    if (event.request.mode === "navigate" && event.request.method === "GET" && registration.waiting && (await clients.matchAll()).length < 2) {
+      registration.waiting.postMessage('skipWaiting');
+      return new Response("", {headers: {"Refresh": "0"}});
+    }
+    return await caches.match(event.request) ||
+      fetch(event.request);
+  })());
+});
 
 // addEventListener('fetch', event => {
 //   // Clone the request to ensure it's save to read when
