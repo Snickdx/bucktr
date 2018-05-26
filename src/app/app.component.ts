@@ -23,52 +23,57 @@ export class MyApp {
   version       = environment.version;
   online        = true;
   outlet        = undefined;
-  installed     = undefined;
-  firstLaunch   = undefined;
+  firstLaunch   = true;
+  installed     = true;
   prompt        = undefined;
 
-  //service worker bootstrapping and configuring done here via registering events
+
   constructor(platform: Platform, public sw:SworkerProvider, public config:ConfigProvider, public toastCtrl:ToastController) {
     platform.ready().then(() => {
+      this.bootstrapSW()
 
-      config.initConfig().then(config=>{
-        this.outlet = config.selected;
-        this.installed = config.installed;
-        this.firstLaunch = config.firstLaunch;
-      });
+    });
+  }
 
-      sw.addAppInstalledListener(()=>{
-        this.toastCtrl.create({
-          message:"Thanks!",
-          duration: 1000,
-          position: 'bottom',
-        }).present();
-        this.config.setInstalled();
-      });
+  //service worker bootstrapping and configuring done here via registering events
+  async bootstrapSW(){
+    this.config.initConfig().then(config=>{
+      this.outlet = config.selected;
+      this.installed = config.installed;
+      this.firstLaunch = config.firstLaunch;
+      if(this.firstLaunch)this.config.mutateConfig("firstLaunch", false);
+    });
 
-      sw.addAppInstalledListener(()=>{
-        this.toastCtrl.create({
-          message:'Menumizer is now available offline!',
-          duration: 3000,
-          position: 'bottom'
-        }).present();
-      });
+    // this.sw.addAppInstalledListener(()=>{
+    //   this.toastCtrl.create({
+    //     message:"Thanks!",
+    //     duration: 1000,
+    //     position: 'bottom',
+    //   }).present();
+    //   this.config.setInstalled();
+    // });
+    //
+    // this.sw.addAppInstalledListener(()=>{
+    //   this.toastCtrl.create({
+    //     message:'Menumizer is now available offline!',
+    //     duration: 3000,
+    //     position: 'bottom'
+    //   }).present();
+    // });
 
-      sw.addControlChangeListener(()=>{
-        // window.location.reload();
-        console.log("control changed!");
-      });
+    this.sw.addBeforeInstallPromptListener(prompt=>{
+      console.log("Prompt Deferred");
+      this.prompt = prompt;
+      this.installed = false;
 
-      sw.addBeforeInstallPromptListener(prompt=>{
-        this.prompt = prompt;
-        this.installed = false;
-      });
+    });
 
-      sw.networkStateChanged(()=>{this.online = true}, ()=>{this.online = false});
+    this.sw.networkStateChanged(()=>{this.online = true}, ()=>{this.online = false});
 
-      sw.register(reg=>{
-          console.log("Update Event Fired!");
+    this.sw.register(
+      reg=>{
 
+        if(!this.firstLaunch){
           let toast = this.toastCtrl.create(
             {
               message: `New Version Available!`,
@@ -80,17 +85,19 @@ export class MyApp {
 
           toast.onDidDismiss(()=>{
             if(reg.waiting)reg.waiting.postMessage('skipWaiting');
+            location.reload();
           });
 
           if(reg.waiting)toast.present();
-      });
-
-    });
+        }
+      }
+    );
   }
 
   change(){
     this.config.changeRestaurant(this.outlet);
   }
+
 
   doRefresh() {
     location.reload(true);

@@ -6,13 +6,14 @@ import {environment} from "../../app/environment";
 @Injectable()
 export class ConfigProvider {
 
-  constructor(public storage: Storage) {}
+  constructor(public storage: Storage) {
+
+  }
 
   async initConfig(){
     await this.storage.ready();
     let config = await this.storage.get("CONFIG");
     if(config){
-      console.log(config);
       return config;
     }else{
       await this.storage.set("CONFIG", environment.defaultConfig);
