@@ -10,20 +10,14 @@ export class SworkerProvider {
   online = true;
 
   constructor()
-  {
-    this.addControlChangeListener(()=>{
-      if (this.refreshing) return;
-      this.refreshing = true;
-      window.location.reload();
-    })
-  }
+  {}
 
   public addInstallingListener(cb)
   {
 
   }
 
-  public addInstalledListener(cb)
+  public addInstalledListener(reg, cb)
   {
 
   }
@@ -47,13 +41,9 @@ export class SworkerProvider {
   {
   }
 
-  public addControlChangeListener(cb)
+  public async addUpdateFoundListener(cb)
   {
-    navigator.serviceWorker.addEventListener('controllerchange',cb);
   }
-
-  public addUpdateFoundListener(reg, cb)
-  {}
 
   public addAppInstalledListener(cb)
   {
@@ -83,21 +73,25 @@ export class SworkerProvider {
   public register(cb)
   {
 
-    if (!('serviceWorker' in navigator))return;
+    if ('serviceWorker' in navigator){
 
-    return navigator.serviceWorker.register('service-worker.js', {scope:"./"})
-      .then(reg => {
-        this.registration = reg;
-        this.listenForWaitingServiceWorker(reg, cb);
-      })
-      .catch(err => console.log('Error', err));
+      navigator.serviceWorker.register('service-worker.js', {scope:"./"})
+        .then(reg => {
+          this.registration = reg;
+          this.listenForWaitingServiceWorker(reg, cb);
+        })
+        .catch(err => console.log('Error', err));
+    }
+
   }
 
   //ugly google boiler plate code to ensure the registration is in the proper updated state
   listenForWaitingServiceWorker(reg, callback) {
     function awaitStateChange() {
       reg.installing.addEventListener('statechange', function() {
-        if (this.state === 'installed') callback(reg);
+        if (this.state === 'installed') {
+          callback(reg);
+        }
       });
     }
     if (!reg) return;
@@ -133,7 +127,7 @@ export class SworkerProvider {
 
   //parses a url returns order object
   //array destructing and object prop value shorthand
-  static kfcUrlSerialzer([chicken_count, side_count, drink_count, popcorn_count, sandwich_count])
+  static kfcUrlSerializer([chicken_count, side_count, drink_count, popcorn_count, sandwich_count])
   {
     return {chicken_count, side_count, drink_count, popcorn_count, sandwich_count};
   }
@@ -142,7 +136,7 @@ export class SworkerProvider {
   {
     let str = url.split("/");
     switch (str[4]){
-      case "kfc": return this.kfcUrlSerialzer(str.slice(5));
+      case "kfc": return this.kfcUrlSerializer(str.slice(5));
     }
   }
 
