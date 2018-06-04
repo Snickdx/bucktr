@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {catchError} from "rxjs/operators";
 import {environment} from "../../app/environment";
-import {AlertController, LoadingController} from "ionic-angular";
 import {SworkerProvider} from "../sworker/sworker";
 
 
@@ -12,9 +11,7 @@ export class MizerProvider{
 
   constructor(
     public http: HttpClient,
-    public alertCtrl: AlertController,
     public sw: SworkerProvider,
-    public loadingCtrl: LoadingController
   )
   { }
 
@@ -74,6 +71,12 @@ export class MizerProvider{
     return result;
   }
 
+  public runOffline(order, outlet){
+    let url = MizerProvider.getUrlFromOrder(order, outlet);
+    return this.http.get(url, {headers: new HttpHeaders({'Content-Type': 'application/json'})});
+
+  }
+
   public async run(order, outlet)
   {
 
@@ -83,15 +86,18 @@ export class MizerProvider{
 
     console.log(isCached?"This request was cached":"This request was not in cache");
 
-    if(isCached || this.sw.isOnline() ){
-      const sub = this.http.get(url, {headers: new HttpHeaders({'Content-Type': 'application/json'})});
+    try{
+      if(isCached || this.sw.isOnline() ){
+        const sub = this.http.get(url, {headers: new HttpHeaders({'Content-Type': 'application/json'})});
 
-      sub.pipe(catchError(MizerProvider.handleError));
+        sub.pipe(catchError(MizerProvider.handleError));
 
-      return MizerProvider.calcTotals(await sub.toPromise(), order);
+        return MizerProvider.calcTotals(await sub.toPromise(), order);
+      }
+    }catch(e){
+      console.log(e);
     }
     return null;
   }
-
 
 }

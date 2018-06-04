@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SworkerProvider {
 
-  refreshing;
-  updateReadyEvent = new Event('updateReady');
   registration = undefined;
-  toastShowing = false;
   online = true;
 
   constructor()
@@ -109,20 +106,26 @@ export class SworkerProvider {
   {
     window.addEventListener('load', ()=>{
       window.addEventListener('online', event =>{
-        console.log(navigator.onLine);
         if(navigator.onLine){
           this.online = true;
           onlineHandler(event);
         }
       });
       window.addEventListener('offline', event => {
-        console.log(navigator.onLine);
         if(!navigator.onLine){
           this.online = false;
           offlineHandler(event)
         }
       });
     });
+  }
+
+  requestNotificationPermission(){
+    if('Notification in window' && (<any>Notification).permission !== "granted"){
+      Notification.requestPermission().then(res=>{
+        console.log("Permission: ",res);
+      })
+    }
   }
 
   //parses a url returns order object
@@ -148,14 +151,12 @@ export class SworkerProvider {
       const result = [];
 
       const cache = await caches.open(name);
-
       // Get a list of entries. Each item is a Request object
       for (const request of await cache.keys()) {
-
         let res = await cache.match(request);
         let mizer = await res.json();
         mizer.order = SworkerProvider.getOrderFromUrl(res.url);
-        result.push(mizer);
+        result.unshift(mizer);
       }
       return result;
     }else{

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {SworkerProvider} from "../../../providers/sworker/sworker";
 import {MizerProvider} from "../../../providers/mizer/mizer";
-import {HomePage} from "../../home/home";
+import {RecentPage} from "../../recent/recent";
+import {KfcOpPage} from "../../optimizer/kfc/kfcOptimizer";
 
 
 @IonicPage()
@@ -49,19 +50,21 @@ export class KfcPage {
   {
     this.alertCtrl.create({
       title: 'App is offline',
-      message: "Oops looks like you're offline and you haven't run this mizer before, please try again when networking is available :).",
+      message: "Oops looks like you're offline and this is a new mizer. Would you like menumizer to try again in the background and notify when ready? Requires Notification Permission",
       buttons: [
-        // {
-        //   text: 'No',
-        //   role: 'cancel',
-        //   handler: () => {
-        //     this.navCtrl.setRoot(HomePage);
-        //   }
-        // },
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            this.navCtrl.setRoot(RecentPage);
+          }
+        },
         {
           text: 'Ok',
           handler: () => {
-            this.navCtrl.setRoot(HomePage);
+            this.sw.requestNotificationPermission();
+            this.optimizer.runOffline(this.order, "kfc");
+            this.navCtrl.setRoot(KfcOpPage);
           }
         }
       ]

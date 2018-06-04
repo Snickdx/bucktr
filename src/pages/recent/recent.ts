@@ -31,7 +31,7 @@ export class RecentPage {
   }
 
   async loadMizers() {
-    this.mizers = await SworkerProvider.getCachedData("mizer-cache");
+    this.mizers = (await SworkerProvider.getCachedData("mizer-cache"));
   }
 
   goToOptimizer(){

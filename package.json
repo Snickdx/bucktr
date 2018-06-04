@@ -9,6 +9,7 @@
     "deploy": "firebase deploy --only hosting",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
+    "build-sw":"workbox injectManifest",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
     "ionic:build:after": "workbox injectManifest",
