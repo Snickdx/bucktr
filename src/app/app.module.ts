@@ -45,7 +45,7 @@ enableProdMode();
     IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp,
       {
-        platform:"android"
+        mode:'md'
       },
       {
         links:[

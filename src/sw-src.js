@@ -71,12 +71,6 @@ workbox.routing.registerRoute(
   }),
 );
 
-workbox.routing.registerRoute(
-  /.*(?:gstatic)\.com.*$/,
-  workbox.strategies.staleWhileRevalidate({
-    cacheName: 'gstatic',
-  }),
-);
 
 //for handling updates https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68
 addEventListener('message', messageEvent => {

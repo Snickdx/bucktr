@@ -35,7 +35,7 @@
 
   <title>The Menumizer</title>
 
-  <link href="build/main.css" rel="stylesheet">
+  <link rel="preload" href="build/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113987093-1"></script>
@@ -46,6 +46,8 @@
 
     gtag('config', 'UA-113987093-1');
   </script>
+
+  <script  src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
 
   <style>
     ion-app{
@@ -94,6 +96,7 @@
 
 <!-- The bundle js is generated during the build process -->
 <script src="build/main.js"></script>
+
 
 <script type="application/ld+json">
 {
