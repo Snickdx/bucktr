@@ -24,3 +24,21 @@
   padding-right: 8px;
   border-bottom: none;
 }
+
+
+.back-button-icon-md {
+  margin: 0;
+  padding: 0 6px;
+  text-align: left;
+  text-align: start;
+  font-size: 2.4rem;
+  font-weight: 400;
+}
+
+.ion-md-arrow-back:before {
+  content: "\f27d";
+}
+
+on-icon::before {
+  display: inline-block;
+}

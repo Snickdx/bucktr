@@ -61,9 +61,8 @@ module.exports = {
    * patterns, then the file will be excluded.
    */
   excludeFiles: [
-    /\.(wp|ios).(scss)$/i,
-    /(action-sheet|alert|backdrop|badge|checkbox|datetime|fab|grid|icon|img|infinite-scroll|loading|note|picker|popover|radio|range|refresher|searchbar|segment|show-hide-when|slides|split-pane|spinner|tabs|toggle|virtual-scroll|cordova)/i
-  ],
+    /\.(wp|ios).(scss)$/i
+],
   
   /**
    * variableSassFiles: Lists out the files which include
@@ -101,3 +100,5 @@ module.exports = {
   ]
   
 };
+
+//    /(action-sheet|checkbox|datetime|fab|infinite-scroll|note|picker|popover|radio|range|searchbar|segment|slides|split-pane|tabs|virtual-scroll|cordova)/i

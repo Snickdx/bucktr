@@ -61,6 +61,8 @@ export class MyApp {
     //   }).present();
     // });
 
+
+
     this.sw.addBeforeInstallPromptListener(prompt=>{
       console.log("Prompt Deferred");
       this.prompt = prompt;
@@ -70,28 +72,28 @@ export class MyApp {
 
     this.sw.networkStateChanged(()=>{this.online = true}, ()=>{this.online = false});
 
-    this.sw.register(
-      reg=>{
-
-        if(!this.firstLaunch){
-          let toast = this.toastCtrl.create(
-            {
-              message: `New Version Available!`,
-              position: 'bottom',
-              showCloseButton: true,
-              closeButtonText: "Update",
-            }
-          );
-
-          toast.onDidDismiss(()=>{
-            if(reg.waiting)reg.waiting.postMessage('skipWaiting');
-            location.reload();
-          });
-
-          if(reg.waiting)toast.present();
-        }
-      }
-    );
+    // this.sw.register(
+    //   reg=>{
+	//
+    //     if(!this.firstLaunch){
+    //       let toast = this.toastCtrl.create(
+    //         {
+    //           message: `New Version Available!`,
+    //           position: 'bottom',
+    //           showCloseButton: true,
+    //           closeButtonText: "Update",
+    //         }
+    //       );
+	//
+    //       toast.onDidDismiss(()=>{
+    //         if(reg.waiting)reg.waiting.postMessage('skipWaiting');
+    //         location.reload();
+    //       });
+	//
+    //       if(reg.waiting)toast.present();
+    //     }
+    //   }
+    // );
   }
 
   change(){

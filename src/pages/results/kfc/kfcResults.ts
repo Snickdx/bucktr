@@ -20,7 +20,6 @@ export class KfcPage {
   price;
   order;
 
-
   constructor(
     private navParams: NavParams,
     private optimizer:MizerProvider,
