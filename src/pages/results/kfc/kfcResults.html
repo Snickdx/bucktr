@@ -1,9 +1,16 @@
 <ion-header>
-  <ion-navbar class="toolbar-md-primary">
+  <ion-navbar class="toolbar-md-primary" hideBackButton>
+    <ion-row>
 
-    <ion-title>
-      Results
-    </ion-title>
+      <button ion-button navPop icon-only>
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+
+      <ion-title>
+        Results
+      </ion-title>
+    </ion-row>
+
   </ion-navbar>
   <ion-toolbar color="primary" >
     <ion-row style="text-align: center" offset-md-1 col-md-10 offset-lg-3 col-lg-6>
