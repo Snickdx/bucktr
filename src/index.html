@@ -6,15 +6,6 @@
   <meta name="description" content="Optimize your food menu choices to save money.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="propeller" content="b89c478e936e33082257b1c080867289">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
-
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#222222">
-  <meta name="apple-mobile-web-app-title" content="Menumizer">
-  <meta name="msapplication-TileColor" content="#222222">
-  <meta name="theme-color" content="#222222">
 
   <meta property="og:url"           content="https://app.menumizer.com" />
   <meta property="og:type"          content="website" />
@@ -24,10 +15,11 @@
 
   <link rel="manifest" href="manifest.json">
 
+  <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.6/pwacompat.min.js"
+    integrity="sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA"
+    crossorigin="anonymous"></script>
 
-  <link rel="icon" type="image/png" sizes="512x512"  href="assets/icon/android-icon-512x512.png">
-  <link rel="icon" type="image/png" sizes="192x192"  href="assets/icon/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icon/favicon-16x16.png">
+
   <link rel="shortcut icon" href="assets/icon/favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
 
@@ -46,7 +38,7 @@
     gtag('config', 'UA-113987093-1');
   </script>
 
-  <script  src="https://unpkg.com/ionicons@4.2.4/dist/ionicons.js"></script>
+  <!--<link rel="preload"  as="script" href="https://unpkg.com/ionicons@4.2.4/dist/ionicons.js" type="application/javascript" crossorigin="anonymous">-->
 
   <style>
     ion-app{
@@ -96,6 +88,7 @@
 <!-- The bundle js is generated during the build process -->
 <script src="build/main.js"></script>
 
+<script src="https://unpkg.com/ionicons@4.2.4/dist/ionicons.js"></script>
 
 <script type="application/ld+json">
 {

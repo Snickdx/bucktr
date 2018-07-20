@@ -11,9 +11,9 @@
     "build-sw": "workbox injectManifest",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:build:after": "workbox injectManifest",
+    "ionic:build:after": "npm run build-sw",
     "ionic:serve": "ionic-app-scripts serve",
-    "purify": "purifycss 'www\\build\\main.css' 'www\\build\\*js --info --min --out 'www\\build\\main.css"
+    "purify": "purifycss www\\build\\main.css www\\build\\main.js --info --min --out www\\build\\main.css"
   },
   "dependencies": {
     "@angular/animations": "5.2.10",

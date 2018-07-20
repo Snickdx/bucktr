@@ -40,9 +40,7 @@ module.exports = {
    * paths to search for sass imports by just name.
    */
   includePaths: [
-    'node_modules/ionic-angular/themes',
-    'node_modules/ionicons/dist/scss',
-    'node_modules/ionic-angular/fonts'
+    'node_modules/ionic-angular/themes'
   ],
   
   /**
@@ -61,7 +59,8 @@ module.exports = {
    * patterns, then the file will be excluded.
    */
   excludeFiles: [
-    /\.(wp|ios).(scss)$/i
+    /\.(wp|ios).(scss)$/i,
+    /(action-sheet|checkbox|datetime|fab|infinite-scroll|note|picker|popover|range|searchbar|segment|slides|split-pane|tabs|virtual-scroll|cordova)/i
 ],
   
   /**
@@ -101,4 +100,4 @@ module.exports = {
   
 };
 
-//    /(action-sheet|checkbox|datetime|fab|infinite-scroll|note|picker|popover|radio|range|searchbar|segment|slides|split-pane|tabs|virtual-scroll|cordova)/i
+

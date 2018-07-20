@@ -65,6 +65,13 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
+  /https:\/\/unpkg\.com\/ionicons@4\.2\.4\/dist\/ionicons\.js/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'ionicons',
+  })
+);
+
+workbox.routing.registerRoute(
   /.*(?:googleapis)\.com.*$/,
   workbox.strategies.staleWhileRevalidate({
     cacheName: 'googleapis',
